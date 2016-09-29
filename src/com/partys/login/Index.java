@@ -1,66 +1,67 @@
 /*
- * ¹¦ÄÜ£ºÊµÏÖÉÁÆÁ½çÃæ
- * ÈÕÆÚ£º2010.10.11
+ * åŠŸèƒ½ï¼šå®ç°é—ªå±ç•Œé¢
+ * æ—¥æœŸï¼š2010.10.11
  * */
 package com.partys.login;
 import java.awt.*;
 import javax.swing.*;
 public class Index extends JWindow implements Runnable{
-	//¶¨ÒåÓë½ø¶ÈÌõÏà¹ØµÄ×é¼ş
-	private JProgressBar jpb;//¶¨Òå½ø¶ÈÌõ
-	private JLabel jl1;//ÓÃÓÚÔÚ´°ÌåµÄ±±²¿·ÅÒ»ÕÅÍ¼Æ¬£¬ÄÏ²¿ÊÇ½ø¶ÈÌõ
-	private int width,height;//ÓÃÓÚ»ñÈ¡ÏÔÊ¾ÆÁ·Ö±æÂÊ´óĞ¡
+	//å®šä¹‰ä¸è¿›åº¦æ¡ç›¸å…³çš„ç»„ä»¶
+	private JProgressBar jpb;//å®šä¹‰è¿›åº¦æ¡
+	private JLabel jl1;//ç”¨äºåœ¨çª—ä½“çš„åŒ—éƒ¨æ”¾ä¸€å¼ å›¾ç‰‡ï¼Œå—éƒ¨æ˜¯è¿›åº¦æ¡
+	private int width,height;//ç”¨äºè·å–æ˜¾ç¤ºå±åˆ†è¾¨ç‡å¤§å°
 	public static void main(String []args){
 		Index index=new Index();
-		//´´½¨indexÏß³Ì
+		//åˆ›å»ºindexçº¿ç¨‹
 		Thread t=new Thread(index);
-		//Æô¶¯Ïß³Ì
+		//å¯åŠ¨çº¿ç¨‹
 		t.start();
+		System.out.println(123132);
 	}
-	//¹¹Ôìº¯Êı
+	//æ„é€ å‡½æ•°
 	public Index()
 	{	
-		//´´½¨±êÇ©,²¢ÔÚ±êÇ©ÉÏ·ÅÖÃÒ»ÕÅÍ¼Æ¬
+		//åˆ›å»ºæ ‡ç­¾,å¹¶åœ¨æ ‡ç­¾ä¸Šæ”¾ç½®ä¸€å¼ å›¾ç‰‡
 		jl1=new JLabel(new ImageIcon("image/index/index.png"));
 		
-		//´´½¨½ø¶ÈÌõ
+		//åˆ›å»ºè¿›åº¦æ¡
 		jpb=new JProgressBar();
-		//ÉèÖÃ½ø¶ÈÌõÊôĞÔ
-		jpb.setStringPainted(true);//ÏÔÊ¾µ±Ç°½ø¶ÈÖµĞÅÏ¢
-		jpb.setIndeterminate(false);//È·¶¨½ø¶ÈÌõÖ´ĞĞÍê³Éºó²»À´»Ø¹ö¶¯
-		jpb.setBorderPainted(false);//ÉèÖÃ½ø¶ÈÌõ±ß¿ò²»ÏÔÊ¾
-		jpb.setBackground(Color.pink);//ÉèÖÃ½ø¶ÈÌõµÄ±³¾°É«
+		//è®¾ç½®è¿›åº¦æ¡å±æ€§
+		jpb.setStringPainted(true);//æ˜¾ç¤ºå½“å‰è¿›åº¦å€¼ä¿¡æ¯
+		jpb.setIndeterminate(false);//ç¡®å®šè¿›åº¦æ¡æ‰§è¡Œå®Œæˆåä¸æ¥å›æ»šåŠ¨
+		jpb.setBorderPainted(false);//è®¾ç½®è¿›åº¦æ¡è¾¹æ¡†ä¸æ˜¾ç¤º
+		jpb.setBackground(Color.pink);//è®¾ç½®è¿›åº¦æ¡çš„èƒŒæ™¯è‰²
 		
-		//Ìí¼Ó×é¼ş
+		//æ·»åŠ ç»„ä»¶
 		this.add(jl1,BorderLayout.NORTH);
 		this.add(jpb,BorderLayout.SOUTH);
 		
-		//ÉèÖÃ´°ÌåÊôĞÔ
+		//è®¾ç½®çª—ä½“å±æ€§
 		this.setSize(450,350);
-		//ÉèÖÃ´°ÌåÏÔÊ¾µÄÎ»ÖÃ
+		//è®¾ç½®çª—ä½“æ˜¾ç¤ºçš„ä½ç½®
 		width=Toolkit.getDefaultToolkit().getScreenSize().width;
 		height=Toolkit.getDefaultToolkit().getScreenSize().height;
 		this.setLocation(width/2-200,height/2-150);
-		//ÉèÖÃ´°¿ÚÏÔÊ¾
+		//è®¾ç½®çª—å£æ˜¾ç¤º
 		this.setVisible(true);
 	}
 
 	public void run() {
-		//¶¨ÒåÒ»¸öÊı×é£¬´æ·Å½ø¶ÈÌõÏÔÊ¾Ê±ĞèÒªµÄÊı¾İ
+		//å®šä¹‰ä¸€ä¸ªæ•°ç»„ï¼Œå­˜æ”¾è¿›åº¦æ¡æ˜¾ç¤ºæ—¶éœ€è¦çš„æ•°æ®
 		int []progressValue={0,1,5,8,14,17,26,35,38,43,49,56,65,71,75,78,86,94,98,99,100};
 		for(int i=0;i<progressValue.length;i++)
 		{
 			try {
-				//ĞİÃß1Ãë£¬ÔÙÖ´ĞĞ
+				//ä¼‘çœ 1ç§’ï¼Œå†æ‰§è¡Œ
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			jpb.setValue(progressValue[i]);//È¡µÃÊı×éÖĞµÄ½ø¶ÈÖµ
+			jpb.setValue(progressValue[i]);//å–å¾—æ•°ç»„ä¸­çš„è¿›åº¦å€¼
 			if(i==progressValue.length-1){
 				new UserLogin();
-				//¹Ø±Õ½ø¶ÈÌõ´°¿Ú
+				//å…³é—­è¿›åº¦æ¡çª—å£
 					this.dispose();
 			}
 		}
