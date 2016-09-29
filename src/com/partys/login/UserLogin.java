@@ -114,8 +114,8 @@ public class UserLogin extends JDialog implements ActionListener{
 			String p=new String(this.jpass.getPassword());
 			UserModel um=new UserModel();
 			String zhiwei=new String (um.checkUser(uid, p).trim());
-//			String empname=um.getNameById(uid);
-			String empname="张三";
+			String empname=um.getNameById(uid);
+//			String empname="张三";
 			if(empname!=null){
 			if("mana".equals(zhiwei)||zhiwei.equals("老板")||zhiwei.equals("主管"))
 			{

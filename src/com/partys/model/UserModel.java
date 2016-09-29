@@ -19,7 +19,7 @@ public String checkUser(String uid,String p)
 	String zhiwei = null;
 	SqlHelper hp=null;
 	try{
-	String sql="select job from joblevel where  id=? and password=?";
+	String sql="select joblevel from renshi where id= (select id from login where id=? and password=?)";
 	String []params={uid,p};
 	hp=new SqlHelper();
 	ResultSet rs=hp.queryExecute(sql, params);
@@ -43,7 +43,7 @@ public String checkUser(String uid,String p)
 		String empname = null;
 		SqlHelper hp=null;
 		try{
-		String sql="select empname from rszl where empid=?";
+		String sql="select name from renshi where id=?";
 		String []params={uid};
 		hp=new SqlHelper();
 		ResultSet rs=hp.queryExecute(sql, params);
