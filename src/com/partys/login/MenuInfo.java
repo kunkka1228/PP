@@ -25,6 +25,10 @@ public class MenuInfo extends JPanel implements ActionListener{
 	JTable jtable;
 	JScrollPane jsp;
 	EmpModel em=null;
+	
+	public static void main(String[] args) {
+		new MenuInfo();
+	}
 	public MenuInfo()
 	{
 		//创建组件

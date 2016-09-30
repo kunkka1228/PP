@@ -1,4 +1,5 @@
 package com.partys.login;
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Frame;
@@ -15,25 +16,31 @@ import javax.swing.JTextField;
 import com.partys.commonparent.CommonDialog;
 import com.partys.model.EmpModel;
 import com.partys.tools.MyTools;
-//添加界面
-public class AddEmpDialog extends CommonDialog implements ActionListener{
 
-	/**
-	 * 
-	 */
+public class UpdateEmpDialog extends CommonDialog implements ActionListener {
+	
+	
 	private static final long serialVersionUID = 5368380479953346575L;
 	private JPanel p1,p2,p3;
 	private JLabel[] jl=new JLabel[11];
 	private JTextField[] jtf=new JTextField[11];
 	private JButton jb1,jb2;
-		
-	public AddEmpDialog(Frame owner, String title, boolean modal) {
+	private EmpModel em;
+	private int rowNum;
+	public UpdateEmpDialog(Frame owner, String title, boolean modal,EmpModel em,int rowNum) {
 		super(owner, title, modal);
 		// TODO 自动生成的构造函数存根
+		this.em=em;
+		this.rowNum=rowNum;
+		Object obj=em.getValueAt(rowNum, 1);
+		System.out.println(obj);
+		
 		iniAddEmpDialog();
 	}
-
+	
 	private void iniAddEmpDialog(){
+		
+
 		p1=new JPanel(new GridLayout(12,1));
 		jl[0]=new JLabel("    编号:      ");
 		jl[1]=new JLabel("    姓名:      ");
@@ -52,12 +59,16 @@ public class AddEmpDialog extends CommonDialog implements ActionListener{
 		}
 		p2=new JPanel(new GridLayout(12,1));
 		for(int x=0;x<11;x++){
-			jtf[x]=new JTextField();
+			jtf[x]=new JTextField();			
 		}
+		jtf[0].setEditable(false);
+		
 		
 		for(int x=0;x<11;x++){
+
 			p2.add(jtf[x]);
 		}
+//		jtf[0].setText(em.getValueAt(rowNum+1, 1)+"");
 		p3=new JPanel(new FlowLayout(FlowLayout.CENTER));
 		jb1=new JButton("確定");
 		jb1.setFont(MyTools.f4);
@@ -72,26 +83,29 @@ public class AddEmpDialog extends CommonDialog implements ActionListener{
 		this.add(p2,"Center");
 		this.add(p3,"South");
 		this.setTitle("添加员工");
-		super.initBasic(400,430);
+		super.initBasic(400,450);
 	}
+	
+	
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO 自动生成的方法存根
 		if(arg0.getSource()==jb1)
 		{
-			String sql="insert into renshi values(?,?,?,?,?,?,?,?,?,?,?)";
-			String []params=new String[11];
-			for(int x=0;x<jtf.length;x++){
+			String[] params=new String[10];
+			String sql="update renshi set name=?,sex=? ,address=? , brithday=? , IDCard=?,edu=?,joblevel=?,marriage=?,tel=?,mail=? where id=?";
+			for(int x=1;x<11;x++){
 				params[x]=jtf[x].getText().trim();
 			}
+			
 			EmpModel em=new EmpModel();
 			if(!em.UpdateModel(sql, params))
 			{
-				JOptionPane.showMessageDialog(null, "添加失败，请输入正确数据类型！");
+				JOptionPane.showMessageDialog(null, "修改失败，请输入正确数据类型!");
 			}
 			else{
-				JOptionPane.showMessageDialog(null, "恭喜！添加成功！");
+				JOptionPane.showMessageDialog(null, "恭喜！修改成功！");
 			}
 			
 			this.dispose();
@@ -101,4 +115,8 @@ public class AddEmpDialog extends CommonDialog implements ActionListener{
 			this.dispose();
 		}
 	}	
+
+	
+	
+
 }

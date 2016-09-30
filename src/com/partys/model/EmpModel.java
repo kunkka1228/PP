@@ -32,10 +32,6 @@ public class EmpModel extends AbstractTableModel{
 		
 		colums=new Vector<String>();
 		rows=new Vector<Vector>();
-//		this.colums.add("员工号");
-//		this.colums.add("姓名");
-//		this.colums.add("性别");
-//		this.colums.add("职位");
 		SqlHelper hp=new SqlHelper();
 		ResultSet rs=hp.queryExecute(sql, params);
 		try {

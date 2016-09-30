@@ -115,9 +115,8 @@ public class UserLogin extends JDialog implements ActionListener{
 			UserModel um=new UserModel();
 			String zhiwei=new String (um.checkUser(uid, p).trim());
 			String empname=um.getNameById(uid);
-//			String empname="张三";
 			if(empname!=null){
-			if("mana".equals(zhiwei)||zhiwei.equals("老板")||zhiwei.equals("主管"))
+			if("mana".equals(zhiwei))
 			{
 				
 				new Window1();
@@ -127,7 +126,7 @@ public class UserLogin extends JDialog implements ActionListener{
 				JOptionPane.showMessageDialog(this, welcome);
 				this.dispose();
 			}
-			else if("收银".equals(zhiwei)||zhiwei.equals("领班")||zhiwei.equals("主管"))
+			else if("staf".equals(zhiwei))
 			{
 				Window2 w2=new Window2(empname,zhiwei);
 				Thread a=new Thread(w2);

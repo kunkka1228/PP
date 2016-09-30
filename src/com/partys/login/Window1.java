@@ -29,32 +29,37 @@ import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
 import javax.swing.Timer;
 
+import com.partys.tools.BasicUtil;
 import com.partys.tools.ImagePanel;
 import com.partys.tools.MediaHelp;
 import com.partys.tools.MyTools;
 public class Window1 extends JFrame implements ActionListener,MouseListener{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6829991336116522887L;
 	//定义需要的组件
-	Image titleIcon,timeBg,p1_bg,p3Icon,chart;
-	ImagePanel p1_bgImage,jp3Image,ct;
-	JMenuBar jmb;
-	JSplitPane jsp;
-	JMenu jm1,jm2,jm3,jm4,jm5,jm6;
-	JMenuItem jmi1,jmi2,jmi3,jmi4,jmi5,jmi6,jmi7,jmi8,jmi9,jmi10,jmi11,jmi12;
-	ImageIcon jmi1_icon1,jmi2_icon2,jmi3_icon3,jmi4_icon4,jmi5_icon5,jmi6_icon6,jmi7_icon7,jmi8_icon8,jmi9_icon9,jmi10_icon10,jmi11_icon11,jmi12_icon12;
-	JToolBar jtb;
-	JButton jb1,jb2,jb3,jb4,jb5,jb6,jb7,jb8,jb9,jb10;
-	JPanel jp1,jp2,jp3,jp4,jp5;
-	JLabel showTime;//显示时间
-	JLabel p2_jl1,p2_jl2;
-	JLabel p1_jl1,p1_jl2,p1_jl3,p1_jl4,p1_jl5,p1_jl6,p1_jl7,p1_jl8;
-	CardLayout myCard;
-	Timer t;//可定时触发Action事件
+	private Image titleIcon,timeBg,p1_bg,p3Icon,chart;
+	private ImagePanel p1_bgImage,jp3Image,ct;
+	private JMenuBar jmb;
+	private JSplitPane jsp;
+	private JMenu jm1,jm2,jm3,jm4,jm5,jm6;
+	private JMenuItem jmi1,jmi2,jmi3,jmi4,jmi5,jmi6,jmi7,jmi8,jmi9,jmi10,jmi11,jmi12;
+	private ImageIcon jmi1_icon1,jmi2_icon2,jmi3_icon3,jmi4_icon4,jmi5_icon5,jmi6_icon6,jmi7_icon7,jmi8_icon8,jmi9_icon9,jmi10_icon10,jmi11_icon11,jmi12_icon12;
+	private JToolBar jtb;
+	private JButton jb1,jb2,jb3,jb4,jb5,jb6,jb7,jb8,jb9,jb10;
+	private JPanel jp1,jp2,jp3,jp4,jp5;
+	private JLabel showTime;//显示时间
+	private JLabel p2_jl1,p2_jl2;
+	private JLabel p1_jl1,p1_jl2,p1_jl3,p1_jl4,p1_jl5,p1_jl6,p1_jl7,p1_jl8;
+	private CardLayout myCard;
+	private Timer t;//可定时触发Action事件
 	public static void main(String[] args) {
 		// TODO 自动生成的方法存根
-		Window1 w1=new Window1();
+		new Window1();
 	}
 	//菜单
-	public void initMenu()
+	private void initMenu()
 	{
 		//一级菜单
 
@@ -108,7 +113,7 @@ public class Window1 extends JFrame implements ActionListener,MouseListener{
 				
 				
 				jmi9_icon9=new ImageIcon("image/toolBar_image/jb7.jpg");
-				jm5=new JMenu("成本及库房");
+				jm5=new JMenu("成本管理");
 				jm5.setFont(MyTools.f3);
 				jmi9=new JMenuItem("成本控制",jmi9_icon9);
 				jmi9.setFont(MyTools.f2);
@@ -117,7 +122,7 @@ public class Window1 extends JFrame implements ActionListener,MouseListener{
 				jmi10_icon10=new ImageIcon("image/toolBar_image/jb9.jpg");
 				jmi11_icon11=new ImageIcon("image/toolBar_image/jb10.jpg");
 				jmi12_icon12=new ImageIcon("image/toolBar_image/jb8.jpg");
-				jm6=new JMenu("帮助");
+				jm6=new JMenu("帮助服务");
 				jm6.setFont(MyTools.f3);
 				jmi10=new JMenuItem("动画帮助",jmi10_icon10);
 				jmi10.setFont(MyTools.f2);
@@ -143,7 +148,7 @@ public class Window1 extends JFrame implements ActionListener,MouseListener{
 				this.setJMenuBar(jmb);
 	}
 	//工具栏
-	public void initToolBar()
+	private void initToolBar()
 	{
 		jtb=new JToolBar();
 		jtb.setFloatable(false);
@@ -169,7 +174,7 @@ public class Window1 extends JFrame implements ActionListener,MouseListener{
 		jtb.add(jb10);
 	
 	}
-	public void initCenter()
+	private void initCenter()
 	{
 
 		//jp1
@@ -198,7 +203,7 @@ public class Window1 extends JFrame implements ActionListener,MouseListener{
 		p1_jl3.setEnabled(false);
 		p1_jl3.addMouseListener(this);
 		p1_bgImage.add(p1_jl3);
-		p1_jl4=new JLabel("菜  谱  价  格",new ImageIcon("image/center_image/label_4.jpg"),0);
+		p1_jl4=new JLabel("预  定  管  理",new ImageIcon("image/center_image/label_4.jpg"),0);
 		p1_jl4.setFont(MyTools.f4);
 		p1_jl4.setCursor(myCursor);
 		p1_jl4.setEnabled(false);
@@ -210,7 +215,7 @@ public class Window1 extends JFrame implements ActionListener,MouseListener{
 		p1_jl5.setEnabled(false);
 		p1_jl5.addMouseListener(this);
 		p1_bgImage.add(p1_jl5);
-		p1_jl6=new JLabel("成  本  库  房",new ImageIcon("image/center_image/label_6.jpg"),0);
+		p1_jl6=new JLabel("客  人  信  息",new ImageIcon("image/center_image/label_6.jpg"),0);
 		p1_jl6.setFont(MyTools.f4);
 		p1_jl6.setCursor(myCursor);
 		p1_jl6.setEnabled(false);
@@ -222,7 +227,7 @@ public class Window1 extends JFrame implements ActionListener,MouseListener{
 		p1_jl7.setEnabled(false);
 		p1_jl7.addMouseListener(this);
 		p1_bgImage.add(p1_jl7);
-		p1_jl8=new JLabel("媒 体 播 放",new ImageIcon("image/center_image/label_8.jpg"),0);
+		p1_jl8=new JLabel("媒  体  播  放",new ImageIcon("image/center_image/label_8.jpg"),0);
 		p1_jl8.setFont(MyTools.f4);
 		p1_jl8.setCursor(myCursor);
 		p1_jl8.setEnabled(false);
@@ -297,7 +302,7 @@ public class Window1 extends JFrame implements ActionListener,MouseListener{
 		jsp.setDividerSize(0);
 	}
 	//状态栏
-	public void initEnd()
+	private void initEnd()
 	{
 		jp5=new JPanel(new BorderLayout());
 		t=new Timer(1000, this);//每隔一秒触发ActonEvent
@@ -344,12 +349,12 @@ public class Window1 extends JFrame implements ActionListener,MouseListener{
 		ct.add(jsp,"Center");
 		
 		
-		int width=Toolkit.getDefaultToolkit().getScreenSize().width;
-		int height=Toolkit.getDefaultToolkit().getScreenSize().height;
+		int width=BasicUtil.getSreenWidthAndHeight()[0];
+		int height=BasicUtil.getSreenWidthAndHeight()[1];
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(width,height-40);
 		this.setIconImage(titleIcon);
-		this.setTitle("满汉楼餐饮后台管理系统");
+		this.setTitle("Partys 管理系统");
 		this.setVisible(true);
 	}
 	@Override
