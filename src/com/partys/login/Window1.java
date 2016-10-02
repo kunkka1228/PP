@@ -92,7 +92,7 @@ public class Window1 extends JFrame implements ActionListener,MouseListener{
 				
 				jm2=new JMenu("人事管理");
 				jm2.setFont(MyTools.f3);
-				jmi6=new JMenuItem("人事登记",jmi6_icon6);
+				jmi6=new JMenuItem("考勤记录",jmi6_icon6);
 				jmi6.setFont(MyTools.f2);
 				jm2.add(jmi6);
 				
@@ -221,7 +221,7 @@ public class Window1 extends JFrame implements ActionListener,MouseListener{
 		p1_jl6.setEnabled(false);
 		p1_jl6.addMouseListener(this);
 		p1_bgImage.add(p1_jl6);
-		p1_jl7=new JLabel("系  统  设  置",new ImageIcon("image/center_image/label_7.jpg"),0);
+		p1_jl7=new JLabel("流  水  统  计",new ImageIcon("image/center_image/label_7.jpg"),0);
 		p1_jl7.setFont(MyTools.f4);
 		p1_jl7.setCursor(myCursor);
 		p1_jl7.setEnabled(false);

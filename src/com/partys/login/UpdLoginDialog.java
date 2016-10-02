@@ -36,7 +36,7 @@ public class UpdLoginDialog extends JDialog implements ActionListener{
 		jtf1=new JTextField();
 		jtf1.setText(em.getValueAt(rowNum, 0)+"");
 		jtf1.setEditable(false);
-		//System.out.println(em.getValueAt(rowNum, 0)+"");
+//		System.out.println(em.getValueAt(rowNum, 0)+"");
 		jtf2=new JTextField();
 		jtf2.setText( em.getValueAt(rowNum, 2)+"");
 		

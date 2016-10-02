@@ -1,5 +1,5 @@
 package com.partys.login;
-//这是人事管理界面
+//这是登陸管理界面
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -18,13 +18,13 @@ import com.partys.model.EmpModel;
 import com.partys.tools.MyTools;
 public class EmpLogin extends JPanel implements ActionListener{
 	//定义组件
-	JPanel p1,p2,p3,p4,p5;
-	JLabel p1_l1,p3_l1;
-	JTextField p1_jtf;
-	JButton p1_jb,p4_jb1,p4_jb2,p4_jb3,p4_jb4;
-	JTable jtable;
-	JScrollPane jsp;
-	EmpModel em=null;
+	private JPanel p1,p2,p3,p4,p5;
+	private JLabel p1_l1,p3_l1;
+	private JTextField p1_jtf;
+	private JButton p1_jb,p4_jb1,p4_jb2,p4_jb3,p4_jb4;
+	private JTable jtable;
+	private JScrollPane jsp;
+	private EmpModel em=null;
 	public EmpLogin()
 	{
 		//创建组件
@@ -62,12 +62,9 @@ public class EmpLogin extends JPanel implements ActionListener{
 		sql="select count(*) from login";
 		em=new EmpModel();
 		int sum=em.getNum(sql);
-		
-//		jtable.setModel(em);
-		//System.out.print(sum);
+
 		p3_l1=new JLabel("总记录是"+sum+"条");
 		
-		//jsp=new JScrollPane(jtable);
 		p3.add(p3_l1);
 		p4=new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		p4_jb1=new JButton("详细信息");
@@ -88,7 +85,6 @@ public class EmpLogin extends JPanel implements ActionListener{
 		p4.add(p4_jb4);
 		p5.add(p3,"West");
 		p5.add(p4,"East");
-		//this.setBackground(Color.pink);
 		this.setLayout(new BorderLayout());
 		this.add(p1,"North");
 		this.add(p2,"Center");

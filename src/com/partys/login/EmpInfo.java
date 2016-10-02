@@ -20,6 +20,10 @@ import com.partys.model.EmpModel;
 import com.partys.tools.BasicUtil;
 import com.partys.tools.MyTools;
 public class EmpInfo extends JPanel implements ActionListener,KeyListener{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4862664404523904129L;
 	//定义组件
 	private JPanel p1,p2,p3,p4,p5;
 	private JLabel p1_l1,p3_l1;
@@ -44,17 +48,13 @@ public class EmpInfo extends JPanel implements ActionListener,KeyListener{
 		p1_jb.setFont(MyTools.f4);
 		p1.add(p1_l1);
 		p1.add(p1_jtf);
-		p1.add(p1_jb);
-		
-		
-		//中间
-		
+		p1.add(p1_jb);		
+		//中间		
 		p2=new JPanel(new BorderLayout());
 		String []params={"1"};
 		String sql="select id,name,sex,joblevel,address,edu from renshi where 1=?";
 		em=new EmpModel();
-		em.query(sql, params);
-		
+		em.query(sql, params);		
 		jtable= new JTable(em);
 		BasicUtil.horizontal(jtable);
 		jsp=new JScrollPane(jtable);
@@ -62,15 +62,11 @@ public class EmpInfo extends JPanel implements ActionListener,KeyListener{
 		
 		//南
 		p5=new JPanel(new BorderLayout());
-		p3=new JPanel(new FlowLayout(FlowLayout.LEFT));
-		
+		p3=new JPanel(new FlowLayout(FlowLayout.LEFT));		
 		sql="select count(*) from renshi";
 		em=new EmpModel();
 		int sum=em.getNum(sql);
-		
-
-		p3_l1=new JLabel("总记录是"+sum+"条");
-		
+		p3_l1=new JLabel("总记录是"+sum+"条");		
 		p3.add(p3_l1);
 		p4=new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		p4_jb1=new JButton("详细信息");
@@ -95,32 +91,21 @@ public class EmpInfo extends JPanel implements ActionListener,KeyListener{
 		this.add(p1,"North");
 		this.add(p2,"Center");
 		this.add(p5,"South");
-		this.setVisible(true);
-		
+		this.setVisible(true);		
 	}
+	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		// TODO 自动生成的方法存根
-		
 		if(arg0.getSource().equals(p1_jb))
-		{
-			
+		{			
 			if(p1_jtf.getText().trim().equals(""))
 			{
-				String[]params={"1"};
-				String sql="select id,name,sex,joblevel,address,edu from renshi where 1=?";
-				em=new EmpModel();
-				em.query(sql, params);				
-				jtable.setModel(em);
-				BasicUtil.horizontal(jtable);
+				querry(null,null);
 			}
 			else{
 				String params[]={p1_jtf.getText().trim(),p1_jtf.getText().trim()};
 				String sql="select id,name,sex,joblevel,address,edu from renshi where id=? or name=?";
-				em=new EmpModel();
-				em.query(sql, params);				
-				jtable.setModel(em);
-				BasicUtil.horizontal(jtable);
+				querry(sql,params);
 			}
 		}
 		else if(arg0.getSource().equals(p4_jb1))
@@ -134,28 +119,21 @@ public class EmpInfo extends JPanel implements ActionListener,KeyListener{
 			String empId=(String)this.jtable.getValueAt(rowNum, 0);
 			String sql="select * from renshi where id=?";
 			String []params={empId};
-			em=new EmpModel();
-			em.query(sql, params);
-			
-			jtable.setModel(em);
-			BasicUtil.horizontal(jtable);
+			querry(sql,params);
 			
 		}
 		else if(arg0.getSource().equals(p4_jb2))
 		{
 			new AddEmpDialog(null,"添加",true);			
-			String sql="select id,name,sex,joblevel,address,edu from renshi where 1=?";
-			String[]params={"1"};
-			em=new EmpModel();
-			em.query(sql, params);			
-			jtable.setModel(em);
-			BasicUtil.horizontal(jtable);
+			querry(null,null);
+			querryCount();
 			
 		}
 		else if(arg0.getSource().equals(p4_jb3))
 		{						
 			int rowNum=this.jtable.getSelectedRow();
-			em=new EmpModel();
+			String[]params={"1"};
+			String sql="";
 			if(rowNum==-1)
 			{
 				JOptionPane.showMessageDialog(this, "请选择一行！");
@@ -163,16 +141,14 @@ public class EmpInfo extends JPanel implements ActionListener,KeyListener{
 
 			else
 			{
-				new UpdEmpDialog(this,"修改",true,em,rowNum);
-				
+				sql="select * from renshi where 1=?";
+				em=new EmpModel();
+				em.query(sql, params);			
+				new UpdateEmpDialog(null,"修改",true,rowNum,em);				
 			}
 			
-			String[]params={"1"};
-			String sql="select id,name,sex,joblevel,address,edu from renshi where 1=?";
-			
-			em.query(sql, params);			
-			jtable.setModel(em);
-			BasicUtil.horizontal(jtable);
+			querry(null,null);
+			querryCount();
 		}
 		else if(arg0.getSource().equals(p4_jb4))
 		{
@@ -182,37 +158,49 @@ public class EmpInfo extends JPanel implements ActionListener,KeyListener{
 				JOptionPane.showMessageDialog(this, "请选择一行！");
 			}
 			else{	
-			String empId=(String)this.jtable.getValueAt(rowNum, 0);
-			String sql="delete from renshi where id=?";
-			String []params={empId};
-			JOptionPane.showMessageDialog(null, "恭喜！删除成功！");
-			em=new EmpModel();
-			em.UpdateModel(sql, params);
-			}			
-			String sql="select id,name,sex,joblevel,address,edu from renshi where 1=?";
-			String[]params={"1"};
-			em=new EmpModel();
-			em.query(sql, params);			
-			jtable.setModel(em);
-			BasicUtil.horizontal(jtable);
+				String empId=(String)this.jtable.getValueAt(rowNum, 0);
+				String sql="delete from renshi where id=?";
+				String []params={empId};
+				JOptionPane.showMessageDialog(null, "恭喜！删除成功！");
+				em=new EmpModel();
+				em.UpdateModel(sql, params);
+				querryCount();
+				querry(null,null);				
+			}					
 		}
+	}
+	
+	private void querryCount(){
+		String sql="select count(*) from renshi";
+		int sum=em.getNum(sql);
+		p3_l1.setText("总记录是"+sum+"条");
+	}
+	
+	private void querry(String sqls,String[] param){
+		String sql="select id,name,sex,joblevel,address,edu from renshi where 1=?";
+		String[]params={"1"};
+		if(sqls!=null){
+			sql=sqls;
+		}
+		if(param!=null){
+			params=param;
+		}		
+		em=new EmpModel();
+		em.query(sql, params);			
+		jtable.setModel(em);
+		BasicUtil.horizontal(jtable);
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO 自动生成的方法存根
-		
 	}
 
 	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO 自动生成的方法存根
-		
+	public void keyPressed(KeyEvent e) {		
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO 自动生成的方法存根
 		if(e.getSource()==p1_jtf){
 			String sql="";
 			String params[]={p1_jtf.getText().trim(),p1_jtf.getText().trim()};
@@ -225,7 +213,6 @@ public class EmpInfo extends JPanel implements ActionListener,KeyListener{
 			em.query(sql, params);		
 			jtable.setModel(em);
 			BasicUtil.horizontal(jtable);
-		}
-		
+		}		
 	}
 }

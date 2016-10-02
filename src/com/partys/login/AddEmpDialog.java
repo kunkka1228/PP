@@ -92,9 +92,8 @@ public class AddEmpDialog extends CommonDialog implements ActionListener{
 			}
 			else{
 				JOptionPane.showMessageDialog(null, "¹§Ï²£¡Ìí¼Ó³É¹¦£¡");
-			}
-			
-			this.dispose();
+				this.dispose();
+			}		
 		}
 		else if(arg0.getSource()==jb2)
 		{
