@@ -167,10 +167,12 @@ public class SqlHelper {
 		try {
 			ps=con.prepareStatement(sql);
 			//对sql的参数赋值
-			for(int i=0;i<params.length;i++)
-			{
-				ps.setString(i+1, params[i]);
-			}
+			if(params!=null){
+				for(int i=0;i<params.length;i++)
+				{
+					ps.setString(i+1, params[i]);
+				}
+			}			
 			//执行查询
 			if(ps.executeUpdate()==0)
 			{

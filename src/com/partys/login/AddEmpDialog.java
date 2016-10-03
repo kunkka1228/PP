@@ -26,7 +26,15 @@ public class AddEmpDialog extends CommonDialog implements ActionListener{
 	private JLabel[] jl=new JLabel[11];
 	private JTextField[] jtf=new JTextField[11];
 	private JButton jb1,jb2;
-		
+	private boolean flag=false;
+	
+	public void setFlag(boolean s){
+		flag=s;
+	}
+	public boolean getFlag(){
+		return flag;
+	}
+	
 	public AddEmpDialog(Frame owner, String title, boolean modal) {
 		super(owner, title, modal);
 		// TODO 自动生成的构造函数存根
@@ -97,6 +105,7 @@ public class AddEmpDialog extends CommonDialog implements ActionListener{
 		}
 		else if(arg0.getSource()==jb2)
 		{
+			this.flag=true;
 			this.dispose();
 		}
 	}	

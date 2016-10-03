@@ -27,6 +27,14 @@ public class UpdateEmpDialog extends CommonDialog implements ActionListener {
 	private JButton jb1,jb2;
 	private int rowNum;
 	private EmpModel em;
+	private boolean flag=false;
+	
+	public void setFlag(boolean s){
+		flag=s;
+	}
+	public boolean getFlag(){
+		return flag;
+	}
 	public UpdateEmpDialog(Frame owner, String title, boolean modal,int rowNum, EmpModel em) {
 		super(owner, title, modal);
 		this.rowNum=rowNum;
@@ -105,6 +113,7 @@ public class UpdateEmpDialog extends CommonDialog implements ActionListener {
 		}
 		else if(arg0.getSource()==jb2)
 		{
+			this.flag=true;
 			this.dispose();
 		}
 	}			

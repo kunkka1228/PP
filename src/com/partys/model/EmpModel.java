@@ -114,6 +114,9 @@ public class EmpModel extends AbstractTableModel{
 		else if(this.colums.get(arg0).toString().equals("mail")){
 			name="” œ‰";
 		}
+		else if(this.colums.get(arg0).toString().equals("password")){
+			name="√‹¬Î";
+		}
 
 		return name;
 	}

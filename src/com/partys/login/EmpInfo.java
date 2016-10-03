@@ -32,6 +32,7 @@ public class EmpInfo extends JPanel implements ActionListener,KeyListener{
 	private JTable jtable;
 	private JScrollPane jsp;
 	private EmpModel em=null;
+	private boolean detail=false;
 
 	public EmpInfo()
 	{
@@ -77,7 +78,7 @@ public class EmpInfo extends JPanel implements ActionListener,KeyListener{
 		p4_jb2.setFont(MyTools.f4);
 		p4_jb3=new JButton("ÐÞ¸Ä");
 		p4_jb3.addActionListener(this);
-		p4_jb3.setFont(MyTools.f4);
+		p4_jb3.setFont(MyTools.f4);	
 		p4_jb4=new JButton("É¾³ý");
 		p4_jb4.addActionListener(this);
 		p4_jb4.setFont(MyTools.f4);
@@ -120,6 +121,7 @@ public class EmpInfo extends JPanel implements ActionListener,KeyListener{
 			String sql="select * from renshi where id=?";
 			String []params={empId};
 			querry(sql,params);
+			detail=true;
 			
 		}
 		else if(arg0.getSource().equals(p4_jb2))
@@ -129,10 +131,10 @@ public class EmpInfo extends JPanel implements ActionListener,KeyListener{
 			querryCount();
 			
 		}
+		
 		else if(arg0.getSource().equals(p4_jb3))
 		{						
 			int rowNum=this.jtable.getSelectedRow();
-			String[]params={"1"};
 			String sql="";
 			if(rowNum==-1)
 			{
@@ -140,16 +142,26 @@ public class EmpInfo extends JPanel implements ActionListener,KeyListener{
 			}
 
 			else
-			{
-				sql="select * from renshi where 1=?";
+			{	
 				em=new EmpModel();
-				em.query(sql, params);			
-				new UpdateEmpDialog(null,"ÐÞ¸Ä",true,rowNum,em);				
-			}
-			
-			querry(null,null);
-			querryCount();
+				if(detail){
+					rowNum=0;				
+					String id=(String)jtable.getValueAt(rowNum, 0);
+					sql="select * from renshi where id="+id;	
+				}
+				else{
+					sql="select * from renshi where 1=1";																															
+				}
+				em.query(sql, null);	
+				UpdateEmpDialog up=new UpdateEmpDialog(null,"ÐÞ¸Ä",true,rowNum,em);
+				if(!up.getFlag()){
+					querry(null,null);
+					querryCount();
+					detail=false;
+				}					
+			}		
 		}
+		
 		else if(arg0.getSource().equals(p4_jb4))
 		{
 			int rowNum=this.jtable.getSelectedRow();			
