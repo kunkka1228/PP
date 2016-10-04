@@ -126,10 +126,11 @@ public class EmpInfo extends JPanel implements ActionListener,KeyListener{
 		}
 		else if(arg0.getSource().equals(p4_jb2))
 		{
-			new AddEmpDialog(null,"Ìí¼Ó",true);			
-			querry(null,null);
-			querryCount();
-			
+			AddEmpDialog emd=new AddEmpDialog(null,"Ìí¼Ó",true);			
+			if(!emd.getFlag()){
+				querry(null,null);
+				querryCount();
+			}						
 		}
 		
 		else if(arg0.getSource().equals(p4_jb3))

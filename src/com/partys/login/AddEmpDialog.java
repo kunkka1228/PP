@@ -26,14 +26,7 @@ public class AddEmpDialog extends CommonDialog implements ActionListener{
 	private JLabel[] jl=new JLabel[11];
 	private JTextField[] jtf=new JTextField[11];
 	private JButton jb1,jb2;
-	private boolean flag=false;
-	
-	public void setFlag(boolean s){
-		flag=s;
-	}
-	public boolean getFlag(){
-		return flag;
-	}
+
 	
 	public AddEmpDialog(Frame owner, String title, boolean modal) {
 		super(owner, title, modal);
@@ -99,13 +92,18 @@ public class AddEmpDialog extends CommonDialog implements ActionListener{
 				JOptionPane.showMessageDialog(null, "添加失败，请输入正确数据类型！");
 			}
 			else{
+				String sqladd="insert into login values (?,?)";
+				String id=params[0];
+				String password="1234";		
+				String []paramadd={id,password};
+				em.UpdateModel(sqladd, paramadd);
 				JOptionPane.showMessageDialog(null, "恭喜！添加成功！");
 				this.dispose();
 			}		
 		}
 		else if(arg0.getSource()==jb2)
 		{
-			this.flag=true;
+			super.setFlag(true);
 			this.dispose();
 		}
 	}	
