@@ -3,12 +3,15 @@ package com.partys.login;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -16,10 +19,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import com.partys.model.CustomerModel;
 import com.partys.model.EmpModel;
 import com.partys.tools.BasicUtil;
 import com.partys.tools.MyTools;
-public class EmpInfo extends JPanel implements ActionListener,KeyListener{
+public class CustomerInfor extends JPanel implements ActionListener,KeyListener{
 	/**
 	 * 
 	 */
@@ -33,20 +37,27 @@ public class EmpInfo extends JPanel implements ActionListener,KeyListener{
 	private JScrollPane jsp;
 	private EmpModel em=null;
 	private boolean detail=false;
-
-	public EmpInfo()
+	private JComboBox<String> dianmian;
+	private CustomerModel cm;
+	private JPanel p6;
+	public CustomerInfor()
 	{
 		//创建组件
 		
 		//北
-		p1=new JPanel(new FlowLayout(FlowLayout.CENTER));
-		p1_l1=new JLabel("请输入姓名（员工号或职位）:");
+		p6=new JPanel(new GridLayout(1,5));
+		p1=new JPanel(new GridLayout(1,2));
+		p1_l1=new JLabel("请输入客人编号:");		
 		p1_l1.setFont(MyTools.f1);
+		cm=new CustomerModel();
+		dianmian=new JComboBox<String>(cm.getAllPartys());
 		p1_jtf=new JTextField(20);
 		p1_jtf.addKeyListener(this);
 		p1_jb=new JButton("查询");
 		p1_jb.addActionListener(this);
 		p1_jb.setFont(MyTools.f4);
+		p6.add(dianmian);
+		
 		p1.add(p1_l1);
 		p1.add(p1_jtf);
 		p1.add(p1_jb);		

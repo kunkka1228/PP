@@ -23,7 +23,7 @@ public class AddLoginDialog extends JDialog implements ActionListener{
 	JTextField jtf1,jtf2;
 	JButton jb1,jb2;
 	String soundpath=null;
-	public AddLoginDialog(EmpLogin empInfo,String title,boolean model)
+	public AddLoginDialog(CustomerInfor empInfo,String title,boolean model)
 	{
 		//super(empInfo,title,model);
 		p1=new JPanel(new GridLayout(2,1));

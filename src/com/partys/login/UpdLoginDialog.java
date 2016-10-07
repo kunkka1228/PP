@@ -22,7 +22,7 @@ public class UpdLoginDialog extends JDialog implements ActionListener{
 	JLabel jl1,jl2;
 	JTextField jtf1,jtf2;
 	JButton jb1,jb2;
-	public UpdLoginDialog(EmpLogin empInfo,String title,boolean model,EmpModel em,int rowNum)
+	public UpdLoginDialog(CustomerInfor empInfo,String title,boolean model,EmpModel em,int rowNum)
 	{
 		super();
 		p1=new JPanel(new GridLayout(2,1));

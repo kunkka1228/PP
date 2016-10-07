@@ -113,26 +113,24 @@ public class UserLogin extends JDialog implements ActionListener{
 			String uid=this.jname.getText().trim();
 			String p=new String(this.jpass.getPassword());
 			UserModel um=new UserModel();
-			String zhiwei=new String (um.checkUser(uid, p).trim());
+			String zhiwei=new String (um.getJoblevel(uid, p)[0].trim());
+			String name=um.getJoblevel(uid, p)[1].trim();
 			String empname=um.getNameById(uid);
 			if(empname!=null){
-			if("mana".equals(zhiwei))
+			if("¾­Àí".equals(zhiwei))
 			{
-				
-				new Window1();
-				
-				this.hide();
-				String welcome="»¶Ó­Äú--"+zhiwei;
-				JOptionPane.showMessageDialog(this, welcome);
 				this.dispose();
+				new Window1(uid);				
+				String welcome="»¶Ó­Äú--"+name;
+				JOptionPane.showMessageDialog(this, welcome);
+				
 			}
-			else if("staf".equals(zhiwei))
+			else if("Ö°Ô±".equals(zhiwei))
 			{
 				Window2 w2=new Window2(empname,zhiwei);
 				Thread a=new Thread(w2);
 				a.start();
-				this.hide();
-				String welcome="»¶Ó­Äú--"+zhiwei;
+				String welcome="»¶Ó­Äú--"+name;
 				JOptionPane.showMessageDialog(this, welcome);
 				this.dispose();
 				

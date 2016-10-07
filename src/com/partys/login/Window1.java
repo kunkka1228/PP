@@ -32,6 +32,7 @@ import com.partys.tools.BasicUtil;
 import com.partys.tools.ImagePanel;
 import com.partys.tools.MediaHelp;
 import com.partys.tools.MyTools;
+import com.partysx.tool.Calculator;
 
 public class Window1 extends JFrame implements ActionListener, MouseListener {
 	/**
@@ -43,8 +44,9 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 	private ImagePanel p1_bgImage, jp3Image, ct;
 	private JMenuBar jmb;
 	private JSplitPane jsp;
-	private JMenu jm[] = new JMenu[6];
+	private JMenu jm[] = new JMenu[7];
 	private JMenuItem[] jmi = new JMenuItem[12];
+	private JMenuItem[] tools = new JMenuItem[4];
 	private ImageIcon jmi1_icon1, jmi2_icon2, jmi3_icon3, jmi4_icon4,
 			jmi5_icon5, jmi6_icon6, jmi7_icon7, jmi8_icon8, jmi9_icon9,
 			jmi10_icon10, jmi11_icon11, jmi12_icon12;
@@ -56,10 +58,11 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 	private JLabel p1_jl[] = new JLabel[8];
 	private CardLayout myCard;
 	private Timer t;// 可定时触发Action事件
+	private String uid;
 
 	public static void main(String[] args) {
 		// TODO 自动生成的方法存根
-		new Window1();
+		new Window1("1111");
 	}
 
 	// 菜单
@@ -74,8 +77,10 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 		jm[0] = new JMenu("系统管理");
 		// 创建其二级菜单
 		jmi[0] = new JMenuItem("切换用户", jmi1_icon1);
+		
+				
 		jmi[1] = new JMenuItem("修改密码", jmi2_icon2);
-		jmi[2] = new JMenuItem("登陆管理", jmi3_icon3);
+		jmi[2] = new JMenuItem("配置", jmi3_icon3);
 		jmi[3] = new JMenuItem("万年历", jmi4_icon4);
 		jmi[4] = new JMenuItem("退出", jmi5_icon5);
 
@@ -87,7 +92,7 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 		jm[1].add(jmi[5]);
 
 		jmi7_icon7 = new ImageIcon("image/toolBar_image/jb6.jpg");
-		jm[2] = new JMenu("菜单服务");
+		jm[2] = new JMenu("团购后台");
 
 		jmi[6] = new JMenuItem("菜单及价格录入", jmi7_icon7);
 		jm[2].add(jmi[6]);
@@ -106,23 +111,38 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 		jmi10_icon10 = new ImageIcon("image/toolBar_image/jb9.jpg");
 		jmi11_icon11 = new ImageIcon("image/toolBar_image/jb10.jpg");
 		jmi12_icon12 = new ImageIcon("image/toolBar_image/jb8.jpg");
-		jm[5] = new JMenu("帮助服务");
-		jmi[9] = new JMenuItem("动画帮助", jmi10_icon10);
+		
+		ImageIcon tools_icon1=new ImageIcon("image/Caculator/Caculator.jpg");
+		jm[5] = new JMenu("实用工具");
+		tools[0]=new JMenuItem("计算器", tools_icon1);
+		tools[1]=new JMenuItem("工具1", jmi9_icon9);
+		tools[2]=new JMenuItem("工具2", jmi9_icon9);
+		tools[3]=new JMenuItem("工具3", jmi9_icon9);
+		
+		for(int x=0;x<4;x++){
+			jm[5].add(tools[x]);
+			tools[x].setFont(MyTools.f2);
+			tools[x].addActionListener(this);
+		}
+		
+		jm[6] = new JMenu("帮助服务");
+		jmi[9] = new JMenuItem("提交bug", jmi10_icon10);
 		jmi[10] = new JMenuItem("版本升级", jmi11_icon11);
 		jmi[11] = new JMenuItem("关于我们", jmi12_icon12);
-		jm[5].add(jmi[9]);
-		jm[5].add(jmi[10]);
-		jm[5].add(jmi[11]);
+		jm[6].add(jmi[9]);
+		jm[6].add(jmi[10]);
+		jm[6].add(jmi[11]);
 		for (int x = 0; x < 5; x++) {
 			jm[0].add(jmi[x]);
 		}
 
 		for (int x = 0; x < 12; x++) {
 			jmi[x].setFont(MyTools.f2);
+			jmi[x].addActionListener(this);
 		}
 		jmb = new JMenuBar();
 
-		for (int x = 0; x < 6; x++) {
+		for (int x = 0; x < 7; x++) {
 			jm[x].setFont(MyTools.f3);
 			jmb.add(jm[x]);
 		}
@@ -165,7 +185,7 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 		p1_jl[0] = new JLabel(new ImageIcon("image/center_image/label_1.gif"));
 		p1_jl[1] = new JLabel("人  事  管  理", new ImageIcon(
 				"image/center_image/label_2.jpg"), 0);
-		p1_jl[2] = new JLabel("登  陆  管  理", new ImageIcon(
+		p1_jl[2] = new JLabel("客  人  信  息", new ImageIcon(
 				"image/center_image/label_3.jpg"), 0);
 		p1_jl[3] = new JLabel("预  定  管  理", new ImageIcon(
 				"image/center_image/label_4.jpg"), 0);
@@ -173,7 +193,7 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 				"image/center_image/label_5.jpg"), 0);
 		p1_jl[5] = new JLabel("客  人  信  息", new ImageIcon(
 				"image/center_image/label_6.jpg"), 0);
-		p1_jl[6] = new JLabel("流  水  统  计", new ImageIcon(
+		p1_jl[6] = new JLabel("流  水  盘  存", new ImageIcon(
 				"image/center_image/label_7.jpg"), 0);
 		p1_jl[7] = new JLabel("媒  体  播  放", new ImageIcon(
 				"image/center_image/label_8.jpg"), 0);
@@ -219,7 +239,7 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 		jp3.add(ei, "1");
 
 		// 登录界面
-		EmpLogin el = new EmpLogin();
+		CustomerInfor el = new CustomerInfor();
 		jp3.add(el, "2");
 
 		// 菜单价格
@@ -273,7 +293,8 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 		jp5.add(ip1);
 	}
 
-	public Window1() {
+	public Window1(String uid) {
+		this.uid=uid;
 		try {
 			titleIcon = ImageIO.read(new File("image/title.gif"));
 		} catch (IOException e) {
@@ -306,6 +327,17 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 		// TODO 自动生成的方法存根
 		this.showTime.setText("当前时间："
 				+ Calendar.getInstance().getTime().toLocaleString() + "   ");
+		if(e.getSource()==jmi[0]){
+			new UserLogin();
+			this.dispose();
+		}
+		
+		else if(e.getSource()==jmi[1]){
+			new ModifyPassword(this, "修改密碼", true,uid);
+		}
+		else if(e.getSource()==tools[0]){
+			new Calculator();
+		}
 	}
 
 	@Override
