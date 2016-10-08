@@ -2,6 +2,7 @@ package com.partys.login;
 //这是人事管理界面
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -92,6 +93,8 @@ public class EmpInfo extends JPanel implements ActionListener,KeyListener{
 		this.add(p1,"North");
 		this.add(p2,"Center");
 		this.add(p5,"South");
+		
+		
 		this.setVisible(true);		
 	}
 	

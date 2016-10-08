@@ -2,6 +2,7 @@ package com.partys.login;
 //这是人事管理界面
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -10,6 +11,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -37,30 +39,44 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener{
 	private JScrollPane jsp;
 	private EmpModel em=null;
 	private boolean detail=false;
-	private JComboBox<String> dianmian;
+	private JComboBox<String> dianmian,keyWords;
 	private CustomerModel cm;
-	private JPanel p6;
+	private JPanel p6,p7,p8;
+	private JLabel right,left;
 	public CustomerInfor()
 	{
 		//创建组件
 		
 		//北
-		p6=new JPanel(new GridLayout(1,5));
-		p1=new JPanel(new GridLayout(1,2));
-		p1_l1=new JLabel("请输入客人编号:");		
+		p7=new JPanel(new FlowLayout(FlowLayout.LEFT));
+		p6=new JPanel(new FlowLayout(FlowLayout.LEFT));
+		p8=new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		p1=new JPanel(new GridLayout(1,3));
+		p1_l1=new JLabel("关键字:");		
 		p1_l1.setFont(MyTools.f1);
 		cm=new CustomerModel();
 		dianmian=new JComboBox<String>(cm.getAllPartys());
+		String[] keys={"编    号","姓    名","联系方式"};
+		keyWords=new JComboBox<String>(keys);
 		p1_jtf=new JTextField(20);
 		p1_jtf.addKeyListener(this);
 		p1_jb=new JButton("查询");
 		p1_jb.addActionListener(this);
 		p1_jb.setFont(MyTools.f4);
-		p6.add(dianmian);
+		dianmian.setBounds(30, 30, 50, 50);
+		p1.setBounds(0, 0, 600, 100);
+		p6.add(dianmian);		
+		p7.add(p1_l1);
+		p7.add(keyWords);
+		p7.add(p1_jtf);
+		p7.add(p1_jb);	
+		right=new JLabel(new ImageIcon("image/left.png"));
+		p8.add(right);
 		
-		p1.add(p1_l1);
-		p1.add(p1_jtf);
-		p1.add(p1_jb);		
+		p1.add(p6);
+		p1.add(p7);
+		p1.add(p8);
+
 		//中间		
 		p2=new JPanel(new BorderLayout());
 		String []params={"1"};

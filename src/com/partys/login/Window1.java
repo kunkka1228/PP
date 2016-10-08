@@ -59,7 +59,9 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 	private CardLayout myCard;
 	private Timer t;// 可定时触发Action事件
 	private String uid;
-
+	private EmpInfo ei;
+	private CustomerInfor customerInfor;
+	private MenuInfo mi;
 	public static void main(String[] args) {
 		// TODO 自动生成的方法存根
 		new Window1("1111");
@@ -235,15 +237,15 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 
 		jp3.add(jp3Image, "0");
 		// 人事管理
-		EmpInfo ei = new EmpInfo();
+		ei = new EmpInfo();
 		jp3.add(ei, "1");
 
 		// 登录界面
-		CustomerInfor el = new CustomerInfor();
-		jp3.add(el, "2");
+		customerInfor = new CustomerInfor();
+		jp3.add(customerInfor, "2");
 
 		// 菜单价格
-		MenuInfo mi = new MenuInfo();
+		mi = new MenuInfo();
 		jp3.add(mi, "3");
 
 		// 报表统计
@@ -344,21 +346,32 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 	public void mouseClicked(MouseEvent arg0) {
 		// TODO 自动生成的方法存根
 		if (arg0.getSource() == p1_jl[1]) {
+			ei = new EmpInfo();
+			jp3.add(ei, "1");
 			this.myCard.show(jp3, "1");
 		} else if (arg0.getSource() == p1_jl[2]) {
+			customerInfor=new CustomerInfor();
+			jp3.add(customerInfor, "2");
 			this.myCard.show(jp3, "2");
+			
 		} else if (arg0.getSource() == p1_jl[3]) {
 			this.myCard.show(jp3, "3");
+			
 		} else if (arg0.getSource() == p1_jl[4]) {
 			this.myCard.show(jp3, "4");
+			
 		} else if (arg0.getSource() == p1_jl[5]) {
 			this.myCard.show(jp3, "5");
+			
 		} else if (arg0.getSource() == p1_jl[6]) {
 			this.myCard.show(jp3, "6");
+			
 		} else if (arg0.getSource() == p1_jl[7]) {
 			MediaHelp mh = new MediaHelp();
+			
 		} else if (arg0.getSource() == p2_jl1) {
 			this.jsp.setDividerLocation(0);
+			
 		} else if (arg0.getSource() == p2_jl2) {
 			this.jsp.setDividerLocation(Toolkit.getDefaultToolkit()
 					.getScreenSize().width);

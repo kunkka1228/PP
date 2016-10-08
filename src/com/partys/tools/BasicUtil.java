@@ -24,4 +24,9 @@ public class BasicUtil {
 		arr[1]=height;
 		return arr;
 	}
+	
+	public static String toDouble(int a){
+		return "0"+a;
+		
+	}
 }
