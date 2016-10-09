@@ -59,9 +59,8 @@ public class CostNum extends JPanel implements ActionListener{
 		p5=new JPanel(new BorderLayout());
 		p3=new JPanel(new FlowLayout(FlowLayout.LEFT));
 		
-		sql="select count(*) from costnum";
 		em=new EmpModel();
-		int sum=em.getNum(sql);
+		int sum=em.getNum();
 		
 //		jtable.setModel(em);
 		//System.out.print(sum);

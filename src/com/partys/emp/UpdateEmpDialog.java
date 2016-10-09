@@ -1,4 +1,5 @@
-package com.partys.login;
+package com.partys.emp;
+
 import java.awt.Color;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
@@ -18,30 +19,30 @@ import com.partys.commonparent.CommonDialog;
 import com.partys.model.EmpModel;
 import com.partys.tools.BasicUtil;
 import com.partys.tools.MyTools;
-//添加界面
-public class AddEmpDialog extends CommonDialog implements ActionListener{
 
-	/**
-	 * 
-	 */	
+public class UpdateEmpDialog extends CommonDialog implements ActionListener {
+	
+	
 	private static final long serialVersionUID = 5368380479953346575L;
 	private JLabel[] jl=new JLabel[11];
 	private JTextField[] jtf=new JTextField[7];
 	private JButton jb1,jb2;
+	private int rowNum;
+	private EmpModel em;
 	private JRadioButton male,female;
 	private ButtonGroup bg;
 	private JComboBox<String> year,month,day,joblevel,marriage;
 	private JPanel[] jp=new JPanel[12];
 	private JLabel year_lable,month_lable,day_lable;
 
-	
-	public AddEmpDialog(Frame owner, String title, boolean modal) {
+	public UpdateEmpDialog(Frame owner, String title, boolean modal,int rowNum, EmpModel em) {
 		super(owner, title, modal);
-		// TODO 自动生成的构造函数存根
-		iniAddEmpDialog();
+		this.rowNum=rowNum;
+		this.em=em;
+		iniUpdateEmpDialog();
 	}
-
-	private void iniAddEmpDialog(){
+		
+	private void iniUpdateEmpDialog(){		
 		jl[0]=new JLabel("编号:");		
 		jl[1]=new JLabel("姓名:");				
 		jl[2]=new JLabel("性别:");
@@ -65,6 +66,7 @@ public class AddEmpDialog extends CommonDialog implements ActionListener{
 			jtf[x]=new JTextField(20);	
 			jtf[x].setBounds(95,10,215, 30);
 		}
+		jtf[0].setEditable(false);	
 				
 		male=new JRadioButton("男");
 		male.setBounds(95, 10, 40, 30);
@@ -146,6 +148,29 @@ public class AddEmpDialog extends CommonDialog implements ActionListener{
 			jp[x].setBorder(new EtchedBorder());
 		}
 		
+		
+		//赋值
+		jtf[0].setText((String)em.getValueAt(rowNum, 0));
+		jtf[1].setText((String)em.getValueAt(rowNum, 1));
+		if(((String)em.getValueAt(rowNum, 2)).equals("男")){
+			male.setSelected(true);
+		}
+		else{
+			female.setSelected(true);
+		}
+		jtf[2].setText((String)em.getValueAt(rowNum, 3));
+		String birthday=(String)em.getValueAt(rowNum, 4);
+		String[] birthArr=birthday.split("-");
+		
+		year.setSelectedItem(birthArr[0]);
+		month.setSelectedItem(birthArr[1]);
+		day.setSelectedItem(birthArr[2]);
+		jtf[3].setText((String)em.getValueAt(rowNum, 5));
+		jtf[4].setText((String)em.getValueAt(rowNum, 6));
+		joblevel.setSelectedItem((String)em.getValueAt(rowNum, 7));
+		marriage.setSelectedItem((String)em.getValueAt(rowNum, 8));
+		jtf[5].setText((String)em.getValueAt(rowNum, 9));
+		jtf[6].setText((String)em.getValueAt(rowNum, 10));
 		jp[0].add(jl[0]);
 		jp[0].add(jtf[0]);
 		
@@ -193,39 +218,37 @@ public class AddEmpDialog extends CommonDialog implements ActionListener{
 		for(int x=0;x<12;x++){
 			this.add(jp[x]);
 		}
-	
+		
 		this.setTitle("修改信息");		
 		super.initBasic(360,537);
 	}
-	
+		
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-
+		// TODO 自动生成的方法存根
 		if(arg0.getSource()==jb1)
 		{
 			String[] params=new String[11];
-			String sql="insert into renshi values(?,?,?,?,?,?,?,?,?,?,?)";
-			params[0]=jtf[0].getText();			
-			params[1]=jtf[1].getText();
+			
+			params[0]=jtf[1].getText();
 			if(male.isSelected()){
-				params[2]=male.getText();
+				params[1]=male.getText();
 			}		
 			else{
-				params[2]=female.getText();
+				params[1]=female.getText();
 			}
-			params[3]=jtf[2].getText();
-			params[4]=(String)year.getSelectedItem()+"-"+(String)month.getSelectedItem()+"-"+(String)day.getSelectedItem();
+			params[2]=jtf[2].getText();
+			params[3]=(String)year.getSelectedItem()+"-"+(String)month.getSelectedItem()+"-"+(String)day.getSelectedItem();
 			
-		
-			params[5]=jtf[3].getText();
-			params[6]=jtf[4].getText();
-			params[7]=(String)joblevel.getSelectedItem();
-			params[8]=(String)marriage.getSelectedItem();
-			
-			params[9]=jtf[5].getText();
-			params[10]=jtf[6].getText();
+			params[4]=jtf[3].getText();
+			params[5]=jtf[4].getText();
+			params[6]=(String)joblevel.getSelectedItem();
+			params[7]=(String)marriage.getSelectedItem();
+			params[8]=jtf[5].getText();
+			params[9]=jtf[6].getText();
+			params[10]=jtf[0].getText();
 			EmpModel em=new EmpModel();
-			if(!em.UpdateModel(sql, params))
+			if(!em.updateItem(params))
 			{
 				JOptionPane.showMessageDialog(null, "修改失败，请输入正确数据类型!");				
 			}
@@ -240,5 +263,5 @@ public class AddEmpDialog extends CommonDialog implements ActionListener{
 			super.setFlag(true);
 			this.dispose();
 		}
-	}	
+	}			
 }

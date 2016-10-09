@@ -65,7 +65,7 @@ public class MenuInfo extends JPanel implements ActionListener{
 		
 		sql="select count(*) from menu";
 		em=new EmpModel();
-		int sum=em.getNum(sql);
+		int sum=em.getNum();
 		
 //		jtable.setModel(em);
 		//System.out.print(sum);

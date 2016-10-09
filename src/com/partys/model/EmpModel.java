@@ -4,127 +4,58 @@
 package com.partys.model;
 
 
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.util.Vector;
-
-import javax.swing.table.AbstractTableModel;
-
 import com.partys.db.SqlHelper;
-public class EmpModel extends AbstractTableModel{
+public class EmpModel extends CommonModel{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 7055176924075699409L;
-	public Vector<String> colums;
-	public Vector<Vector<String>>rows;
+
 	
-	public boolean UpdateModel(String sql,String []params)
+	
+	
+	public int getNum()
 	{
 		SqlHelper hp=new SqlHelper();
-		return hp.updateExecete(sql,params);
-	}
-	public int getNum(String sql)
-	{
-		SqlHelper hp=new SqlHelper();
+		String sql="select count(*) from renshi";
 		int sum=hp.queryExecute(sql);
 		return sum;
 	}
-	public void query(String sql,String[]params)
-	{
-		//初始化
-		
-		colums=new Vector<String>();
-		rows=new Vector<Vector<String>>();
-		SqlHelper hp=new SqlHelper();
-		ResultSet rs=hp.queryExecute(sql, params);
-		try {
-			ResultSetMetaData rsmd=rs.getMetaData();
-			for(int i=0;i<rsmd.getColumnCount();i++)
-			{
-				this.colums.add(rsmd.getColumnName(i+1));	
-			}	
-			while(rs.next())
-			{
-				Vector<String> temp=new Vector<String>();
-				for(int i=0;i<rsmd.getColumnCount();i++)
-				{
-					temp.add(rs.getString(i+1));
-				}
-				rows.add(temp);
-			}
-		} catch (Exception e) {
-			// TODO 自动生成的 catch 块
-			e.printStackTrace();
-		}
-		finally
-		{
-			hp.close();
-		}
+	
+	public void querryOnDataById(String[] params){
+		String sql="select * from renshi where id=?";
+		query(sql, params);
 	}
 	
-
-
-	@Override
-	public int getColumnCount() {
-		// TODO 自动生成的方法存根
-		return this.colums.size();
+	public void queryByNameOrId(String[] params){
+		String sql="select id,name,sex,joblevel,address,edu from renshi where id=? or name=?";
+		query(sql, params);	
 	}
-
-	@Override
-	public int getRowCount() {
-		// TODO 自动生成的方法存根
-		return this.rows.size();
+	
+	public void deleteByID(String[] params){
+		String sql="delete from renshi where id=?";
+		UpdateModel(sql,params);
 	}
-
-	@Override
-	public String getColumnName(int arg0) {
-		// TODO 自动生成的方法存根
-		String name="";
-		if(this.colums.get(arg0).toString().equals("id")){
-			name="编号";
-		}
-		else if(this.colums.get(arg0).toString().equals("name")){
-			name="姓名";
-		}
-		else if(this.colums.get(arg0).toString().equals("sex")){
-			name="性别";
-		}
-		else if(this.colums.get(arg0).toString().equals("address")){
-			name="地址";
-		}
-		else if(this.colums.get(arg0).toString().equals("birthday")){
-			name="生日";
-		}
-		else if(this.colums.get(arg0).toString().equals("IDCard")){
-			name="身份证号";
-		}
-		else if(this.colums.get(arg0).toString().equals("edu")){
-			name="学历";
-		}
-		else if(this.colums.get(arg0).toString().equals("joblevel")){
-			name="职位";
-		}
-		else if(this.colums.get(arg0).toString().equals("marriage")){
-			name="婚姻";
-		}
-		else if(this.colums.get(arg0).toString().equals("tel")){
-			name="联系方式";
-		}
-		else if(this.colums.get(arg0).toString().equals("mail")){
-			name="邮箱";
-		}
-		else if(this.colums.get(arg0).toString().equals("password")){
-			name="密码";
-		}
-
-		return name;
+	
+	public void querryAll(){
+		String sql="select * from renshi where 1=1";
+		query(sql,null);
 	}
-	@Override
-	public Object getValueAt(int arg0, int arg1) {
-		// TODO 自动生成的方法存根
-		Object obj=rows.get(arg0).get(arg1);
-		return obj;
+	
+	public void querySimpleInfor(){
+		String []params={"1"};
+		String sql="select id,name,sex,joblevel,address,edu from renshi where 1=?";
+		query(sql,params);
+	}
+	
+	public boolean addItem(String[] params){
+		String sql="insert into renshi values(?,?,?,?,?,?,?,?,?,?,?)";
+		return UpdateModel(sql,params);
+	}
+	
+	public boolean updateItem(String[] params){
+		String sql="update renshi set name=?,sex=? ,address=? , birthday=? , IDCard=?,edu=?,joblevel=?,marriage=?,tel=?,mail=? where id=?";
+		return UpdateModel(sql,params);
 	}
 
 }

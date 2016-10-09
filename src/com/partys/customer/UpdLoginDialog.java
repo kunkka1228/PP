@@ -1,4 +1,4 @@
-package com.partys.login;
+package com.partys.customer;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import com.partys.customer.CustomerInfor;
 import com.partys.model.EmpModel;
 import com.partys.tools.MyTools;
 //ÃÌº”ΩÁ√Ê

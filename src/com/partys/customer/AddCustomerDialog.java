@@ -1,5 +1,4 @@
-package com.partys.login;
-
+package com.partys.customer;
 import java.awt.Color;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
@@ -19,41 +18,45 @@ import com.partys.commonparent.CommonDialog;
 import com.partys.model.EmpModel;
 import com.partys.tools.BasicUtil;
 import com.partys.tools.MyTools;
+//添加界面
+public class AddCustomerDialog extends CommonDialog implements ActionListener{
 
-public class UpdateEmpDialog extends CommonDialog implements ActionListener {
-	
-	
+	/**
+	 * 
+	 */	
 	private static final long serialVersionUID = 5368380479953346575L;
 	private JLabel[] jl=new JLabel[11];
 	private JTextField[] jtf=new JTextField[7];
 	private JButton jb1,jb2;
-	private int rowNum;
-	private EmpModel em;
 	private JRadioButton male,female;
 	private ButtonGroup bg;
-	private JComboBox<String> year,month,day,joblevel,marriage;
+	private JComboBox<String> year,month,day,place,categroy,hour,min,h,m,y,mo,da;
 	private JPanel[] jp=new JPanel[12];
 	private JLabel year_lable,month_lable,day_lable;
 
-	public UpdateEmpDialog(Frame owner, String title, boolean modal,int rowNum, EmpModel em) {
+	
+	public AddCustomerDialog(Frame owner, String title, boolean modal) {
 		super(owner, title, modal);
-		this.rowNum=rowNum;
-		this.em=em;
-		iniUpdateEmpDialog();
+		// TODO 自动生成的构造函数存根
+		iniAddEmpDialog();
 	}
-		
-	private void iniUpdateEmpDialog(){		
+	
+	public static void main(String[] args) {
+		new AddCustomerDialog(null,"",false);
+	}
+
+	private void iniAddEmpDialog(){
 		jl[0]=new JLabel("编号:");		
 		jl[1]=new JLabel("姓名:");				
 		jl[2]=new JLabel("性别:");
-		jl[3]=new JLabel("地址:");
-		jl[4]=new JLabel("生日:");
-		jl[5]=new JLabel("身份证:");
-		jl[6]=new JLabel("学历:");
-		jl[7]=new JLabel("职位:");
-		jl[8]=new JLabel("婚姻:");
-		jl[9]=new JLabel("电话:");
-		jl[10]=new JLabel("邮箱 :");		
+		jl[3]=new JLabel("电话:");
+		jl[4]=new JLabel("日期:");
+		jl[5]=new JLabel("预定日期:");
+		jl[6]=new JLabel("起始时间:");
+		jl[7]=new JLabel("预定场地:");
+		jl[8]=new JLabel("团购种类:");
+		jl[9]=new JLabel("结束时间:");
+		jl[10]=new JLabel("团购号:");		
 		
 		for(int x=0;x<11;x++){
 			if(x==8){
@@ -62,11 +65,10 @@ public class UpdateEmpDialog extends CommonDialog implements ActionListener {
 			jl[x].setBounds(30,10,80,30);
 		}
 		
-		for(int x=0;x<7;x++){
+		for(int x=0;x<4;x++){
 			jtf[x]=new JTextField(20);	
 			jtf[x].setBounds(95,10,215, 30);
 		}
-		jtf[0].setEditable(false);	
 				
 		male=new JRadioButton("男");
 		male.setBounds(95, 10, 40, 30);
@@ -80,8 +82,11 @@ public class UpdateEmpDialog extends CommonDialog implements ActionListener {
 		String[] years=new String[50];
 		String[] months=new String[12];
 		String[] days=new String[31];
+		
+		String[] hours=new String[25];
+		String[] mins=new String[61];
 		for(int x=0;x<50;x++){
-			years[x]=(x+1970)+"";
+			years[x]=(x+2016)+"";
 		}
 		
 		for(int x=1;x<13;x++){
@@ -102,6 +107,25 @@ public class UpdateEmpDialog extends CommonDialog implements ActionListener {
 			}			
 		}
 		
+		for(int x=0;x<25;x++){
+			if(x<10){
+				hours[x]=BasicUtil.toDouble(x);
+			}
+			else{
+				hours[x]=x+"";
+			}			
+		}
+		
+		for(int x=0;x<61;x++){
+			if(x<10){
+				mins[x]=BasicUtil.toDouble(x);
+			}
+			else{
+				mins[x]=x+"";
+			}			
+		}
+		
+		
 		year=new JComboBox(years);
 		year.setBounds(95, 10, 60, 30);
 		month=new JComboBox(months);
@@ -109,19 +133,37 @@ public class UpdateEmpDialog extends CommonDialog implements ActionListener {
 		day=new JComboBox(days);
 		day.setBounds(250, 10, 45, 30);
 		
+		y=new JComboBox(years);
+		y.setBounds(95, 10, 60, 30);
+		mo=new JComboBox(months);
+		mo.setBounds(180, 10, 45, 30);
+		da=new JComboBox(days);
+		da.setBounds(250, 10, 45, 30);
+		
+		hour=new  JComboBox(hours);
+		hour.setBounds(95, 10, 45, 30);
+		min=new  JComboBox(mins);
+		min.setBounds(150, 10, 45, 30);
+		
+		h=new  JComboBox(hours);
+		h.setBounds(95, 10, 45, 30);
+		m=new  JComboBox(mins);
+		m.setBounds(150, 10, 45, 30);
+		
+		
 		year_lable=new JLabel("年");
 		year_lable.setBounds(160, 10, 30, 30);
 		month_lable=new JLabel("月");
 		month_lable.setBounds(230, 10, 30, 30);
 		day_lable=new JLabel("日");
 		day_lable.setBounds(300, 10, 30, 30);
-						
-		String[] jobs={"经理","员工"};		
-		joblevel=new JComboBox(jobs);
-		joblevel.setBounds(95, 10, 60, 30);
-		String[] marr={"已婚","未婚","离异","丧偶"};
-		marriage=new JComboBox(marr);
-		marriage.setBounds(250, 10, 60, 30);
+		String[] marr={"朝悦1号","朝悦2号","高碑店","双井"};				
+		String[] jobs={"无","点评","糯米","美团","拉手","其他"};		
+		place=new JComboBox(marr);
+		place.setBounds(95, 10, 80, 30);
+		
+		categroy=new JComboBox(jobs);
+		categroy.setBounds(250, 10, 60, 30);
 		
 		jb1=new JButton("確定");
 		jb1.setBounds(95, 10, 70, 30);
@@ -148,29 +190,6 @@ public class UpdateEmpDialog extends CommonDialog implements ActionListener {
 			jp[x].setBorder(new EtchedBorder());
 		}
 		
-		
-		//赋值
-		jtf[0].setText((String)em.getValueAt(rowNum, 0));
-		jtf[1].setText((String)em.getValueAt(rowNum, 1));
-		if(((String)em.getValueAt(rowNum, 2)).equals("男")){
-			male.setSelected(true);
-		}
-		else{
-			female.setSelected(true);
-		}
-		jtf[2].setText((String)em.getValueAt(rowNum, 3));
-		String birthday=(String)em.getValueAt(rowNum, 4);
-		String[] birthArr=birthday.split("-");
-		
-		year.setSelectedItem(birthArr[0]);
-		month.setSelectedItem(birthArr[1]);
-		day.setSelectedItem(birthArr[2]);
-		jtf[3].setText((String)em.getValueAt(rowNum, 5));
-		jtf[4].setText((String)em.getValueAt(rowNum, 6));
-		joblevel.setSelectedItem((String)em.getValueAt(rowNum, 7));
-		marriage.setSelectedItem((String)em.getValueAt(rowNum, 8));
-		jtf[5].setText((String)em.getValueAt(rowNum, 9));
-		jtf[6].setText((String)em.getValueAt(rowNum, 10));
 		jp[0].add(jl[0]);
 		jp[0].add(jtf[0]);
 		
@@ -194,66 +213,76 @@ public class UpdateEmpDialog extends CommonDialog implements ActionListener {
 		jp[4].add(day_lable);
 		
 		jp[5].add(jl[5]);
-		jp[5].add(jtf[3]);
+		jp[5].add(y);
+		jp[5].add(year_lable);
+		jp[5].add(mo);
+		jp[5].add(month_lable);
+		jp[5].add(da);
+		jp[5].add(day_lable);
 		
 		jp[6].add(jl[6]);
-		jp[6].add(jtf[4]);
+		jp[6].add(hour);
+		jp[6].add(min);
 		
-		jp[7].add(jl[7]);
-		jp[7].add(joblevel);
+		jp[7].add(jl[9]);
+		jp[7].add(h);
+		jp[7].add(m);
+		
+		jp[8].add(jl[7]);
+		jp[8].add(place);
 		jl[8].setBounds(190, 10, 80, 30);
-		jp[7].add(jl[8]);
-		jp[7].add(marriage);
-		
-		jp[8].add(jl[9]);
-		jp[8].add(jtf[5]);
+		jp[8].add(jl[8]);
+		jp[8].add(categroy);
 		
 		jp[9].add(jl[10]);
-		jp[9].add(jtf[6]);
+		jp[9].add(jtf[3]);
 		jp[10].add(jb1);
 		jp[10].add(jb2);
 		
 		
 		this.setLayout(null);
 		for(int x=0;x<12;x++){
+		
 			this.add(jp[x]);
 		}
-		
-		this.setTitle("修改信息");		
+	
+		this.setTitle("添加信息");		
 		super.initBasic(360,537);
 	}
-		
+	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		// TODO 自动生成的方法存根
+
 		if(arg0.getSource()==jb1)
 		{
 			String[] params=new String[11];
-			String sql="update renshi set name=?,sex=? ,address=? , birthday=? , IDCard=?,edu=?,joblevel=?,marriage=?,tel=?,mail=? where id=?";
-			params[0]=jtf[1].getText();
+			
+			params[0]=jtf[0].getText();			
+			params[1]=jtf[1].getText();
 			if(male.isSelected()){
-				params[1]=male.getText();
+				params[2]=male.getText();
 			}		
 			else{
-				params[1]=female.getText();
+				params[2]=female.getText();
 			}
-			params[2]=jtf[2].getText();
-			params[3]=(String)year.getSelectedItem()+"-"+(String)month.getSelectedItem()+"-"+(String)day.getSelectedItem();
+			params[3]=jtf[2].getText();
+			params[4]=(String)year.getSelectedItem()+"-"+(String)month.getSelectedItem()+"-"+(String)day.getSelectedItem();
 			
-			params[4]=jtf[3].getText();
-			params[5]=jtf[4].getText();
-			params[6]=(String)joblevel.getSelectedItem();
-			params[7]=(String)marriage.getSelectedItem();
-			params[8]=jtf[5].getText();
-			params[9]=jtf[6].getText();
-			params[10]=jtf[0].getText();
+		
+			params[5]=jtf[3].getText();
+			params[6]=jtf[4].getText();
+			params[7]=(String)place.getSelectedItem();
+			params[8]=(String)categroy.getSelectedItem();
+			
+			params[9]=jtf[5].getText();
+			params[10]=jtf[6].getText();
 			EmpModel em=new EmpModel();
-			if(!em.UpdateModel(sql, params))
+			if(!em.addItem(params))
 			{
-				JOptionPane.showMessageDialog(null, "修改失败，请输入正确数据类型!");				
+				JOptionPane.showMessageDialog(null, "添加失败，请输入正确数据类型!");				
 			}
 			else{
-				JOptionPane.showMessageDialog(null, "恭喜！修改成功！");
+				JOptionPane.showMessageDialog(null, "恭喜！添加成功！");
 				this.dispose();
 			}
 				
@@ -263,5 +292,5 @@ public class UpdateEmpDialog extends CommonDialog implements ActionListener {
 			super.setFlag(true);
 			this.dispose();
 		}
-	}			
+	}	
 }

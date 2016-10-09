@@ -44,8 +44,10 @@ public class CommonDialog extends JDialog {
 		}
 		this.setIconImage(titleIcon);
 		setCenter(width, height);
+		this.setResizable(false);
 		this.setSize(width, height);
 		this.setVisible(true);
+		
 	}
 
 	private void setCenter(int width, int height) {

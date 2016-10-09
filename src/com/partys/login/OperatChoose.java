@@ -66,7 +66,7 @@ public class OperatChoose extends JPanel implements ActionListener,MouseListener
 		
 		sql="select count(*) from sound";
 		em=new EmpModel();
-		int sum=em.getNum(sql);
+		int sum=em.getNum();
 		
 //		jtable.setModel(em);
 		//System.out.print(sum);

@@ -28,6 +28,8 @@ import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
 import javax.swing.Timer;
 
+import com.partys.customer.CustomerInfor;
+import com.partys.emp.EmpInfo;
 import com.partys.tools.BasicUtil;
 import com.partys.tools.ImagePanel;
 import com.partys.tools.MediaHelp;
