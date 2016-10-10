@@ -187,16 +187,13 @@ public class AddEmpDialog extends CommonDialog implements ActionListener{
 		jp[9].add(jtf[6]);
 		jp[10].add(jb1);
 		jp[10].add(jb2);
-		
-		
+				
 		this.setLayout(null);
 		for(int x=0;x<12;x++){
 			this.add(jp[x]);
 		}
 		
-	
-		this.setTitle("ÐÞ¸ÄÐÅÏ¢");		
-		super.initBasic(360,537);
+		super.initBasic(360,530);
 	}
 	
 	@Override

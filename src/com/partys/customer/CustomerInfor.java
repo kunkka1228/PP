@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.border.EtchedBorder;
 
 import com.partys.emp.AddEmpDialog;
 import com.partys.model.CustomerModel;
@@ -40,6 +41,7 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener{
 	private JComboBox<String> dianmian,keyWords;
 	private JPanel p6,p7,p8,p9;
 	private JLabel right,left;
+	private JLabel empt1,empt2;
 	public CustomerInfor()
 	{
 		//创建组件
@@ -47,8 +49,7 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener{
 		//北
 		p7=new JPanel(new FlowLayout(FlowLayout.LEFT));
 		p6=new JPanel(new FlowLayout(FlowLayout.LEFT));
-		p8=new JPanel(null);
-		p9=new JPanel(null);
+		p8=new JPanel(new FlowLayout(FlowLayout.RIGHT,15,9));
 		p1=new JPanel(new GridLayout(1,3));
 		p1_l1=new JLabel("关键字:");		
 		p1_l1.setFont(MyTools.f1);
@@ -70,14 +71,15 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener{
 		p7.add(p1_jb);	
 		left=new JLabel(new ImageIcon("image/left.png"));
 		right=new JLabel(new ImageIcon("image/right.png"));
-		left.setBounds(400, 15, 13, 12);
-		right.setBounds(440, 15, 13, 12);
-		p8.add(right);
+		empt2=new JLabel(" ");
 		p8.add(left);
+		p8.add(right);
+		p8.add(empt2);
+		
 		
 		p1.add(p6);
 		p1.add(p7);
-		p1.add(p9);
+		p1.add(p8);
 
 		//中间		
 		p2=new JPanel(new BorderLayout());
@@ -90,7 +92,7 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener{
 		
 		//南
 		p5=new JPanel(new BorderLayout());
-		p3=new JPanel(new FlowLayout(FlowLayout.LEFT));		
+		p3=new JPanel(new FlowLayout(FlowLayout.LEFT,5,7));		
 
 		int sum=cm.getNum();
 		p3_l1=new JLabel("总记录是"+sum+"条");		
@@ -114,7 +116,6 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener{
 		p4.add(p4_jb4);
 		p5.add(p3,"West");
 		p5.add(p4,"East");
-		p5.add(p8,"Center");
 		this.setLayout(new BorderLayout());
 		this.add(p1,"North");
 		this.add(p2,"Center");
@@ -161,7 +162,7 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener{
 		}
 
 		else if (arg0.getSource().equals(p4_jb2)) {
-			AddEmpDialog emd = new AddEmpDialog(null, "添加", true);
+			AddCustomerDialog emd = new AddCustomerDialog(null, "添加", true);
 			if (!emd.getFlag()) {
 				cm = new CustomerModel();
 				cm.querySimpleInfor();

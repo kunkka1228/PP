@@ -218,9 +218,8 @@ public class UpdateEmpDialog extends CommonDialog implements ActionListener {
 		for(int x=0;x<12;x++){
 			this.add(jp[x]);
 		}
-		
-		this.setTitle("ÐÞ¸ÄÐÅÏ¢");		
-		super.initBasic(360,537);
+			
+		super.initBasic(360,530);
 	}
 		
 	@Override

@@ -247,7 +247,7 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 		}
 	
 		this.setTitle("ÃÌº”–≈œ¢");		
-		super.initBasic(360,537);
+		super.initBasic(360,530);
 	}
 	
 	@Override

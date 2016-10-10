@@ -65,7 +65,7 @@ public class EmpInfo extends JPanel implements ActionListener, KeyListener {
 
 		// 南
 		p5 = new JPanel(new BorderLayout());
-		p3 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		p3 = new JPanel(new FlowLayout(FlowLayout.LEFT,5,7));
 
 		em = new EmpModel();
 		int sum = em.getNum();
@@ -136,7 +136,7 @@ public class EmpInfo extends JPanel implements ActionListener, KeyListener {
 		}
 
 		else if (arg0.getSource().equals(p4_jb2)) {
-			AddEmpDialog emd = new AddEmpDialog(null, "添加", true);
+			AddEmpDialog emd = new AddEmpDialog(null, "添加信息", true);
 			if (!emd.getFlag()) {
 				em = new EmpModel();
 				em.querySimpleInfor();
@@ -161,7 +161,7 @@ public class EmpInfo extends JPanel implements ActionListener, KeyListener {
 				} else {
 					em.querryAll();
 				}
-				UpdateEmpDialog up = new UpdateEmpDialog(null, "修改", true,
+				UpdateEmpDialog up = new UpdateEmpDialog(null, "修改信息", true,
 						rowNum, em);
 				if (!up.getFlag()) {
 					em = new EmpModel();
