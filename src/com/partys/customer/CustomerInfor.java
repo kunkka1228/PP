@@ -43,9 +43,9 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 	private CustomerModel cm;
 	private boolean detail=false;
 	private JComboBox<String> dianmian,keyWords;
-	private JPanel p6,p7,p8,p9;
+	private JPanel p6,p7,p8;
 	private JButton right,left;
-	private JLabel empt1,empt2;
+	private JLabel empt;
 	public CustomerInfor()
 	{
 		//创建组件
@@ -58,7 +58,10 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 		p1_l1=new JLabel("关键字:");		
 		p1_l1.setFont(MyTools.f1);
 		cm=new CustomerModel();
-		dianmian=new JComboBox<String>(cm.getAllPartys());
+		String[] dianmianArr=cm.getAllPartys();
+		
+		dianmian=new JComboBox<String>(dianmianArr);
+		dianmian.addActionListener(this);
 		String[] keys={"编    号","姓    名","联系方式"};
 		keyWords=new JComboBox<String>(keys);
 		p1_jtf=new JTextField(11);
@@ -79,10 +82,10 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 		btnSetting(right);
 
 		
-		empt2=new JLabel(" ");
+		empt=new JLabel(" ");
 		p8.add(left);
 		p8.add(right);
-		p8.add(empt2);
+		p8.add(empt);
 		
 		
 		p1.add(p6);
@@ -133,6 +136,9 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+		
+		
+		
 		if (arg0.getSource().equals(p1_jb)) {
 			if (p1_jtf.getText().trim().equals("")) {
 				cm = new CustomerModel();
@@ -205,6 +211,8 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 //					detail = false;
 //				}
 			}
+			
+			
 		}
 
 		else if (arg0.getSource().equals(p4_jb4)) {
@@ -223,6 +231,13 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 
 				querry();
 			}
+		}
+		else if(arg0.getSource()==dianmian){
+			String place=dianmian.getSelectedItem().toString();
+			cm = new CustomerModel();
+			cm.filterByPlace(place);
+			
+			querry();
 		}
 	}
 

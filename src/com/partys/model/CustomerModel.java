@@ -26,10 +26,14 @@ public class CustomerModel extends CommonModel{
 			e.printStackTrace();
 		}
 		int len=al.size();
-		String[] arr=new String[len];
+		String[] arr=new String[len+1];
 		
-		for(int x=0;x<len;x++){
-			arr[x]=al.get(x);
+		for(int x=0;x<arr.length;x++){
+			if(x==0){
+				arr[0]="所有";
+				continue;
+			}
+			arr[x]=al.get(x-1);
 		}
 		
 		return arr;
@@ -77,4 +81,20 @@ public class CustomerModel extends CommonModel{
 		String sql="update customer set name=?,sex=? ,address=? , birthday=? , IDCard=?,edu=?,joblevel=?,marriage=?,tel=?,mail=? where id=?";
 		return UpdateModel(sql,params);
 	}
+	
+	public void filterByPlace(String place){
+		String sql="";
+		String[] params=new String[1];
+		if(place.equals("所有")){
+			sql="select name,tel,dianmian,bookdate,starttime,endtime from customer where 1=1";
+			params=null;
+		}
+		else{
+			params[0]=place;
+			sql="select name,tel,dianmian,bookdate,starttime,endtime from customer where dianmian=?";
+		}
+		
+		query(sql,params);
+	}
+	
 }
