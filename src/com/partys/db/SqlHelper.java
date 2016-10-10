@@ -68,6 +68,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Properties;
 public class SqlHelper {
 	//定义需要的对象
@@ -159,6 +160,49 @@ public class SqlHelper {
 		}
 		//返回结果集
 		return sum;
+	}
+	
+	public boolean updateExecete(String[] sql,String[][]params){
+		boolean b=true;		
+		try {
+			con.setAutoCommit(false);
+			for(int x=0;x<sql.length;x++){
+				ps=con.prepareStatement(sql[x]);
+				if(params!=null){
+					for(int y=0;y<params[x].length;y++){									
+						ps.setString(y+1, params[x][y]);
+					}
+				}
+				ps.executeUpdate();
+			}
+			con.commit();
+
+			if(ps.executeUpdate()==0)
+			{
+				b=false;
+				try {
+					con.rollback();
+				} catch (SQLException e1) {
+					// TODO 自动生成的 catch 块
+					e1.printStackTrace();
+				}
+			}
+		} catch (Exception e) {
+			b=false;
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				// TODO 自动生成的 catch 块
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		}
+		finally
+		{
+			this.close();
+		}
+		//返回结果集
+		return b;
 	}
 	
 	public boolean updateExecete(String sql,String []params)
