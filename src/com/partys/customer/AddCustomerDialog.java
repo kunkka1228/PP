@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -32,7 +33,9 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 	private ButtonGroup bg;
 	private JComboBox<String> year,month,day,place,categroy,hour,min,h,m,y,mo,da;
 	private JPanel[] jp=new JPanel[12];
-	private JLabel year_lable,month_lable,day_lable;
+	private JLabel year_lable,month_lable,day_lable,tuangou_lable;
+	private JLabel add,delete;
+	
 
 	
 	public AddCustomerDialog(Frame owner, String title, boolean modal) {
@@ -46,6 +49,7 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 	}
 
 	private void iniAddEmpDialog(){
+		
 		jl[0]=new JLabel("±àºÅ:");		
 		jl[1]=new JLabel("ÐÕÃû:");				
 		jl[2]=new JLabel("ÐÔ±ð:");
@@ -65,7 +69,7 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 			jl[x].setBounds(30,10,80,30);
 		}
 		
-		for(int x=0;x<4;x++){
+		for(int x=0;x<3;x++){
 			jtf[x]=new JTextField(20);	
 			jtf[x].setBounds(95,10,215, 30);
 		}
@@ -234,9 +238,19 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 		jp[8].add(jl[8]);
 		jp[8].add(categroy);
 		
+		tuangou_lable=new JLabel();
+		tuangou_lable.setBounds(30,10,180,30);
+		add=new JLabel(new ImageIcon("image/customer/add.png"));
+		add.setBounds(250, 14, 24, 24);
+		delete=new JLabel(new ImageIcon("image/customer/trash.png"));
+		delete.setBounds(290, 16, 24, 24);
 		jp[9].add(jl[10]);
-		jp[9].add(jtf[3]);
+		jp[9].add(tuangou_lable);
+		jp[9].add(add);
+		jp[9].add(delete);
+		
 		jp[10].add(jb1);
+		
 		jp[10].add(jb2);
 		
 		
