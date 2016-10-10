@@ -32,7 +32,7 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 	private JRadioButton male,female;
 	private ButtonGroup bg;
 	private JComboBox<String> year,month,day,place,categroy,hour,min,h,m,y,mo,da;
-	private JPanel[] jp=new JPanel[12];
+	private JPanel[] jp=new JPanel[11];
 	private JLabel year_lable,month_lable,day_lable,tuangou_lable;
 	private JLabel add,delete;
 	
@@ -181,7 +181,7 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 		Color color=new Color(198,222,246);
 		male.setBackground(color);
 		female.setBackground(color);
-		for(int x=0;x<12;x++){
+		for(int x=0;x<11;x++){
 
 				jp[x]=new JPanel();
 				jp[x].setLayout(null);
@@ -255,13 +255,13 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 		
 		
 		this.setLayout(null);
-		for(int x=0;x<12;x++){
+		for(int x=0;x<11;x++){
 		
 			this.add(jp[x]);
 		}
 	
 		this.setTitle("Ìí¼ÓÐÅÏ¢");		
-		super.initBasic(360,530);
+		super.initBasic(355,530);
 	}
 	
 	@Override
