@@ -38,7 +38,7 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener{
 	private CustomerModel cm;
 	private boolean detail=false;
 	private JComboBox<String> dianmian,keyWords;
-	private JPanel p6,p7,p8;
+	private JPanel p6,p7,p8,p9;
 	private JLabel right,left;
 	public CustomerInfor()
 	{
@@ -48,6 +48,7 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener{
 		p7=new JPanel(new FlowLayout(FlowLayout.LEFT));
 		p6=new JPanel(new FlowLayout(FlowLayout.LEFT));
 		p8=new JPanel(null);
+		p9=new JPanel(null);
 		p1=new JPanel(new GridLayout(1,3));
 		p1_l1=new JLabel("关键字:");		
 		p1_l1.setFont(MyTools.f1);
@@ -55,7 +56,7 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener{
 		dianmian=new JComboBox<String>(cm.getAllPartys());
 		String[] keys={"编    号","姓    名","联系方式"};
 		keyWords=new JComboBox<String>(keys);
-		p1_jtf=new JTextField(20);
+		p1_jtf=new JTextField(11);
 		p1_jtf.addKeyListener(this);
 		p1_jb=new JButton("查询");
 		p1_jb.addActionListener(this);
@@ -76,7 +77,7 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener{
 		
 		p1.add(p6);
 		p1.add(p7);
-		p1.add(p8);
+		p1.add(p9);
 
 		//中间		
 		p2=new JPanel(new BorderLayout());
@@ -113,6 +114,7 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener{
 		p4.add(p4_jb4);
 		p5.add(p3,"West");
 		p5.add(p4,"East");
+		p5.add(p8,"Center");
 		this.setLayout(new BorderLayout());
 		this.add(p1,"North");
 		this.add(p2,"Center");
