@@ -4,6 +4,7 @@ import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -16,9 +17,11 @@ import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 
 import com.partys.commonparent.CommonDialog;
+import com.partys.listener.MyJButtonMouseMoveListener;
 import com.partys.model.EmpModel;
 import com.partys.tools.BasicUtil;
 import com.partys.tools.MyTools;
+import com.partys.tools.NoTileDrag;
 //添加界面
 public class AddCustomerDialog extends CommonDialog implements ActionListener{
 
@@ -34,10 +37,7 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 	private JComboBox<String> year,month,day,place,categroy,hour,min,h,m,y,mo,da;
 	private JPanel[] jp=new JPanel[11];
 	private JLabel year_lable,month_lable,day_lable,tuangou_lable;
-	private JLabel add,delete;
-	
-
-	
+	private JButton add,delete;
 	public AddCustomerDialog(Frame owner, String title, boolean modal) {
 		super(owner, title, modal);
 		// TODO 自动生成的构造函数存根
@@ -48,8 +48,7 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 		new AddCustomerDialog(null,"",false);
 	}
 
-	private void iniAddEmpDialog(){
-		
+	private void iniAddEmpDialog(){		
 		jl[0]=new JLabel("编号:");		
 		jl[1]=new JLabel("姓名:");				
 		jl[2]=new JLabel("性别:");
@@ -128,8 +127,7 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 				mins[x]=x+"";
 			}			
 		}
-		
-		
+				
 		year=new JComboBox(years);
 		year.setBounds(95, 10, 60, 30);
 		month=new JComboBox(months);
@@ -173,7 +171,6 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 		jb1.setBounds(95, 10, 70, 30);
 		jb1.setFont(MyTools.f4);
 		jb1.addActionListener(this);
-		
 		jb2=new JButton("取消");
 		jb2.setBounds(200, 10, 70, 30);
 		jb2.setFont(MyTools.f4);
@@ -182,14 +179,10 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 		male.setBackground(color);
 		female.setBackground(color);
 		for(int x=0;x<11;x++){
-
-				jp[x]=new JPanel();
-				jp[x].setLayout(null);
-
+			jp[x]=new JPanel();
+			jp[x].setLayout(null);
 			jp[x].setForeground(Color.cyan);
-			jp[x].setBounds(0, x*45, 350, 50);
-			
-			
+			jp[x].setBounds(0, x*45, 350, 50);			
 			jp[x].setBackground(color);
 			jp[x].setBorder(new EtchedBorder());
 		}
@@ -238,31 +231,35 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 		jp[8].add(jl[8]);
 		jp[8].add(categroy);
 		
-		tuangou_lable=new JLabel();
-		tuangou_lable.setBounds(30,10,180,30);
-		add=new JLabel(new ImageIcon("image/customer/add.png"));
+		tuangou_lable=new JLabel("暂无");
+		tuangou_lable.setBounds(95,10,180,30);
+		add=new JButton(new ImageIcon("image/customer/add.png"));
 		add.setBounds(250, 14, 24, 24);
-		delete=new JLabel(new ImageIcon("image/customer/trash.png"));
-		delete.setBounds(290, 16, 24, 24);
+		delete=new JButton(new ImageIcon("image/customer/trash.png"));
+		delete.setBounds(290, 14, 24, 24);
+		btnSetting(delete);
+		btnSetting(add);
+		
 		jp[9].add(jl[10]);
-		jp[9].add(tuangou_lable);
-		jp[9].add(add);
+		jp[9].add(tuangou_lable);		
+		jp[9].add(add);			
 		jp[9].add(delete);
 		
-		jp[10].add(jb1);
-		
+		jp[10].add(jb1);		
 		jp[10].add(jb2);
-		
-		
+
 		this.setLayout(null);
+		
 		for(int x=0;x<11;x++){
 		
 			this.add(jp[x]);
 		}
-	
-		this.setTitle("添加信息");		
-		super.initBasic(355,530);
+		this.setUndecorated(true);
+		NoTileDrag.setCanDraged(this);	
+		super.initBasic(350,500);
 	}
+	
+	
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {

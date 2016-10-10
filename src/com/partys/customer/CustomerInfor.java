@@ -2,13 +2,18 @@ package com.partys.customer;
 //这是人事管理界面
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -18,13 +23,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.border.EtchedBorder;
 
-import com.partys.emp.AddEmpDialog;
+import com.partys.listener.MyJButtonMouseMoveListener;
 import com.partys.model.CustomerModel;
 import com.partys.tools.BasicUtil;
 import com.partys.tools.MyTools;
-public class CustomerInfor extends JPanel implements ActionListener,KeyListener{
+public class CustomerInfor extends JPanel implements ActionListener,KeyListener,MouseListener{
 	/**
 	 * 
 	 */
@@ -40,7 +44,7 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener{
 	private boolean detail=false;
 	private JComboBox<String> dianmian,keyWords;
 	private JPanel p6,p7,p8,p9;
-	private JLabel right,left;
+	private JButton right,left;
 	private JLabel empt1,empt2;
 	public CustomerInfor()
 	{
@@ -49,7 +53,7 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener{
 		//北
 		p7=new JPanel(new FlowLayout(FlowLayout.LEFT));
 		p6=new JPanel(new FlowLayout(FlowLayout.LEFT));
-		p8=new JPanel(new FlowLayout(FlowLayout.RIGHT,15,9));
+		p8=new JPanel(new FlowLayout(FlowLayout.RIGHT,13,9));
 		p1=new JPanel(new GridLayout(1,3));
 		p1_l1=new JLabel("关键字:");		
 		p1_l1.setFont(MyTools.f1);
@@ -69,8 +73,12 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener{
 		p7.add(keyWords);
 		p7.add(p1_jtf);
 		p7.add(p1_jb);	
-		left=new JLabel(new ImageIcon("image/left.png"));
-		right=new JLabel(new ImageIcon("image/right.png"));
+		left=new JButton(new ImageIcon("image/left.png"));
+		right=new JButton(new ImageIcon("image/right.png"));
+		btnSetting(left);
+		btnSetting(right);
+
+		
 		empt2=new JLabel(" ");
 		p8.add(left);
 		p8.add(right);
@@ -248,5 +256,43 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener{
 			}
 			querry();
 		}
+	}
+	
+	private void btnSetting(JButton btn){
+		btn.setContentAreaFilled(false);
+		btn.setBorder(null);
+		btn.setPreferredSize(new Dimension(18,15));
+		btn.addMouseListener(new MyJButtonMouseMoveListener());
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO 自动生成的方法存根
+		
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO 自动生成的方法存根
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO 自动生成的方法存根
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+	
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO 自动生成的方法存根
+		
 	}
 }

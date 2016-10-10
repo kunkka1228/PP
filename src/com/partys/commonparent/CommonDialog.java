@@ -6,8 +6,10 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JButton;
 import javax.swing.JDialog;
 
+import com.partys.listener.MyJButtonMouseMoveListener;
 import com.partys.tools.BasicUtil;
 
 public class CommonDialog extends JDialog {
@@ -54,5 +56,10 @@ public class CommonDialog extends JDialog {
 		this.setLocation((BasicUtil.getSreenWidthAndHeight()[0] - width) / 2,
 				(BasicUtil.getSreenWidthAndHeight()[1] - height) / 2);
 	}
-
+	
+	public void btnSetting(JButton btn){
+		btn.setContentAreaFilled(false);
+		btn.setBorder(null);
+		btn.addMouseListener(new MyJButtonMouseMoveListener());
+	}
 }

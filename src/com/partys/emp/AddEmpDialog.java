@@ -18,6 +18,7 @@ import com.partys.commonparent.CommonDialog;
 import com.partys.model.EmpModel;
 import com.partys.tools.BasicUtil;
 import com.partys.tools.MyTools;
+import com.partys.tools.NoTileDrag;
 //ÃÌº”ΩÁ√Ê
 public class AddEmpDialog extends CommonDialog implements ActionListener{
 
@@ -192,8 +193,10 @@ public class AddEmpDialog extends CommonDialog implements ActionListener{
 		for(int x=0;x<12;x++){
 			this.add(jp[x]);
 		}
-		
-		super.initBasic(360,530);
+		this.setUndecorated(true);
+		NoTileDrag.setCanDraged(this);
+		super.initBasic(350,500);
+		;	
 	}
 	
 	@Override
