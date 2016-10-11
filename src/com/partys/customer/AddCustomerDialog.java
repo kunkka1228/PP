@@ -4,7 +4,6 @@ import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -18,6 +17,7 @@ import javax.swing.border.EtchedBorder;
 
 import com.partys.commonparent.CommonDialog;
 import com.partys.listener.MyJButtonMouseMoveListener;
+import com.partys.model.CustomerModel;
 import com.partys.model.EmpModel;
 import com.partys.tools.BasicUtil;
 import com.partys.tools.MyTools;
@@ -47,7 +47,6 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 	public static void main(String[] args) {
 		new AddCustomerDialog(null,"",false);
 	}
-
 	private void iniAddEmpDialog(){		
 		jl[0]=new JLabel("编号:");		
 		jl[1]=new JLabel("姓名:");				
@@ -166,7 +165,7 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 		
 		categroy=new JComboBox(jobs);
 		categroy.setBounds(250, 10, 60, 30);
-		
+		categroy.addActionListener(this);
 		jb1=new JButton("確定");
 		jb1.setBounds(95, 10, 70, 30);
 		jb1.setFont(MyTools.f4);
@@ -237,8 +236,8 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 		add.setBounds(250, 14, 24, 24);
 		delete=new JButton(new ImageIcon("image/customer/trash.png"));
 		delete.setBounds(290, 14, 24, 24);
-		btnSetting(delete);
-		btnSetting(add);
+		btnSetting(delete,false);
+		btnSetting(add,false);
 		
 		jp[9].add(jl[10]);
 		jp[9].add(tuangou_lable);		
@@ -247,7 +246,6 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 		
 		jp[10].add(jb1);		
 		jp[10].add(jb2);
-
 		this.setLayout(null);
 		
 		for(int x=0;x<11;x++){
@@ -258,12 +256,10 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 		NoTileDrag.setCanDraged(this);	
 		super.initBasic(350,500);
 	}
-	
-	
-	
+		
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-
+		
 		if(arg0.getSource()==jb1)
 		{
 			String[] params=new String[11];
@@ -277,31 +273,51 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 				params[2]=female.getText();
 			}
 			params[3]=jtf[2].getText();
-			params[4]=(String)year.getSelectedItem()+"-"+(String)month.getSelectedItem()+"-"+(String)day.getSelectedItem();
-			
-		
-			params[5]=jtf[3].getText();
-			params[6]=jtf[4].getText();
-			params[7]=(String)place.getSelectedItem();
-			params[8]=(String)categroy.getSelectedItem();
-			
-			params[9]=jtf[5].getText();
-			params[10]=jtf[6].getText();
-			EmpModel em=new EmpModel();
-			if(!em.addItem(params))
+			params[4]=(String)place.getSelectedItem();	
+			params[5]=(String)year.getSelectedItem()+"-"+(String)month.getSelectedItem()+"-"+(String)day.getSelectedItem();
+			params[6]=(String)y.getSelectedItem()+"-"+(String)mo.getSelectedItem()+"-"+(String)da.getSelectedItem();
+			params[7]=params[5]+" "+hour.getSelectedItem().toString()+":"+min.getSelectedItem().toString();			
+			params[8]=params[5]+" "+h.getSelectedItem().toString()+":"+m.getSelectedItem().toString();					
+			params[9]=(String)categroy.getSelectedItem();
+			params[10]=tuangou_lable.getText();
+			CustomerModel cm=new CustomerModel();
+			if(!cm.addItem(params))
 			{
 				JOptionPane.showMessageDialog(null, "添加失败，请输入正确数据类型!");				
 			}
 			else{
 				JOptionPane.showMessageDialog(null, "恭喜！添加成功！");
 				this.dispose();
-			}
-				
+			}				
 		}
 		else if(arg0.getSource()==jb2)
 		{
 			super.setFlag(true);
 			this.dispose();
+		}
+		
+		else if(arg0.getSource()==add){
+			String title=jtf[0].getText()+"_"+jtf[1].getText()+"_"+jtf[2].getText();
+			new AddTuangouDialog(title);
+		}
+		
+		else if(arg0.getSource()==delete){
+			
+		}
+		else if(arg0.getSource()==categroy){
+			
+			if(categroy.getSelectedItem().toString().equals("无")){
+				btnSetting(add, false);
+				btnSetting(delete, false);
+				add.removeActionListener(this);
+				delete.removeActionListener(this);
+			}
+			else{
+				btnSetting(add, true);
+				btnSetting(delete, true);
+				add.addActionListener(this);
+				delete.addActionListener(this);
+			}	
 		}
 	}	
 }

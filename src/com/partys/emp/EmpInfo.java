@@ -128,7 +128,7 @@ public class EmpInfo extends JPanel implements ActionListener, KeyListener {
 				p4_jb1.setText("简要信息");
 			} else {
 				em = new EmpModel();
-				em.querySimpleInfor();
+				em.querySimpleInforOneData(params);
 				querry();
 				p4_jb1.setText("详细信息");
 			}

@@ -19,7 +19,7 @@ public class CommonDialog extends JDialog {
 	 */
 	private static final long serialVersionUID = -2193474433653879621L;
 	private boolean flag = false;
-
+	private  MyJButtonMouseMoveListener mmml;
 	public void setFlag(boolean s) {
 		flag = s;
 	}
@@ -35,7 +35,7 @@ public class CommonDialog extends JDialog {
 
 
 	public void initBasic(int width, int height) {
-
+		mmml=new MyJButtonMouseMoveListener();
 		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		Image titleIcon = null;
 		try {
@@ -57,9 +57,16 @@ public class CommonDialog extends JDialog {
 				(BasicUtil.getSreenWidthAndHeight()[1] - height) / 2);
 	}
 	
-	public void btnSetting(JButton btn){
+	public void btnSetting(JButton btn,boolean flag){
 		btn.setContentAreaFilled(false);
 		btn.setBorder(null);
-		btn.addMouseListener(new MyJButtonMouseMoveListener());
+		btn.setEnabled(flag);
+		if(flag){
+			btn.addMouseListener(mmml);
+		}
+		else{
+			btn.removeMouseListener(mmml);
+		}
+		
 	}
 }

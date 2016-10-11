@@ -52,9 +52,30 @@ public class CustomerModel extends CommonModel{
 		query(sql, params);
 	}
 	
-	public void queryByNameOrId(String[] params){
-		String sql="select id,name,sex,joblevel,address,edu from customer where id=? or name=?";
-		query(sql, params);	
+	public void queryByKeywords(String keywords,String[] params){
+		if(keywords.equals("编    号")){
+			keywords="id";
+		}
+		
+		else if(keywords.equals("姓    名")){
+			keywords="name";
+		}
+		
+		else if(keywords.equals("联系方式")){
+			keywords="tel";
+		}
+		String sql="";
+		if(params[1].equals("所有")){
+			sql="select id, name,tel,dianmian,bookdate,starttime,endtime from customer where "+keywords+" =?";
+			String[] paramsArr={params[0]};
+			query(sql, paramsArr);	
+			
+		}
+		else {
+			sql="select id, name,tel,dianmian,bookdate,starttime,endtime from customer where "+keywords+" =? and dianmian=?";
+			query(sql, params);
+		}
+		
 	}
 	
 	public void deleteByID(String[] params){
@@ -68,12 +89,18 @@ public class CustomerModel extends CommonModel{
 	}
 	
 	public void querySimpleInfor(){
-		String sql="select name,tel,dianmian,bookdate,starttime,endtime from customer where 1=1";
+		String sql="select id, name,tel,dianmian,bookdate,starttime,endtime from customer where 1=1";
 		query(sql,null);
+	}
+	
+	public void querySimpleInforOneData(String[] params){
+		String sql="select id, name,tel,dianmian,bookdate,starttime,endtime from customer where id=?";
+		query(sql,params);
 	}
 	
 	public boolean addItem(String[] params){
 		String sql="insert into customer values(?,?,?,?,?,?,?,?,?,?,?)";
+		
 		return UpdateModel(sql,params);
 	}
 	
@@ -86,12 +113,12 @@ public class CustomerModel extends CommonModel{
 		String sql="";
 		String[] params=new String[1];
 		if(place.equals("所有")){
-			sql="select name,tel,dianmian,bookdate,starttime,endtime from customer where 1=1";
+			sql="select id,name,tel,dianmian,bookdate,starttime,endtime from customer where 1=1";
 			params=null;
 		}
 		else{
 			params[0]=place;
-			sql="select name,tel,dianmian,bookdate,starttime,endtime from customer where dianmian=?";
+			sql="select id,name,tel,dianmian,bookdate,starttime,endtime from customer where dianmian=?";
 		}
 		
 		query(sql,params);

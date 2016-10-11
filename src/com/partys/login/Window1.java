@@ -116,7 +116,7 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 		jmi11_icon11 = new ImageIcon("image/toolBar_image/jb10.jpg");
 		jmi12_icon12 = new ImageIcon("image/toolBar_image/jb8.jpg");
 		
-		ImageIcon tools_icon1=new ImageIcon("image/Caculator/Caculator.jpg");
+		ImageIcon tools_icon1=new ImageIcon("image/Caculator/Caculator.png");
 		jm[5] = new JMenu("实用工具");
 		tools[0]=new JMenuItem("计算器", tools_icon1);
 		tools[1]=new JMenuItem("工具1", jmi9_icon9);

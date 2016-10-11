@@ -50,6 +50,11 @@ public class EmpModel extends CommonModel{
 		query(sql,params);
 	}
 	
+	public void querySimpleInforOneData(String[] params){
+		String sql="select id,name,sex,joblevel,address,edu from renshi where id=?";
+		query(sql,params);
+	}
+	
 	public boolean addItem(String[] params){
 		String sql="insert into renshi values(?,?,?,?,?,?,?,?,?,?,?)";
 		String sqls="insert into login values (?,?)";

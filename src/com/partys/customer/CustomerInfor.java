@@ -80,7 +80,8 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 		right=new JButton(new ImageIcon("image/right.png"));
 		btnSetting(left);
 		btnSetting(right);
-
+		left.addMouseListener(new MyJButtonMouseMoveListener());
+		right.addMouseListener(new MyJButtonMouseMoveListener());
 		
 		empt=new JLabel(" ");
 		p8.add(left);
@@ -140,15 +141,17 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 		
 		
 		if (arg0.getSource().equals(p1_jb)) {
-			if (p1_jtf.getText().trim().equals("")) {
+			String content=p1_jtf.getText().trim();
+			if (content.equals("")) {
 				cm = new CustomerModel();
 				cm.querySimpleInfor();
 				querry();
 			} else {
-				String params[] = { p1_jtf.getText().trim(),
-						p1_jtf.getText().trim() };
+				String place=dianmian.getSelectedItem().toString();
+				String keywords=keyWords.getSelectedItem().toString();
+				String params[] = {content,place};
 				cm = new CustomerModel();
-				cm.queryByNameOrId(params);
+				cm.queryByKeywords(keywords,params);
 				querry();
 			}
 		}
@@ -159,8 +162,8 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 				JOptionPane.showMessageDialog(this, "请选择一行！");
 			}
 
-			String empId = (String) this.jtable.getValueAt(rowNum, 0);
-			String[] params = { empId };
+			String customerId = (String) this.jtable.getValueAt(rowNum, 0);
+			String[] params = { customerId };
 			if (!detail) {
 				cm = new CustomerModel();
 				cm.querryOnDataById(params);
@@ -168,7 +171,7 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 				p4_jb1.setText("简要信息");
 			} else {
 				cm = new CustomerModel();
-				cm.querySimpleInfor();
+				cm.querySimpleInforOneData(params);
 				querry();
 				p4_jb1.setText("详细信息");
 			}
@@ -186,7 +189,7 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 		}
 
 		else if (arg0.getSource().equals(p4_jb3)) {
-			int rowNum = this.jtable.getSelectedRow();
+			int rowNum = jtable.getSelectedRow();
 			if (rowNum == -1) {
 				JOptionPane.showMessageDialog(this, "请选择一行！");
 			}
@@ -210,33 +213,31 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 //					querryCount();
 //					detail = false;
 //				}
-			}
-			
-			
+			}			
 		}
 
 		else if (arg0.getSource().equals(p4_jb4)) {
-			int rowNum = this.jtable.getSelectedRow();
+			int rowNum = jtable.getSelectedRow();
 			if (rowNum == -1) {
 				JOptionPane.showMessageDialog(this, "请选择一行！");
 			} else {
-				String empId = (String) jtable.getValueAt(rowNum, 0);
-				String[] params = { empId };
-				cm = new CustomerModel();
-				cm.deleteByID(params);
-
-				JOptionPane.showMessageDialog(null, "恭喜！删除成功！");
-				querryCount();
-				cm.querySimpleInfor();
-
-				querry();
+				if(JOptionPane.showConfirmDialog(this, "确定要删除吗","删除信息",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE)==JOptionPane.YES_OPTION){
+					String customerId = (String) jtable.getValueAt(rowNum, 0);
+					String[] params = { customerId };
+					cm = new CustomerModel();
+					cm.deleteByID(params);					
+					querryCount();
+					cm.querySimpleInfor();
+					querry();
+					JOptionPane.showMessageDialog(null, "恭喜！删除成功！");
+				}				
 			}
 		}
+		
 		else if(arg0.getSource()==dianmian){
 			String place=dianmian.getSelectedItem().toString();
 			cm = new CustomerModel();
-			cm.filterByPlace(place);
-			
+			cm.filterByPlace(place);			
 			querry();
 		}
 	}
@@ -261,16 +262,16 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		if (e.getSource() == p1_jtf) {
-			cm = new CustomerModel();
-			String params[] = { p1_jtf.getText().trim(),
-					p1_jtf.getText().trim() };
-			cm.queryByNameOrId(params);
-			if (p1_jtf.getText().trim().equals("")) {
-				cm.querySimpleInfor();
-			}
-			querry();
-		}
+//		if (e.getSource() == p1_jtf) {
+//			cm = new CustomerModel();
+//			String params[] = { p1_jtf.getText().trim(),
+//					p1_jtf.getText().trim() };
+////			cm.queryByKeywords(params);
+//			if (p1_jtf.getText().trim().equals("")) {
+//				cm.querySimpleInfor();
+//			}
+//			querry();
+//		}
 	}
 	
 	private void btnSetting(JButton btn){
