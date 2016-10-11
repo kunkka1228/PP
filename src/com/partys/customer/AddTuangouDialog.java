@@ -32,6 +32,7 @@ public class AddTuangouDialog implements ActionListener{
 		
 		frame.addWindowListener(new WindowAdapter(){
 		public void windowClosing(WindowEvent e){
+			System.out.println(23123123);
 			frame.dispose();
 			}
 		});

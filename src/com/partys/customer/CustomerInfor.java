@@ -179,7 +179,7 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 		}
 
 		else if (arg0.getSource().equals(p4_jb2)) {
-			AddCustomerDialog emd = new AddCustomerDialog(null, "Ìí¼Ó", true);
+			AddCustomerDialog emd = new AddCustomerDialog(null, "Ìí¼Ó", false);
 			if (!emd.getFlag()) {
 				cm = new CustomerModel();
 				cm.querySimpleInfor();
