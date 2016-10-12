@@ -1,7 +1,10 @@
 
 package com.partys.login;
 import java.awt.*;
+
 import javax.swing.*;
+
+import com.partys.tools.BasicUtil;
 public class Index extends JWindow implements Runnable{
 	/**
 	 * 
@@ -39,9 +42,8 @@ public class Index extends JWindow implements Runnable{
 
 		this.setSize(450,350);
 
-		width=Toolkit.getDefaultToolkit().getScreenSize().width;
-		height=Toolkit.getDefaultToolkit().getScreenSize().height;
-		this.setLocation(width/2-200,height/2-150);
+
+		this.setLocation(BasicUtil.getSreenWidthAndHeight()[0]/2-200,BasicUtil.getSreenWidthAndHeight()[1]/2-150);
 
 		this.setVisible(true);
 	}

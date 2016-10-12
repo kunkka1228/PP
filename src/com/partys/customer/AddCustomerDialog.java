@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -16,9 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 
 import com.partys.commonparent.CommonDialog;
-import com.partys.listener.MyJButtonMouseMoveListener;
 import com.partys.model.CustomerModel;
-import com.partys.model.EmpModel;
 import com.partys.tools.BasicUtil;
 import com.partys.tools.MyTools;
 import com.partys.tools.NoTileDrag;
@@ -44,9 +43,9 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 		iniAddEmpDialog();
 	}
 	
-	public static void main(String[] args) {
-		new AddCustomerDialog(null,"",false);
-	}
+//	public static void main(String[] args) {
+//		new AddCustomerDialog(null,"",false);
+//	}
 	private void iniAddEmpDialog(){		
 		jl[0]=new JLabel("编号:");		
 		jl[1]=new JLabel("姓名:");				
@@ -231,7 +230,7 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 		jp[8].add(categroy);
 		
 		tuangou_lable=new JLabel("暂无");
-		tuangou_lable.setBounds(95,10,180,30);
+		tuangou_lable.setBounds(95,10,150,30);
 		add=new JButton(new ImageIcon("image/customer/add.png"));
 		add.setBounds(250, 14, 24, 24);
 		delete=new JButton(new ImageIcon("image/customer/trash.png"));
@@ -290,19 +289,31 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 				this.dispose();
 			}				
 		}
+		
 		else if(arg0.getSource()==jb2)
 		{
-			super.setFlag(true);
-			this.dispose();
+			if(JOptionPane.showConfirmDialog(this, "确定退出吗?","删除信息",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE)==JOptionPane.YES_OPTION){
+				super.setFlag(true);							
+				deleteFile();
+				this.dispose();
+			}
+			
 		}
 		
 		else if(arg0.getSource()==add){
-			String title=jtf[0].getText()+"_"+jtf[1].getText()+"_"+jtf[2].getText();
-			new AddTuangouDialog(title);
+			String title=jtf[0].getText()+"_"+jtf[1].getText()+"_"+jtf[2].getText()+".dg";
+			TuangouDialog td=new TuangouDialog(null,title,true);
+			if(td.isSave()){
+				tuangou_lable.setText(td.getTitle());
+				add.setIcon(new ImageIcon("image/customer/update.png"));
+			}
+			
 		}
 		
 		else if(arg0.getSource()==delete){
-			
+			deleteFile();
+			tuangou_lable.setText("暂无");	
+			add.setIcon(new ImageIcon("image/customer/add.png"));
 		}
 		else if(arg0.getSource()==categroy){
 			
@@ -311,6 +322,9 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 				btnSetting(delete, false);
 				add.removeActionListener(this);
 				delete.removeActionListener(this);
+				tuangou_lable.setText("暂无");
+				add.setIcon(new ImageIcon("image/customer/add.png"));
+				deleteFile();
 			}
 			else{
 				btnSetting(add, true);
@@ -319,5 +333,18 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 				delete.addActionListener(this);
 			}	
 		}
+		
+		
+		
 	}	
+	private void deleteFile(){
+		try {
+			String title=jtf[0].getText()+"_"+jtf[1].getText()+"_"+jtf[2].getText()+".dg";
+			File file=new File(title);
+			file.delete();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
 }
