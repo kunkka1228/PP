@@ -78,6 +78,11 @@ public class CustomerModel extends CommonModel{
 		
 	}
 	
+	public String getCategroy(int arg0,int arg1){
+		return (String)getValueAt(arg0, arg1);
+		
+	}
+	
 	public void deleteByID(String[] params){
 		String sql="delete from customer where id=?";
 		UpdateModel(sql,params);

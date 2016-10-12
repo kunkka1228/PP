@@ -12,6 +12,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -223,13 +224,23 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 			} else {
 				if(JOptionPane.showConfirmDialog(this, "È·¶¨ÒªÉ¾³ýÂð","É¾³ýÐÅÏ¢",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE)==JOptionPane.YES_OPTION){
 					String customerId = (String) jtable.getValueAt(rowNum, 0);
+					String tuangouhaoName = (String) jtable.getValueAt(rowNum, 10);
 					String[] params = { customerId };
 					cm = new CustomerModel();
 					cm.deleteByID(params);					
 					querryCount();
 					cm.querySimpleInfor();
 					querry();
-					JOptionPane.showMessageDialog(null, "¹§Ï²£¡É¾³ý³É¹¦£¡");
+					try {					
+						File file=new File(tuangouhaoName);
+						file.delete();
+						JOptionPane.showMessageDialog(null, "¹§Ï²£¡É¾³ý³É¹¦£¡");
+					} catch (Exception e) {
+						// TODO: handle exception
+						e.printStackTrace();
+					}
+					
+					
 				}				
 			}
 		}
