@@ -78,8 +78,31 @@ public class CustomerModel extends CommonModel{
 		
 	}
 	
-	public String getCategroy(int arg0,int arg1){
-		return (String)getValueAt(arg0, arg1);
+	
+	public String getDataById(String data,String[] params){
+		String sql ="select "+data+" from customer where id=?";
+		SqlHelper hp=new SqlHelper();
+		ResultSet rs=hp.queryExecute(sql, params);
+		String returnInfor = null;
+		try {
+			if(rs.next()){
+				returnInfor = rs.getString(data);
+			}
+			
+		} catch (SQLException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}
+		finally{
+			try {
+					rs.close();
+				
+			} catch (SQLException e) {
+				// TODO 自动生成的 catch 块
+				e.printStackTrace();
+			}
+		}
+		return returnInfor;
 		
 	}
 	
@@ -110,7 +133,7 @@ public class CustomerModel extends CommonModel{
 	}
 	
 	public boolean updateItem(String[] params){
-		String sql="update customer set name=?,sex=? ,address=? , birthday=? , IDCard=?,edu=?,joblevel=?,marriage=?,tel=?,mail=? where id=?";
+		String sql="update customer set name=?,sex=? ,tel=? ,dianmian=?, day=? , bookdate=? , starttime=? , endtime=? , category=? , tuangouhao=? where id=?";
 		return UpdateModel(sql,params);
 	}
 	

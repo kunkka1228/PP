@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 
 import com.partys.commonparent.CommonDialog;
+import com.partys.listener.MyJButtonMouseMoveListener;
 import com.partys.model.CustomerModel;
 import com.partys.tools.BasicUtil;
 import com.partys.tools.MyTools;
@@ -40,13 +41,13 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 	public AddCustomerDialog(Frame owner, String title, boolean modal) {
 		super(owner, title, modal);
 		// TODO 自动生成的构造函数存根
-		iniAddEmpDialog();
+		init();
 	}
 	
 //	public static void main(String[] args) {
 //		new AddCustomerDialog(null,"",false);
 //	}
-	private void iniAddEmpDialog(){		
+	private void init(){		
 		jl[0]=new JLabel("编号:");		
 		jl[1]=new JLabel("姓名:");				
 		jl[2]=new JLabel("性别:");
@@ -234,6 +235,7 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 		add=new JButton(new ImageIcon("image/customer/add.png"));
 		add.setBounds(250, 14, 24, 24);
 		delete=new JButton(new ImageIcon("image/customer/trash.png"));
+		
 		delete.setBounds(290, 14, 24, 24);
 		btnSetting(delete,false);
 		btnSetting(add,false);
@@ -287,7 +289,10 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 			else{
 				JOptionPane.showMessageDialog(null, "恭喜！添加成功！");
 				this.dispose();
-			}				
+			}
+			if(categroy.getSelectedItem().equals("无")){
+				deleteFile();
+			}
 		}
 		
 		else if(arg0.getSource()==jb2)
@@ -296,8 +301,7 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 				super.setFlag(true);							
 				deleteFile();
 				this.dispose();
-			}
-			
+			}			
 		}
 		
 		else if(arg0.getSource()==add){
@@ -324,7 +328,7 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 				delete.removeActionListener(this);
 				tuangou_lable.setText("暂无");
 				add.setIcon(new ImageIcon("image/customer/add.png"));
-				deleteFile();
+				
 			}
 			else{
 				btnSetting(add, true);
@@ -332,11 +336,9 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 				add.addActionListener(this);
 				delete.addActionListener(this);
 			}	
-		}
-		
-		
-		
+		}		
 	}	
+	
 	private void deleteFile(){
 		try {
 			String title=jtf[0].getText()+"_"+jtf[1].getText()+"_"+jtf[2].getText()+".dg";

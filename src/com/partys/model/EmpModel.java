@@ -10,12 +10,9 @@ public class EmpModel extends CommonModel{
 	 * 
 	 */
 	private static final long serialVersionUID = 7055176924075699409L;
-	private SqlHelper hp=new SqlHelper();
-	
-	
-	
+
 	public int getNum()
-	{		
+	{	SqlHelper hp=new SqlHelper();
 		String sql="select count(*) from renshi";
 		int sum=hp.queryExecute(sql);
 		return sum;
@@ -32,6 +29,7 @@ public class EmpModel extends CommonModel{
 	}
 	
 	public void deleteByID(String[] params){
+		SqlHelper hp=new SqlHelper();
 		String sql="delete from renshi where id=?";
 		String sqls="delete from login where id=?";
 		String[] sqlarr={sql,sqls};
@@ -56,6 +54,7 @@ public class EmpModel extends CommonModel{
 	}
 	
 	public boolean addItem(String[] params){
+		SqlHelper hp=new SqlHelper();
 		String sql="insert into renshi values(?,?,?,?,?,?,?,?,?,?,?)";
 		String sqls="insert into login values (?,?)";
 		String[] sqlarr={sql,sqls};

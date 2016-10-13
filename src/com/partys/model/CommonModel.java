@@ -66,6 +66,9 @@ public class CommonModel extends AbstractTableModel {
 			hp.close();
 		}
 	}
+	
+	
+
 
 	public String getColumnName(int arg0) {
 		// TODO 自动生成的方法存根

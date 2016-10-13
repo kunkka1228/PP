@@ -143,6 +143,11 @@ public class EmpInfo extends JPanel implements ActionListener, KeyListener {
 				querry();
 				querryCount();
 			}
+			
+			if(detail){
+				detail=!detail;
+				p4_jb1.setText("详细信息");
+			}
 		}
 
 		else if (arg0.getSource().equals(p4_jb3)) {
@@ -150,26 +155,25 @@ public class EmpInfo extends JPanel implements ActionListener, KeyListener {
 			if (rowNum == -1) {
 				JOptionPane.showMessageDialog(this, "请选择一行！");
 			}
-
+			
 			else {
+				int i=rowNum;
+				UpdateEmpDialog up=null;
 				em = new EmpModel();
-				if (detail) {
-					rowNum = 0;
-					String id = (String) jtable.getValueAt(rowNum, 0);
-					String[] params = { id };
+				String id = (String)jtable.getValueAt(rowNum, 0);
+				String[] params = { id };		
 					em.querryOnDataById(params);
-				} else {
-					em.querryAll();
-				}
-				UpdateEmpDialog up = new UpdateEmpDialog(null, "修改信息", true,
-						rowNum, em);
+					up= new UpdateEmpDialog(null, "修改信息", true,
+							0, em);
+				
 				if (!up.getFlag()) {
 					em = new EmpModel();
 					em.querySimpleInfor();
 					querry();
 					querryCount();
 					detail = false;
-				}
+					p4_jb1.setText("详细信息");
+				}				
 			}
 		}
 
@@ -179,7 +183,7 @@ public class EmpInfo extends JPanel implements ActionListener, KeyListener {
 				JOptionPane.showMessageDialog(this, "请选择一行！");
 			} else {
 					
-				if(JOptionPane.showConfirmDialog(this, "确定要删除吗","删除信息",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE)==JOptionPane.YES_OPTION){					
+				if(JOptionPane.showConfirmDialog(this, "确定要删除吗","删除信息",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE)==JOptionPane.YES_OPTION){										
 					String empId = (String) jtable.getValueAt(rowNum, 0);
 					String[] params = { empId };
 					em = new EmpModel();
@@ -188,6 +192,10 @@ public class EmpInfo extends JPanel implements ActionListener, KeyListener {
 					em.querySimpleInfor();
 					querry();
 					JOptionPane.showMessageDialog(null, "恭喜！删除成功！");
+					if(detail){
+						p4_jb1.setText("详细信息");
+						detail=!detail;
+					}
 				}				
 			}
 		}

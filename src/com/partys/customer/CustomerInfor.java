@@ -25,8 +25,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import com.partys.emp.UpdateEmpDialog;
 import com.partys.listener.MyJButtonMouseMoveListener;
 import com.partys.model.CustomerModel;
+import com.partys.model.EmpModel;
 import com.partys.tools.BasicUtil;
 import com.partys.tools.MyTools;
 public class CustomerInfor extends JPanel implements ActionListener,KeyListener,MouseListener{
@@ -163,7 +165,8 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 				JOptionPane.showMessageDialog(this, "请选择一行！");
 			}
 
-			String customerId = (String) this.jtable.getValueAt(rowNum, 0);
+//			String customerId = (String) this.jtable.getValueAt(rowNum, 0);
+			String customerId = (String)cm.getValueAt(rowNum, 0);
 			String[] params = { customerId };
 			if (!detail) {
 				cm = new CustomerModel();
@@ -178,6 +181,8 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 			}
 			detail = !detail;
 		}
+		
+
 
 		else if (arg0.getSource().equals(p4_jb2)) {
 			AddCustomerDialog emd = new AddCustomerDialog(null, "添加", true);
@@ -186,6 +191,10 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 				cm.querySimpleInfor();
 				querry();
 				querryCount();
+			}
+			if(detail){
+				detail=!detail;
+				p4_jb1.setText("详细信息");
 			}
 		}
 
@@ -197,23 +206,20 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 
 			else {
 				cm = new CustomerModel();
-				if (detail) {
-					rowNum = 0;
-					String id = (String) jtable.getValueAt(rowNum, 0);
-					String[] params = { id };
+
+					String customerId = (String)jtable.getValueAt(rowNum, 0);
+					String[] params = { customerId };
 					cm.querryOnDataById(params);
-				} else {
-					cm.querryAll();
+				UpdateCustomerDialog ucd = new UpdateCustomerDialog(null, "修改", true,
+						0, cm);
+				if (!ucd.getFlag()) {
+					cm = new CustomerModel();
+					cm.querySimpleInfor();
+					querry();
+					querryCount();
+					detail = false;
+					p4_jb1.setText("详细信息");
 				}
-//				UpdateEmpDialog up = new UpdateEmpDialog(null, "修改", true,
-//						rowNum, cm);
-//				if (!up.getFlag()) {
-//					cm = new CustomerModel();
-//					cm.querySimpleInfor();
-//					querry();
-//					querryCount();
-//					detail = false;
-//				}
 			}			
 		}
 
@@ -222,10 +228,11 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 			if (rowNum == -1) {
 				JOptionPane.showMessageDialog(this, "请选择一行！");
 			} else {
-				if(JOptionPane.showConfirmDialog(this, "确定要删除吗","删除信息",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE)==JOptionPane.YES_OPTION){
-					String customerId = (String) jtable.getValueAt(rowNum, 0);
-					String tuangouhaoName = (String) jtable.getValueAt(rowNum, 10);
+				if(JOptionPane.showConfirmDialog(this, "确定要删除吗","删除信息",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE)==JOptionPane.YES_OPTION){					
+					String customerId =(String)cm.getValueAt(rowNum, 0);
 					String[] params = { customerId };
+					String tuangouhaoName=cm.getDataById("tuangouhao",params);
+					
 					cm = new CustomerModel();
 					cm.deleteByID(params);					
 					querryCount();
@@ -238,9 +245,11 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 					} catch (Exception e) {
 						// TODO: handle exception
 						e.printStackTrace();
+					}	
+					if(detail){
+						p4_jb1.setText("详细信息");
+						detail=!detail;
 					}
-					
-					
 				}				
 			}
 		}
