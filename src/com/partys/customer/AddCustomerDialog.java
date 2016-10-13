@@ -38,7 +38,9 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 	private JPanel[] jp=new JPanel[11];
 	private JLabel year_lable,month_lable,day_lable,tuangou_lable;
 	private JButton add,delete;
+	private MyJButtonMouseMoveListener mmml;
 	public AddCustomerDialog(Frame owner, String title, boolean modal) {
+		
 		super(owner, title, modal);
 		// TODO 自动生成的构造函数存根
 		init();
@@ -48,6 +50,7 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 //		new AddCustomerDialog(null,"",false);
 //	}
 	private void init(){		
+		mmml=new MyJButtonMouseMoveListener();
 		jl[0]=new JLabel("编号:");		
 		jl[1]=new JLabel("姓名:");				
 		jl[2]=new JLabel("性别:");
@@ -322,10 +325,13 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 		else if(arg0.getSource()==categroy){
 			
 			if(categroy.getSelectedItem().toString().equals("无")){
+				
 				btnSetting(add, false);
 				btnSetting(delete, false);
 				add.removeActionListener(this);
 				delete.removeActionListener(this);
+				add.removeMouseListener(mmml);
+				delete.removeMouseListener(mmml);
 				tuangou_lable.setText("暂无");
 				add.setIcon(new ImageIcon("image/customer/add.png"));
 				
@@ -335,6 +341,11 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 				btnSetting(delete, true);
 				add.addActionListener(this);
 				delete.addActionListener(this);
+				add.addMouseListener(mmml);
+				delete.addMouseListener(mmml);
+				
+				System.out.println(add.getActionListeners()+"......."+add.getActionListeners().length);
+								
 			}	
 		}		
 	}	

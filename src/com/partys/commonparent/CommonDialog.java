@@ -60,13 +60,6 @@ public class CommonDialog extends JDialog {
 	public void btnSetting(JButton btn,boolean flag){
 		btn.setContentAreaFilled(false);
 		btn.setBorder(null);
-		btn.setEnabled(flag);
-		if(flag){
-			btn.addMouseListener(mmml);
-		}
-		else{
-			btn.removeMouseListener(mmml);
-		}
-		
+		btn.setEnabled(flag);				
 	}
 }
