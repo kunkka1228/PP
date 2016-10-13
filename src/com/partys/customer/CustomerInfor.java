@@ -206,10 +206,9 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 
 			else {
 				cm = new CustomerModel();
-
-					String customerId = (String)jtable.getValueAt(rowNum, 0);
-					String[] params = { customerId };
-					cm.querryOnDataById(params);
+				String customerId = (String)jtable.getValueAt(rowNum, 0);
+				String[] params = { customerId };
+				cm.querryOnDataById(params);
 				UpdateCustomerDialog ucd = new UpdateCustomerDialog(null, "ÐÞ¸Ä", true,
 						0, cm);
 				if (!ucd.getFlag()) {
