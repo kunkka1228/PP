@@ -6,6 +6,8 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import com.partys.db.SqlHelper;
+
 public class BasicUtil {
 	public static void horizontal(JTable table){
 		DefaultTableCellRenderer render = new DefaultTableCellRenderer();
@@ -29,4 +31,16 @@ public class BasicUtil {
 		return "0"+a;
 		
 	}
+	
+	
+	public static String getAutoNumber(int l,String tableName){
+		String sql ="select max(id) from "+tableName;
+		SqlHelper sh=new SqlHelper();
+		String n=(sh.queryExecute(sql)+1)+"";
+		while(n.length()<l){
+			n="0"+n;
+		}
+		return n;
+	}
+	
 }

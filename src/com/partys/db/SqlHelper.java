@@ -158,6 +158,9 @@ public class SqlHelper {
 			e.printStackTrace();
 			// TODO: handle exception
 		}
+		finally{
+			close();
+		}
 		//返回结果集
 		return sum;
 	}
@@ -173,7 +176,10 @@ public class SqlHelper {
 						ps.setString(y+1, params[x][y]);
 					}
 				}
-				ps.executeUpdate();
+				int i=ps.executeUpdate();
+				if(i==0){
+					b=false;
+				}
 			}
 			con.commit();			
 		} catch (Exception e) {
@@ -227,13 +233,44 @@ public class SqlHelper {
 	//关闭资源的方法
 	public void close()
 	{
-		try {
-			if(rs!=null) rs.close();
-			if(ps!=null) ps.close();
-			if(con!=null) con.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-			// TODO: handle exception
-		}
+		if(rs!=null) {
+			try {			
+				rs.close();
+				rs=null;
+				}
+			catch (Exception e) {
+				e.printStackTrace();
+				// TODO: handle exception
+				rs=null;
+						
+			}						
+		} 
+		
+		if(ps!=null) {
+			try {			
+				ps.close();
+				ps=null;
+				}
+			catch (Exception e) {
+				e.printStackTrace();
+				// TODO: handle exception
+				ps=null;
+						
+			}						
+		} 
+		
+		if(con!=null) {
+			try {			
+				con.close();
+				con=null;
+				}
+			catch (Exception e) {
+				e.printStackTrace();
+				// TODO: handle exception
+				con=null;
+						
+			}						
+		} 
+		
 	}
 }

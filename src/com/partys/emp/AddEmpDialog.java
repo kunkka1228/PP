@@ -66,7 +66,9 @@ public class AddEmpDialog extends CommonDialog implements ActionListener{
 			jtf[x]=new JTextField(20);	
 			jtf[x].setBounds(95,10,215, 30);
 		}
-				
+		
+		jtf[0].setEditable(false);
+		jtf[0].setText(BasicUtil.getAutoNumber(4,"renshi"));		
 		male=new JRadioButton("ÄÐ");
 		male.setBounds(95, 10, 40, 30);
 		female=new JRadioButton("Å®");

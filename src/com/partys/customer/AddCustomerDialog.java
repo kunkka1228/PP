@@ -46,9 +46,6 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 		init();
 	}
 	
-//	public static void main(String[] args) {
-//		new AddCustomerDialog(null,"",false);
-//	}
 	private void init(){		
 		mmml=new MyJButtonMouseMoveListener();
 		jl[0]=new JLabel("编号:");		
@@ -74,7 +71,9 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 			jtf[x]=new JTextField(20);	
 			jtf[x].setBounds(95,10,215, 30);
 		}
-				
+		
+		jtf[0].setEditable(false);
+		jtf[0].setText(BasicUtil.getAutoNumber(8, "customer"));
 		male=new JRadioButton("男");
 		male.setBounds(95, 10, 40, 30);
 		female=new JRadioButton("女");
@@ -256,6 +255,7 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 		
 			this.add(jp[x]);
 		}
+	
 		this.setUndecorated(true);
 		NoTileDrag.setCanDraged(this);	
 		super.initBasic(350,500);
@@ -328,10 +328,15 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 				
 				btnSetting(add, false);
 				btnSetting(delete, false);
-				add.removeActionListener(this);
-				delete.removeActionListener(this);
-				add.removeMouseListener(mmml);
-				delete.removeMouseListener(mmml);
+				try {
+					add.removeActionListener(this);
+					delete.removeActionListener(this);
+					add.removeMouseListener(mmml);
+					delete.removeMouseListener(mmml);
+				} catch (Exception e) {
+					// TODO 自动生成的 catch 块
+					e.printStackTrace();
+				}
 				tuangou_lable.setText("暂无");
 				add.setIcon(new ImageIcon("image/customer/add.png"));
 				
@@ -339,13 +344,16 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 			else{
 				btnSetting(add, true);
 				btnSetting(delete, true);
-				add.addActionListener(this);
-				delete.addActionListener(this);
-				add.addMouseListener(mmml);
-				delete.addMouseListener(mmml);
+							
+				if(add.getMouseListeners().length==1){
+					add.addMouseListener(mmml);
+					add.addActionListener(this);
+				}
 				
-				System.out.println(add.getActionListeners()+"......."+add.getActionListeners().length);
-								
+				if(delete.getMouseListeners().length==1){
+					delete.addMouseListener(mmml);
+					delete.addActionListener(this);
+				}												
 			}	
 		}		
 	}	

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.io.File;
 
 import javax.swing.ButtonGroup;
@@ -42,7 +43,8 @@ public class UpdateCustomerDialog extends CommonDialog implements
 	private JPanel[] jp = new JPanel[11];
 	private JLabel year_lable, month_lable, day_lable, tuangou_lable;
 	private JButton add, delete;
-
+	private MyJButtonMouseMoveListener mmml;
+//	private int listener;
 	public UpdateCustomerDialog(Frame owner, String title, boolean modal,
 			int rowNum, CustomerModel cm) {
 		super(owner, title, modal);
@@ -55,6 +57,7 @@ public class UpdateCustomerDialog extends CommonDialog implements
 	}
 
 	private void init(int rowNum, CustomerModel cm) {
+		mmml=new MyJButtonMouseMoveListener();
 		jl[0] = new JLabel("编号:");
 		jl[1] = new JLabel("姓名:");
 		jl[2] = new JLabel("性别:");
@@ -169,7 +172,7 @@ public class UpdateCustomerDialog extends CommonDialog implements
 	
 		categroy = new JComboBox(tgs);
 		categroy.setBounds(250, 10, 60, 30);
-		categroy.addActionListener(this);
+		
 		jb1 = new JButton("確定");
 		jb1.setBounds(95, 10, 70, 30);
 		jb1.setFont(MyTools.f4);
@@ -271,7 +274,6 @@ public class UpdateCustomerDialog extends CommonDialog implements
 	
 		delete = new JButton(new ImageIcon("image/customer/trash.png"));
 		delete.setBounds(290, 14, 24, 24);
-		MyJButtonMouseMoveListener mmml=new MyJButtonMouseMoveListener();
 		
 		if(tg.equals("无")){
 			add = new JButton(new ImageIcon("image/customer/add.png"));
@@ -290,7 +292,7 @@ public class UpdateCustomerDialog extends CommonDialog implements
 			
 		}
 		add.setBounds(250, 14, 24, 24);
-		
+		categroy.addActionListener(this);
 		jp[9].add(jl[10]);
 		jp[9].add(tuangou_lable);
 		jp[9].add(add);
@@ -304,6 +306,7 @@ public class UpdateCustomerDialog extends CommonDialog implements
 
 			this.add(jp[x]);
 		}
+//		listener=add.getMouseListeners().length;
 		this.setUndecorated(true);
 		NoTileDrag.setCanDraged(this);
 		super.initBasic(350, 500);
@@ -342,6 +345,9 @@ public class UpdateCustomerDialog extends CommonDialog implements
 			} else {
 				JOptionPane.showMessageDialog(null, "恭喜！修改成功！");
 				this.dispose();
+				if(params[8].equals("无")){
+					deleteFile();
+				}
 			}
 		}
 
@@ -372,23 +378,42 @@ public class UpdateCustomerDialog extends CommonDialog implements
 			add.setIcon(new ImageIcon("image/customer/add.png"));
 		} 
 		
-//		else if (arg0.getSource() == categroy) {
-//
-//			if (categroy.getSelectedItem().toString().equals("无")) {
-//				btnSetting(add, false);
-//				btnSetting(delete, false);
-//				add.removeActionListener(this);
-//				delete.removeActionListener(this);
-//				tuangou_lable.setText("暂无");
-//				add.setIcon(new ImageIcon("image/customer/add.png"));
-//				deleteFile();
-//			} else {
-//				btnSetting(add, true);
-//				btnSetting(delete, true);
-//				add.addActionListener(this);
-//				delete.addActionListener(this);
-//			}
-//		}
+		else if (arg0.getSource() == categroy) {
+			System.out.println(add.getMouseListeners().length);
+			if (categroy.getSelectedItem().toString().equals("无")) {
+				btnSetting(add, false);
+				btnSetting(delete, false);
+				add.removeActionListener(this);
+				add.removeMouseListener(mmml);
+				delete.removeActionListener(this);				
+				delete.removeMouseListener(mmml);
+				tuangou_lable.setText("暂无");
+				add.setIcon(new ImageIcon("image/customer/add.png"));
+				
+			} else {
+//				System.out.println(add.getMouseListeners());
+//				System.out.println(add.getMouseListeners()[1].getClass().getName().);
+				MouseListener[] ml=add.getMouseListeners();
+				for(int x=0;x<ml.length;x++){
+					System.out.println(ml[x]);
+					if(ml[x].getClass().getName().equals("com.partys.listener.MyJButtonMouseMoveListener")){
+						break;
+					}
+					if(x==ml.length){
+						add.addMouseListener(mmml);
+						add.addActionListener(this);				
+						delete.addMouseListener(mmml);
+						delete.addActionListener(this);
+					}
+					
+				}
+				add.setIcon(new ImageIcon("image/customer/update.png"));
+				btnSetting(add, true);
+				btnSetting(delete, true);
+					
+
+			}
+		}
 	}
 
 	private void deleteFile() {
