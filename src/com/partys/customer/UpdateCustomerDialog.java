@@ -306,7 +306,6 @@ public class UpdateCustomerDialog extends CommonDialog implements
 
 			this.add(jp[x]);
 		}
-//		listener=add.getMouseListeners().length;
 		this.setUndecorated(true);
 		NoTileDrag.setCanDraged(this);
 		super.initBasic(350, 500);
@@ -379,7 +378,7 @@ public class UpdateCustomerDialog extends CommonDialog implements
 		} 
 		
 		else if (arg0.getSource() == categroy) {
-			System.out.println(add.getMouseListeners().length);
+
 			if (categroy.getSelectedItem().toString().equals("нч")) {
 				btnSetting(add, false);
 				btnSetting(delete, false);
@@ -391,22 +390,19 @@ public class UpdateCustomerDialog extends CommonDialog implements
 				add.setIcon(new ImageIcon("image/customer/add.png"));
 				
 			} else {
-//				System.out.println(add.getMouseListeners());
-//				System.out.println(add.getMouseListeners()[1].getClass().getName().);
 				MouseListener[] ml=add.getMouseListeners();
 				for(int x=0;x<ml.length;x++){
-					System.out.println(ml[x]);
 					if(ml[x].getClass().getName().equals("com.partys.listener.MyJButtonMouseMoveListener")){
 						break;
 					}
-					if(x==ml.length){
+					if(x==ml.length-1){
 						add.addMouseListener(mmml);
 						add.addActionListener(this);				
 						delete.addMouseListener(mmml);
 						delete.addActionListener(this);
-					}
-					
+					}					
 				}
+				
 				add.setIcon(new ImageIcon("image/customer/update.png"));
 				btnSetting(add, true);
 				btnSetting(delete, true);

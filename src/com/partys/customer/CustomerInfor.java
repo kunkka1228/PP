@@ -2,7 +2,6 @@ package com.partys.customer;
 //这是人事管理界面
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -14,7 +13,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -25,10 +23,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-import com.partys.emp.UpdateEmpDialog;
 import com.partys.listener.MyJButtonMouseMoveListener;
 import com.partys.model.CustomerModel;
-import com.partys.model.EmpModel;
 import com.partys.tools.BasicUtil;
 import com.partys.tools.MyTools;
 public class CustomerInfor extends JPanel implements ActionListener,KeyListener,MouseListener{
