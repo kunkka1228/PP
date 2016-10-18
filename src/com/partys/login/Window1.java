@@ -369,7 +369,7 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 			this.myCard.show(jp3, "6");
 			
 		} else if (arg0.getSource() == p1_jl[7]) {
-			MediaHelp mh = new MediaHelp();
+			new MediaHelp();
 			
 		} else if (arg0.getSource() == p2_jl1) {
 			this.jsp.setDividerLocation(0);
