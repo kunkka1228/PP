@@ -1,6 +1,10 @@
 package com.partys.tools;
 
 import java.awt.Toolkit;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
@@ -41,6 +45,41 @@ public class BasicUtil {
 			n="0"+n;
 		}
 		return n;
+	}
+	
+	public static String getLocalMac(){
+		InetAddress ia=null;
+		try {
+			ia = InetAddress.getLocalHost();
+		} catch (UnknownHostException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}
+		
+		byte[] mac=null;
+		try {
+			mac = NetworkInterface.getByInetAddress(ia).getHardwareAddress();
+		} catch (SocketException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}
+		StringBuffer sb = new StringBuffer("");
+		for(int i=0; i<mac.length; i++) {
+			if(i!=0) {
+				sb.append("-");
+			}
+			//字节转换为整数
+			int temp = mac[i]&0xff;
+			String str = Integer.toHexString(temp);
+			if(str.length()==1) {
+				sb.append("0"+str);
+			}else {
+				sb.append(str);
+			}
+		}
+		
+		return sb.toString().toUpperCase();
+		
 	}
 	
 }

@@ -38,8 +38,9 @@ public class Configure extends JFrame {
 		mb=new JPanel(new FlowLayout(FlowLayout.RIGHT,23,12));
 		tab=new JTabbedPane(JTabbedPane.TOP,JTabbedPane.SCROLL_TAB_LAYOUT);
 		SubscriberInformation subscriberInformation=new SubscriberInformation();
+		PortConfigure portConfigure=new PortConfigure();
 		tab.add("用户信息",subscriberInformation);
-		tab.add("端口配置",new JPanel());
+		tab.add("端口设置",portConfigure);
 
 		finish=new JButton("完成");
 		finish.setBounds(380, 10, 50, 50);
@@ -49,13 +50,15 @@ public class Configure extends JFrame {
 		tab.setUI(new EclipseTabbedPaneUI());
 		this.add(tab,BorderLayout.CENTER);	
 		this.add(mb,BorderLayout.SOUTH);
-		this.getContentPane().setBackground(Color.white);
-		this.getContentPane().setVisible(true);//
+
 		this.setSize(447, 580);
 		this.setTitle("配置");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
+		this.setResizable(false);
 		this.setVisible(true);	
 	}
+	
+	
 
 }

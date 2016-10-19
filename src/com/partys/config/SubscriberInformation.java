@@ -14,9 +14,11 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import com.partys.commonparent.CommonJPanel;
+import com.partys.tools.BasicUtil;
 import com.partys.tools.MyTools;
 
-public class SubscriberInformation extends JPanel {
+public class SubscriberInformation extends CommonJPanel {
 
 	/**
 	 * 
@@ -54,13 +56,15 @@ public class SubscriberInformation extends JPanel {
 		jp[0].add(icon);		
 
 		user=new JTextField();
-		user.setBounds(130, 17, 280, 20);
+		user.setEditable(false);
+		user.setText(BasicUtil.getLocalMac());
+		user.setBounds(130, 17, 280, 24);
 		pwd=new JPasswordField();
-		pwd.setBounds(130, 47, 280, 20);
-		username=new JLabel("用户名:");
+		pwd.setBounds(130, 47, 280, 24);
+		username=new JLabel("Mac地址:");
 		code=new JLabel("注册码:");
-		initComp(username,20, 10, 50, 30);
-		initComp(code,20, 40, 50, 30);
+		initComp(username,20, 13, 50, 30);
+		initComp(code,20, 43, 50, 30);
 		register=new JLabel("<html><a href='www.baidu.com'>获得注册码?</a></html>");		
 		register.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		initComp(register,20, 70, 80, 30);
@@ -100,9 +104,6 @@ public class SubscriberInformation extends JPanel {
 		this.setLayout(null);					
 	}
 	
-	private void initComp(JComponent com,int x,int y,int witdh,int height){
-		com.setBounds(x, y, witdh, height);
-		com.setFont(MyTools.f2);	
-	}
+	
 	
 }

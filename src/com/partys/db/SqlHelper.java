@@ -73,8 +73,8 @@ import java.util.Properties;
 public class SqlHelper {
 	//定义需要的对象
 	private Connection con=null;
-	PreparedStatement ps=null;
-	ResultSet rs=null;
+	private PreparedStatement ps=null;
+	private ResultSet rs=null;
 	
 	private static String url = "";
 	private static String username = "";
@@ -86,12 +86,19 @@ public class SqlHelper {
 	//构造函数，初始化ct
 	public SqlHelper()
 	{
+		connect(url,username,password);
+	}
+	
+	public boolean connect(String u,String user,String pas){
+		boolean flag=true;
 		try {
 			//得到连接
-			con=DriverManager.getConnection(url,username,password);
+			con=DriverManager.getConnection(u,user,pas);
 		} catch (Exception e) {
+			flag=false;
 			e.printStackTrace();
 		}
+		return flag;
 	}
 	
 	
@@ -116,7 +123,8 @@ public class SqlHelper {
 			// TODO 自动生成的 catch 块
 			e.printStackTrace();
 		}
-		url = prop.getProperty("url");
+
+		url = "jdbc:mysql://"+prop.getProperty("url")+":"+prop.getProperty("port")+"/"+prop.getProperty("DatabaseName")+"?characterEncoding=gbk&useSSL=true";
 		username = prop.getProperty("username");
 		password = prop.getProperty("password");
 
