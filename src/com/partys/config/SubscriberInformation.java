@@ -65,7 +65,7 @@ public class SubscriberInformation extends CommonJPanel {
 		code=new JLabel("×¢²áÂë:");
 		initComp(username,20, 13, 50, 30);
 		initComp(code,20, 43, 50, 30);
-		register=new JLabel("<html><a href='www.baidu.com'>»ñµÃ×¢²áÂë?</a></html>");		
+		register=new JLabel("<html><a href='http://www.baidu.com' style='list-style:none'>»ñµÃ×¢²áÂë?</a></html>");		
 		register.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		initComp(register,20, 70, 80, 30);
 		jp[1].add(username);

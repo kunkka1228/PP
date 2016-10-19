@@ -2,8 +2,9 @@ package com.partys.config;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -14,7 +15,7 @@ import javax.swing.JTabbedPane;
 import com.partys.tools.EclipseTabbedPaneUI;
 import com.partys.tools.MyTools;
 
-public class Configure extends JFrame {
+public class Configure extends JFrame implements ActionListener{
 	/**
 	 * 
 	 */
@@ -45,6 +46,7 @@ public class Configure extends JFrame {
 		finish=new JButton("Íê³É");
 		finish.setBounds(380, 10, 50, 50);
 		finish.setFont(MyTools.f2);
+		finish.addActionListener(this);
 		mb.add(finish);
 		mb.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.DARK_GRAY));
 		tab.setUI(new EclipseTabbedPaneUI());
@@ -57,6 +59,16 @@ public class Configure extends JFrame {
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setVisible(true);	
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource()==finish){
+			this.dispose();
+
+		}
+		
 	}
 	
 	

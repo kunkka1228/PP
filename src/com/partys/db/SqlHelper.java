@@ -97,6 +97,7 @@ public class SqlHelper {
 		} catch (Exception e) {
 			flag=false;
 			e.printStackTrace();
+			return flag;
 		}
 		return flag;
 	}

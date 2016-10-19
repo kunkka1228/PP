@@ -53,14 +53,31 @@ public class ConfigureModel {
 		return sh.connect(url,username,pwd);
 	}
 	
-	public void setDataBaseParameter(String url,String port,String databaseName,String username,String pwd){		
+	public boolean setDataBaseParameter(String url,String port,String databaseName,String username,String pwd){	
+		boolean flag=true;
 		FileWriter fw = null;
+		if(!file.exists()){
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		try {
 			fw = new FileWriter(file);
+			prop.setProperty("url", url);
+			prop.setProperty("port", port);
+			prop.setProperty("DatabaseName", databaseName);
+			prop.setProperty("username", username);
+			prop.setProperty("password", pwd);
+			
 			prop.store(fw, "asd");
 		} catch (IOException e1) {
 			// TODO 自动生成的 catch 块
+			flag=false;
 			e1.printStackTrace();
+			return flag;
 		}
 		finally{
 			try {
@@ -74,6 +91,7 @@ public class ConfigureModel {
 				fw=null;
 			}
 		}
+		return flag;
 		
 	}
 	

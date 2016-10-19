@@ -28,6 +28,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
 import javax.swing.Timer;
 
+import com.partys.config.Configure;
 import com.partys.customer.CustomerInfor;
 import com.partys.emp.EmpInfo;
 import com.partys.tools.BasicUtil;
@@ -87,6 +88,8 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 		jmi[2] = new JMenuItem("配置", jmi3_icon3);
 		jmi[3] = new JMenuItem("万年历", jmi4_icon4);
 		jmi[4] = new JMenuItem("退出", jmi5_icon5);
+		
+		
 
 		jmi6_icon6 = new ImageIcon("image/toolBar_image/jb4.jpg");
 
@@ -339,6 +342,11 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 		else if(e.getSource()==jmi[1]){
 			new ModifyPassword(this, "修改密碼", true,uid);
 		}
+		
+		else if(e.getSource()==jmi[2]){
+			new Configure();
+		}
+		
 		else if(e.getSource()==tools[0]){
 			new Calculator();
 		}
