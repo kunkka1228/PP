@@ -33,18 +33,17 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 	 */
 	private static final long serialVersionUID = -4862664404523904129L;
 	//定义组件
-	private JPanel p1,p2,p3,p4,p5;
-	private JLabel p1_l1,p3_l1;
+	private JPanel p1,p2,p3,p4,p5,p6,p7,p8;
+	private JLabel p1_l1,p3_l1,empt,recordNum_label;
 	private JTextField p1_jtf;
-	private JButton p1_jb,p4_jb1,p4_jb2,p4_jb3,p4_jb4;
+	private JButton p1_jb,p4_jb1,p4_jb2,p4_jb3,p4_jb4,right,left;
 	private JTable jtable;
 	private JScrollPane jsp;
 	private CustomerModel cm;
 	private boolean detail=false;
-	private JComboBox<String> dianmian,keyWords;
-	private JPanel p6,p7,p8;
-	private JButton right,left;
-	private JLabel empt;
+	private JComboBox<String> dianmian,keyWords,recordNum_combobox;
+	private int pageNum=0;
+
 	public CustomerInfor()
 	{
 		//创建组件
@@ -82,7 +81,14 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 		left.addMouseListener(new MyJButtonMouseMoveListener());
 		right.addMouseListener(new MyJButtonMouseMoveListener());
 		
+		
+		recordNum_label=new JLabel("每页显示记录数目:");
+		String[] recordNumArr={"30","40","50","60","70"};
+		recordNum_combobox=new JComboBox(recordNumArr);
+		recordNum_combobox.addActionListener(this);
 		empt=new JLabel(" ");
+		p8.add(recordNum_label);
+		p8.add(recordNum_combobox);
 		p8.add(left);
 		p8.add(right);
 		p8.add(empt);
@@ -143,7 +149,7 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 			String content=p1_jtf.getText().trim();
 			if (content.equals("")) {
 				cm = new CustomerModel();
-				cm.querySimpleInfor();
+				cm.querySimpleInfor(pageNum+"",recordNum_combobox.getSelectedItem().toString());
 				querry();
 			} else {
 				String place=dianmian.getSelectedItem().toString();
@@ -256,6 +262,13 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 			String place=dianmian.getSelectedItem().toString();
 			cm = new CustomerModel();
 			cm.filterByPlace(place);			
+			querry();
+		}
+		
+		else if(arg0.getSource()==recordNum_combobox){
+			String number=(String) recordNum_combobox.getSelectedItem();
+			cm = new CustomerModel();
+			cm.querySimpleInfor(pageNum+"",number);
 			querry();
 		}
 	}

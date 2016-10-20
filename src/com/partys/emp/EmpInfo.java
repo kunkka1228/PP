@@ -38,6 +38,7 @@ public class EmpInfo extends JPanel implements ActionListener, KeyListener {
 	private EmpModel em = null;
 	private boolean detail = false;
 
+
 	public EmpInfo() {
 		// 创建组件
 

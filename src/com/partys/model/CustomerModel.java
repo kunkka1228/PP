@@ -121,6 +121,12 @@ public class CustomerModel extends CommonModel{
 		query(sql,null);
 	}
 	
+	public void querySimpleInfor(String index, String num){
+		String sql="select id, name,tel,dianmian,bookdate,starttime,endtime from customer limit "+index+ " , "+num;
+		query(sql,null);
+	}
+	
+	
 	public void querySimpleInforOneData(String[] params){
 		String sql="select id, name,tel,dianmian,bookdate,starttime,endtime from customer where id=?";
 		query(sql,params);
