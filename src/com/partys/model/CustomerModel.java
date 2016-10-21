@@ -1,8 +1,11 @@
 package com.partys.model;
 
+import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
 
 import com.partys.db.SqlHelper;
 
@@ -117,7 +120,7 @@ public class CustomerModel extends CommonModel{
 	}
 	
 	public void querySimpleInfor(){
-		String sql="select id, name,tel,dianmian,bookdate,starttime,endtime from customer where 1=1";
+		String sql="select id, name,tel,dianmian,bookdate,starttime,endtime from customer where 1=1 limit 0,30";
 		query(sql,null);
 	}
 	
@@ -143,19 +146,29 @@ public class CustomerModel extends CommonModel{
 		return UpdateModel(sql,params);
 	}
 	
-	public void filterByPlace(String place){
+	public void querySimpleInfor(String place,String recordNum,String number){
 		String sql="";
 		String[] params=new String[1];
 		if(place.equals("所有")){
-			sql="select id,name,tel,dianmian,bookdate,starttime,endtime from customer where 1=1";
+			sql="select id,name,tel,dianmian,bookdate,starttime,endtime from customer where 1=1 limit "+recordNum+ " , "+number;
 			params=null;
 		}
 		else{
 			params[0]=place;
-			sql="select id,name,tel,dianmian,bookdate,starttime,endtime from customer where dianmian=?";
+			sql="select id,name,tel,dianmian,bookdate,starttime,endtime from customer where dianmian=? limit "+recordNum+ " , "+number;
 		}
-		
 		query(sql,params);
 	}
 	
+	public void deleteFile(String tuangouhaoName){
+		try {					
+			File file=new File(tuangouhaoName);
+			file.delete();
+			JOptionPane.showMessageDialog(null, "恭喜！删除成功！");
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}	
+		
+	}
 }
