@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Container;
 import java.awt.Cursor;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -43,7 +44,7 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 	 */
 	private static final long serialVersionUID = 6829991336116522887L;
 	// 定义需要的组件
-	private Image titleIcon, timeBg, p1_bg, p3Icon, chart;
+	private Image titleIcon, p1_bg, p3Icon, chart;
 	private ImagePanel p1_bgImage, jp3Image, ct;
 	private JMenuBar jmb;
 	private JSplitPane jsp;
@@ -55,20 +56,15 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 			jmi10_icon10, jmi11_icon11, jmi12_icon12;
 	private JToolBar jtb;
 	private JButton[] jb = new JButton[10];
-	private JPanel jp1, jp2, jp3, jp4, jp5;
-	private JLabel showTime;// 显示时间
-	private JLabel p2_jl1, p2_jl2;
+	private JPanel jp1, jp2, jp3, jp4,p5;
+
+	private JLabel p2_jl1, p2_jl2,empt;
 	private JLabel p1_jl[] = new JLabel[8];
 	private CardLayout myCard;
-	private Timer t;// 可定时触发Action事件
 	private String uid;
 	private EmpInfo ei;
 	private CustomerInfor customerInfor;
-	private MenuInfo mi;
-	public static void main(String[] args) {
-		// TODO 自动生成的方法存根
-		new Window1("1111");
-	}
+	private String name;
 
 	// 菜单
 	private void initMenu() {
@@ -148,11 +144,16 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 			jmi[x].addActionListener(this);
 		}
 		jmb = new JMenuBar();
-
+		
 		for (int x = 0; x < 7; x++) {
 			jm[x].setFont(MyTools.f3);
 			jmb.add(jm[x]);
 		}
+
+//		p5=new JPanel(new FlowLayout(FlowLayout.RIGHT,25,3));
+//		System.out.println(p5.getBackground()+"..."+jmb.getBackground());
+//		p5.add(new JLabel(name));
+		jmb.add(new JLabel(name),-1);
 		this.setJMenuBar(jmb);
 	}
 
@@ -250,8 +251,8 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 		jp3.add(customerInfor, "2");
 
 		// 菜单价格
-		mi = new MenuInfo();
-		jp3.add(mi, "3");
+//		mi = new MenuInfo();
+//		jp3.add(mi, "3");
 
 		// 报表统计
 		try {
@@ -264,12 +265,12 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 		// ct.setBounds(0, 0, this.getWidth()-50, this.getHeight()-10);
 		jp3.add(ct, "4");
 		// 成本及库房
-		CostNum cn = new CostNum();
-		jp3.add(cn, "5");
+//		CostNum cn = new CostNum();
+//		jp3.add(cn, "5");
 
 		// 系统设置
-		OperatChoose oc = new OperatChoose();
-		jp3.add(oc, "6");
+//		OperatChoose oc = new OperatChoose();
+//		jp3.add(oc, "6");
 
 		// 动画音乐
 		jp4.add(jp2, "West");
@@ -279,29 +280,9 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 		jsp.setDividerSize(0);
 	}
 
-	// 状态栏
-	private void initEnd() {
-		jp5 = new JPanel(new BorderLayout());
-		t = new Timer(1000, this);// 每隔一秒触发ActonEvent
-		showTime = new JLabel("当前时间："
-				+ Calendar.getInstance().getTime().toString() + "   ");
-		showTime.setFont(MyTools.f1);
-
-		t.start();
-		try {
-			timeBg = ImageIO.read(new File("image/time_bg.jpg"));
-		} catch (IOException e) {
-			// TODO 自动生成的 catch 块
-			e.printStackTrace();
-		}
-		ImagePanel ip1 = new ImagePanel(timeBg);
-		ip1.setLayout(new BorderLayout());
-		ip1.add(showTime, "East");
-		jp5.add(ip1);
-	}
-
-	public Window1(String uid) {
+	public Window1(String uid,String name) {
 		this.uid=uid;
+		this.name=name;
 		try {
 			titleIcon = ImageIO.read(new File("image/title.gif"));
 		} catch (IOException e) {
@@ -315,10 +296,9 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 		// 中间
 		this.initCenter();
 		// 状态栏
-		this.initEnd();
 		Container ct = this.getContentPane();
 		ct.add(jtb, "North");
-		ct.add(jp5, "South");
+
 		ct.add(jsp, "Center");
 		int width = BasicUtil.getSreenWidthAndHeight()[0];
 		int height = BasicUtil.getSreenWidthAndHeight()[1];
@@ -332,8 +312,6 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO 自动生成的方法存根
-		this.showTime.setText("当前时间："
-				+ Calendar.getInstance().getTime().toLocaleString() + "   ");
 		if(e.getSource()==jmi[0]){
 			new UserLogin();
 			this.dispose();
@@ -354,6 +332,32 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
+		// TODO 自动生成的方法存根
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		for (int x = 1; x < 8; x++) {
+			if (arg0.getSource() == p1_jl[x]) {
+				this.p1_jl[x].setEnabled(true);
+			}
+		}
+		;
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		for (int x = 1; x < 8; x++) {
+			if (arg0.getSource() == p1_jl[x]) {
+				this.p1_jl[x].setEnabled(false);
+			}
+		}
+		;
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
 		// TODO 自动生成的方法存根
 		if (arg0.getSource() == p1_jl[1]) {
 			ei = new EmpInfo();
@@ -386,32 +390,6 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 			this.jsp.setDividerLocation(Toolkit.getDefaultToolkit()
 					.getScreenSize().width);
 		}
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		for (int x = 1; x < 8; x++) {
-			if (arg0.getSource() == p1_jl[x]) {
-				this.p1_jl[x].setEnabled(true);
-			}
-		}
-		;
-	}
-
-	@Override
-	public void mouseExited(MouseEvent arg0) {
-		for (int x = 1; x < 8; x++) {
-			if (arg0.getSource() == p1_jl[x]) {
-				this.p1_jl[x].setEnabled(false);
-			}
-		}
-		;
-	}
-
-	@Override
-	public void mousePressed(MouseEvent arg0) {
-		// TODO 自动生成的方法存根
-
 	}
 
 	@Override

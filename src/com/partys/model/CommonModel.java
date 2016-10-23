@@ -40,7 +40,7 @@ public class CommonModel extends AbstractTableModel {
 		return obj;
 	}
 
-	public void query(String sql, String[] params) {
+	public String query(String sql, String[] params) {
 		// 初始化
 
 		colums = new Vector<String>();
@@ -65,10 +65,92 @@ public class CommonModel extends AbstractTableModel {
 		} finally {
 			hp.close();
 		}
+		String maxId=(rows.get(rows.size()-1)).get(0);
+		return maxId;
 	}
 	
 	
-
+	public int query(String sql, String[] params, String place, int index, String number,boolean flag) {
+		int[] arr=new int[2];
+		// 初始化
+		Vector<Vector<String>> t = new Vector<Vector<String>>();
+		colums = new Vector<String>();
+		rows = new Vector<Vector<String>>();
+		SqlHelper hp = new SqlHelper();
+		ResultSet rs = hp.queryExecute(sql, params);
+		int sum=0;
+		int all=0;
+		try {
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int columnNum=rsmd.getColumnCount();
+			for (int i = 0; i <columnNum ; i++) {
+				this.colums.add(rsmd.getColumnName(i + 1));
+			}
+				
+			if(flag){
+				rs.absolute(index);	
+				while (rs.next()&&sum<Integer.parseInt(number)) {
+					all++;
+					if(place.equals("所有")){
+						Vector<String> temp = new Vector<String>();
+						for (int i = 0; i < columnNum; i++) {
+							temp.add(rs.getString(i + 1));
+						}
+						rows.add(temp);
+						sum++;
+					}
+					else{
+						if(rs.getString("dianmian").equals(place)){
+							Vector<String> temp = new Vector<String>();
+							for (int i = 0; i < columnNum; i++) {
+								temp.add(rs.getString(i + 1));
+							}
+							rows.add(temp);
+							sum++;
+						}		
+					}								
+				}
+			}
+			
+			else{
+				rs.absolute(index);	
+				while (rs.previous()&&sum<Integer.parseInt(number)) {
+					all--;
+					if(place.equals("所有")){
+						Vector<String> temp = new Vector<String>();
+						for (int i = 0; i < columnNum; i++) {
+							temp.add(rs.getString(i + 1));
+						}
+						t.add(temp);
+						sum++;
+					}
+					else{
+						if(rs.getString("dianmian").equals(place)){
+							Vector<String> temp = new Vector<String>();
+							for (int i = 0; i < columnNum; i++) {
+								temp.add(rs.getString(i + 1));
+							}
+							t.add(temp);
+							sum++;
+						}		
+					}		
+				}
+				
+				for(int x=t.size()-1;x>=0;x--){
+					rows.add(t.get(x));
+				}					
+			}				
+	
+		} catch (Exception e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		} finally {
+			hp.close();
+		}
+		
+		return index+all;
+	}
+	
 
 	public String getColumnName(int arg0) {
 		// TODO 自动生成的方法存根
@@ -123,5 +205,7 @@ public class CommonModel extends AbstractTableModel {
 
 		return name;
 	}
+	
+	
 
 }

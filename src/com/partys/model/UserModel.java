@@ -51,6 +51,9 @@ public class UserModel {
 				loginInfor[0]=rs.getString("joblevel");
 				loginInfor[1]=rs.getString("name");
 			}
+			else{
+				loginInfor[0]="нч";
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

@@ -135,7 +135,8 @@ public class SqlHelper {
 	public ResultSet queryExecute(String sql,String []params)
 	{
 		try {
-			ps=con.prepareStatement(sql);
+			ps=con.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+
 			//对sql的参数赋值
 			if(params!=null){
 				for(int i=0;i<params.length;i++)
@@ -174,6 +175,7 @@ public class SqlHelper {
 		return sum;
 	}
 	
+
 	public boolean updateExecete(String[] sql,String[][]params){
 		boolean b=true;		
 		try {

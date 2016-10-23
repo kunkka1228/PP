@@ -146,19 +146,21 @@ public class CustomerModel extends CommonModel{
 		return UpdateModel(sql,params);
 	}
 	
-	public void querySimpleInfor(String place,String recordNum,String number){
+
+	public int querySimpleInfor(String place,int index,String number,boolean flag){
 		String sql="";
 		String[] params=new String[1];
 		if(place.equals("所有")){
-			sql="select id,name,tel,dianmian,bookdate,starttime,endtime from customer where 1=1 limit "+recordNum+ " , "+number;
+			sql="select id,name,tel,dianmian,bookdate,starttime,endtime from customer where 1=1";
 			params=null;
 		}
 		else{
 			params[0]=place;
-			sql="select id,name,tel,dianmian,bookdate,starttime,endtime from customer where dianmian=? limit "+recordNum+ " , "+number;
+			sql="select id,name,tel,dianmian,bookdate,starttime,endtime from customer where dianmian=?";
 		}
-		query(sql,params);
+		return query(sql,params,place,index,number,flag);
 	}
+	
 	
 	public void deleteFile(String tuangouhaoName){
 		try {					
@@ -171,4 +173,49 @@ public class CustomerModel extends CommonModel{
 		}	
 		
 	}
+	
+	
+	public int getMaxCountByPlace(String place){
+		int sum=0;
+		if(place.equals("所有")){
+			return getNum();
+		}
+		else{
+			String sql="select count(*) from customer where dianmian = '"+place+"'";
+			SqlHelper hp=new SqlHelper();
+			sum=hp.queryExecute(sql);
+			hp=null;
+		}
+			
+		return sum;
+	}
+
+	@Override
+	public int getColumnCount() {
+		// TODO Auto-generated method stub
+		return super.getColumnCount();
+	}
+
+	@Override
+	public int getRowCount() {
+		// TODO Auto-generated method stub
+		return super.getRowCount();
+	}
+
+	@Override
+	public Object getValueAt(int arg0, int arg1) {
+		// TODO Auto-generated method stub
+		return super.getValueAt(arg0, arg1);
+	}
+
+	@Override
+	public String getColumnName(int arg0) {
+		// TODO Auto-generated method stub
+		return super.getColumnName(arg0);
+	}
+	
+	
+	
+	
+	
 }

@@ -6,6 +6,8 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.IOException;
 
@@ -23,30 +25,40 @@ import com.partys.model.UserModel;
 import com.partys.tools.MyTools;
 import com.partys.view.Window2;
 
-public class UserLogin extends JDialog implements ActionListener{
+public class UserLogin extends JDialog implements ActionListener, KeyListener{
 
 	/**
 	 * @param args
 	 */
-	JLabel jl1,jl2,jl3;
+	JLabel jl1,jl2,jl3,prop1,prop2;
 	JTextField jname;
 	JPasswordField jpass;
 	JButton jconfirm,jcancel;
 	public static void main(String[] args) {
-		UserLogin ul=new UserLogin();
+		new UserLogin();
 	}
 	public UserLogin(){
 		Container ct=this.getContentPane();
+		prop1=new JLabel();
+		prop2=new JLabel();
 		this.setLayout(null);
 		jl1=new JLabel("请输入用户名:");
 		jl1.setFont(MyTools.f1);
-		jl1.setBounds(60, 190, 150, 30);
+		jl1.setBounds(40, 190, 150, 30);
 		ct.add(jl1);
 		jname=new JTextField(20);
+		
 		jname.setFont(MyTools.f1);
-		jname.setBounds(180, 190, 120, 30);
+		jname.setBounds(160, 190, 120, 30);
 		jname.setBorder(BorderFactory.createLoweredBevelBorder());
+		jname.addKeyListener(this);
 		ct.add(jname);
+		
+		prop1.setFont(MyTools.f2);
+		prop1.setForeground(Color.red);
+		prop1.setBounds(290, 190, 120, 30);
+
+		ct.add(prop1);
 		
 		jl2=new JLabel("(用户Id)");
 		jl2.setFont(MyTools.f2);
@@ -56,12 +68,18 @@ public class UserLogin extends JDialog implements ActionListener{
 		
 		jl3=new JLabel("请 输入密 码 :");
 		jl3.setFont(MyTools.f1);
-		jl3.setBounds(60, 240, 150, 30);
+		jl3.setBounds(40, 240, 150, 30);
 		ct.add(jl3);
+		prop2.setFont(MyTools.f2);
+		prop2.setForeground(Color.red);
+		prop2.setBounds(285, 240, 120, 30);
+		
+		ct.add(prop2);
 		jpass=new JPasswordField(20);
 		jpass.setFont(MyTools.f1);
-		jpass.setBounds(180, 240, 120, 30);
+		jpass.setBounds(160, 240, 120, 30);
 		jpass.setBorder(BorderFactory.createLoweredBevelBorder());
+		jpass.addKeyListener(this);
 		ct.add(jpass);
 		
 		jconfirm=new JButton("确定");
@@ -110,37 +128,7 @@ public class UserLogin extends JDialog implements ActionListener{
 		
 		if(e.getSource()==jconfirm)
 		{
-			String uid=this.jname.getText().trim();
-			String p=new String(this.jpass.getPassword());
-			UserModel um=new UserModel();
-			String zhiwei=new String (um.getJoblevel(uid, p)[0].trim());
-			String name=um.getJoblevel(uid, p)[1].trim();
-			String empname=um.getNameById(uid);
-			if(empname!=null){
-			if("经理".equals(zhiwei))
-			{
-				this.dispose();
-				new Window1(uid);				
-				String welcome="欢迎您--"+name;
-				JOptionPane.showMessageDialog(this, welcome);
-				
-			}
-			else if("职员".equals(zhiwei))
-			{
-				Window2 w2=new Window2(empname,zhiwei);
-				Thread a=new Thread(w2);
-				a.start();
-				String welcome="欢迎您--"+name;
-				JOptionPane.showMessageDialog(this, welcome);
-				this.dispose();
-				
-			}
-			else 
-			{
-				JOptionPane.showMessageDialog(this, "对不起！您的权限不足无法登陆！");
-			}
-			
-			}
+			LoginToWindow();
 		}
 		else if(e.getSource()==jcancel)
 			
@@ -150,6 +138,75 @@ public class UserLogin extends JDialog implements ActionListener{
 			this.dispose();
 		}
 		
+	}
+	private void LoginToWindow() {
+		String uid=this.jname.getText().trim();
+		String p=new String(this.jpass.getPassword());
+		if(uid.equals("")){
+			prop1.setText("不能为空");
+		}
+		
+		if(p.equals("")){
+			prop2.setText("不能为空");
+			return;
+		}
+		UserModel um=new UserModel();
+		String zhiwei=new String (um.getJoblevel(uid, p)[0].trim());
+		if(zhiwei.equals("无")){
+			prop2.setText("ID或密码错误");
+		}
+		String name=um.getJoblevel(uid, p)[1].trim();
+		String empname=um.getNameById(uid);
+		if(empname!=null){
+		if("经理".equals(zhiwei))
+		{
+			this.dispose();
+			new Window1(uid,name);				
+			String welcome="欢迎您--"+name;
+			JOptionPane.showMessageDialog(this, welcome);
+			
+		}
+		else if("职员".equals(zhiwei))
+		{
+			Window2 w2=new Window2(empname,zhiwei);
+			Thread a=new Thread(w2);
+			a.start();
+			String welcome="欢迎您--"+name;
+			JOptionPane.showMessageDialog(this, welcome);
+			this.dispose();
+			
+		}
+		else 
+		{
+			JOptionPane.showMessageDialog(this, "对不起！您的权限不足无法登陆！");
+		}
+		
+		}
+	}
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		if(!prop1.equals("")){
+			prop1.setText("");
+		}
+		
+		if(!prop2.equals("")){
+			prop2.setText("");
+		}
+		
+		
+	}
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getKeyCode()==KeyEvent.VK_ENTER){
+			LoginToWindow();
+		}	
 	}
 
 }

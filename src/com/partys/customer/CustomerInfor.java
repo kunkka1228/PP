@@ -44,10 +44,11 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 	private CustomerModel cm;
 	private boolean detail=false;
 	private JComboBox<String> dianmian,keyWords,recordNum_combobox;
-	private int pageNum=0;
-	private int pageOld=0;
-	private int recordOld=0;
+	private int cursorIndexOld=0;
+	private int cursorIndex=30;
 	private MyJButtonMouseMoveListener mmml;
+	private String number="";
+	private String place="";
 
 	public CustomerInfor()
 	{
@@ -85,16 +86,14 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 		btnSetting(left);
 		btnSetting(right);
 		mmml=new MyJButtonMouseMoveListener();
-		
-//		left.addActionListener(this);
+
 		right.addMouseListener(mmml);
-//		right.addActionListener(this);
-		left.addMouseListener(this);
 		right.addMouseListener(this);
 		
 		recordNum_label=new JLabel("每页显示记录数目:");
 		String[] recordNumArr={"1","10","30","40","50","60","70"};
 		recordNum_combobox=new JComboBox(recordNumArr);
+		recordNum_combobox.setSelectedItem("30");
 		recordNum_combobox.addActionListener(this);
 		empt=new JLabel(" ");
 		p8.add(recordNum_label);
@@ -143,6 +142,8 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 		p4.add(p4_jb4);
 		p5.add(p3,"West");
 		p5.add(p4,"East");
+		place=dianmian.getSelectedItem().toString();
+		number=(String) recordNum_combobox.getSelectedItem();
 		this.setLayout(new BorderLayout());
 		this.add(p1,"North");
 		this.add(p2,"Center");
@@ -158,11 +159,20 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 			String content=p1_jtf.getText().trim();
 			if (content.equals("")) {
 				cm = new CustomerModel();
-				String number=(String) recordNum_combobox.getSelectedItem();
-				cm.querySimpleInfor(pageNum+"",number);
+				cm.querySimpleInfor(0+"",number);
 				querry();
+				cursorIndexOld=0;
+				
+				if(right.getMouseListeners().length==1){		
+					enableBtn(right);											
+				}	
+				if(cursorIndexOld==0&&left.getMouseListeners().length==3){		
+					disableBtn(left);	
+					right.setFocusable(false);
+					dianmian.setEnabled(true);
+				}
+				
 			} else {
-				String place=dianmian.getSelectedItem().toString();
 				String keywords=keyWords.getSelectedItem().toString();
 				String params[] = {content,place};
 				cm = new CustomerModel();
@@ -199,11 +209,29 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 			AddCustomerDialog emd = new AddCustomerDialog(null, "添加", true);
 			if (!emd.getFlag()) {
 				cm = new CustomerModel();
-				String number=(String) recordNum_combobox.getSelectedItem();
-				cm.querySimpleInfor(pageNum+"",number);
+				
+				try {
+					dianmian.setSelectedItem("所有");
+					cm.querySimpleInfor(place,0,number,true);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				querry();
 				querryCount();
-				dianmian.setSelectedItem("所有");
+				
+				cursorIndexOld=0;
+				if(!dianmian.isEnabled()){
+					dianmian.setEnabled(true);
+				}
+				if(right.getMouseListeners().length==1){		
+					enableBtn(right);											
+				}	
+				if(cursorIndexOld==0&&left.getMouseListeners().length==3){		
+					disableBtn(left);	
+					right.setFocusable(false);
+					dianmian.setEnabled(true);
+				}
 			}
 			if(detail){
 				detail=!detail;
@@ -226,8 +254,8 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 				UpdateCustomerDialog ucd = new UpdateCustomerDialog(null, "修改", true,
 						0, cm);
 				if (!ucd.getFlag()) {
-					String number=(String) recordNum_combobox.getSelectedItem();
-					cm.querySimpleInfor(pageNum+"",number);
+
+					cm.querySimpleInfor(place,cursorIndexOld,number,true);
 					querry();
 					dianmian.setSelectedItem("所有");
 					querryCount();
@@ -253,8 +281,7 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 					cm = new CustomerModel();
 					cm.deleteByID(params);					
 					querryCount();
-					String number=(String) recordNum_combobox.getSelectedItem();
-					cm.querySimpleInfor(pageNum+"",number);
+					cm.querySimpleInfor(place,cursorIndexOld,number,true);
 					querry();
 					dianmian.setSelectedItem("所有");
 					cm.deleteFile(tuangouhaoName);
@@ -266,24 +293,65 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 			}
 		}
 		
-		else if(arg0.getSource()==recordNum_combobox){
-			String place=dianmian.getSelectedItem().toString();
-			String number=(String) recordNum_combobox.getSelectedItem();
-			cm = new CustomerModel();
-			cm.querySimpleInfor(place,(pageNum*recordOld)+"",number);			
-			querry();
+		else if(arg0.getSource()==recordNum_combobox ){
+			number=recordNum_combobox.getSelectedItem().toString();
+			changeCombo();
 			
 		}
 		
+		
 		else if(arg0.getSource()==dianmian){
-			String place=dianmian.getSelectedItem().toString();
-			String number=(String) recordNum_combobox.getSelectedItem();
-			cm = new CustomerModel();
-			cm.querySimpleInfor(place,(pageNum*recordOld)+"",number);			
-			querry();
+			place=dianmian.getSelectedItem().toString();
+			changeCombo();
+		}
+				
+	}
+	
+	private void changeCombo(){
+		cm = new CustomerModel();
+		cursorIndex=cm.querySimpleInfor(place,cursorIndexOld,number,true);
+		int maxNum=cm.getMaxCountByPlace(place);
+		int numPerPage=Integer.parseInt((String)recordNum_combobox.getSelectedItem());
+		if(maxNum-cursorIndexOld<numPerPage|(maxNum-cursorIndexOld==numPerPage)&(maxNum-cursorIndex<maxNum)){	
+			disableRight();							
+		}
+		else{
+			enableRight();
 		}
 		
-				
+		querry();
+	}
+	
+	private void disableRight(){
+		if(right.getMouseListeners().length==3){
+			disableBtn(right);	
+		}
+	}
+	
+	private void enableRight(){
+		if(right.getMouseListeners().length==1){	
+			enableBtn(right);
+		}
+	}
+		
+	private void enableLeft(){
+		if(left.getMouseListeners().length==1){
+			enableBtn(left);		
+		}
+	}
+	
+	private void enableBtn(JButton btn){
+		btn.addMouseListener(mmml);
+		btn.addMouseListener(this);
+		btn.setEnabled(true);	
+		
+	}
+	
+	private void disableBtn(JButton btn){
+		btn.setEnabled(false);	
+		btn.removeMouseListener(this);
+		btn.removeMouseListener(mmml);					
+		btn.setBorder(null);	
 	}
 
 	private void querryCount() {
@@ -327,47 +395,20 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO 自动生成的方法存根
-		if(e.getSource()==right){
-			String number=(String) recordNum_combobox.getSelectedItem();
-			recordOld=Integer.parseInt(number);
-			pageNum++;
-			if(left.getMouseListeners().length==2){
-				left.addMouseListener(mmml);
-				left.setEnabled(true);
+		if(e.getSource()==left){
+			if(cursorIndexOld==0&&left.getMouseListeners().length==3){		
+				disableBtn(left);	
+				right.setFocusable(false);
+				dianmian.setEnabled(true);
+				cursorIndexOld=0;
 			}
-			
-			String place=dianmian.getSelectedItem().toString();
-			
-			cm = new CustomerModel();
-			cm.querySimpleInfor(place,(pageNum*(Integer.parseInt(number)))+"",number);			
-			querry();
-			
-		}
-		else if(e.getSource()==left){
-			if(pageNum>0){
-				pageNum--;
-				if(pageNum==0){
-					if(left.getMouseListeners().length==3){		
-						left.setEnabled(false);	
-						left.removeMouseListener(mmml);	
-						left.setBorder(null);												
-					}						
-				}
-			
-				String place=dianmian.getSelectedItem().toString();
-				String number=(String) recordNum_combobox.getSelectedItem();
-				cm = new CustomerModel();
-				cm.querySimpleInfor(place,(pageNum*(Integer.parseInt(number)))+"",number);			
-				querry();
-			}			
-		}
-		
-		
+		}		
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO 自动生成的方法存根
+		
 		
 	}
 
@@ -375,6 +416,33 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 	public void mouseReleased(MouseEvent e) {
 		// TODO 自动生成的方法存根
 		
+		if(e.getSource()==right){
+			cm = new CustomerModel();	
+			enableLeft();		
+			if(dianmian.isEnabled()){
+				dianmian.setEnabled(false);
+			}
+						
+			cursorIndexOld=cursorIndex;
+			cursorIndex=cm.querySimpleInfor(place,cursorIndex,number,true);		
+			querry();
+			int maxNum=cm.getMaxCountByPlace(place);
+			int numPerPage=Integer.parseInt((String)recordNum_combobox.getSelectedItem());
+			if(maxNum-cursorIndexOld<numPerPage|(maxNum-cursorIndexOld==numPerPage)&(maxNum-cursorIndex<maxNum)){	
+				disableRight();							
+			}		
+		}
+		
+		else if(e.getSource()==left){			
+			if(cursorIndexOld>0){
+				enableRight();		
+				cm = new CustomerModel();
+				cursorIndex=cursorIndexOld;
+				cursorIndexOld=cm.querySimpleInfor(place,cursorIndex+1,number,false)-1;						
+				querry();	
+				
+			}
+		}		
 	}
 
 	@Override
