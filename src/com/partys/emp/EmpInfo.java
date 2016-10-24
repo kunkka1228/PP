@@ -3,14 +3,12 @@ package com.partys.emp;
 //这是人事管理界面
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -37,42 +35,54 @@ public class EmpInfo extends JPanel implements ActionListener, KeyListener {
 	private JScrollPane jsp;
 	private EmpModel em = null;
 	private boolean detail = false;
-
+	
 
 	public EmpInfo() {
 		// 创建组件
-
-		// 北
-		p1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		p1_l1 = new JLabel("请输入姓名（员工号或职位）:");
-		p1_l1.setFont(MyTools.f1);
+		em = new EmpModel();
+		em.querySimpleInfor();
+		initLabel();
+		initBtn();
+		initTexFeild();
+		initTable();
+		initScrollPane();
+		initPanel();
+		ini();
+	}
+	
+	private void initTexFeild(){
 		p1_jtf = new JTextField(20);
 		p1_jtf.addKeyListener(this);
+	}
+	
+	private void initTable(){
+		jtable = new JTable(em);
+		BasicUtil.horizontal(jtable);
+	}
+	
+	private void initScrollPane(){
+		jsp = new JScrollPane(jtable);
+	}
+	
+	private void ini(){
+		this.setLayout(new BorderLayout());
+		this.add(p1, "North");
+		this.add(p2, "Center");
+		this.add(p5, "South");
+		this.setVisible(true);
+	}
+	
+	private void initLabel(){
+		p1_l1 = new JLabel("请输入姓名（员工号或职位）:");
+		p1_l1.setFont(MyTools.f1);
+		int sum = em.getNum();
+		p3_l1 = new JLabel("总记录是" + sum + "条");
+	}
+	
+	private void initBtn(){
 		p1_jb = new JButton("查询");
 		p1_jb.addActionListener(this);
 		p1_jb.setFont(MyTools.f4);
-		p1.add(p1_l1);
-		p1.add(p1_jtf);
-		p1.add(p1_jb);
-		// 中间
-		p2 = new JPanel(new BorderLayout());
-
-		em = new EmpModel();
-		em.querySimpleInfor();
-		jtable = new JTable(em);
-		BasicUtil.horizontal(jtable);
-		jsp = new JScrollPane(jtable);
-		p2.add(jsp);
-
-		// 南
-		p5 = new JPanel(new BorderLayout());
-		p3 = new JPanel(new FlowLayout(FlowLayout.LEFT,5,7));
-
-		em = new EmpModel();
-		int sum = em.getNum();
-		p3_l1 = new JLabel("总记录是" + sum + "条");
-		p3.add(p3_l1);
-		p4 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		p4_jb1 = new JButton("详细信息");
 		p4_jb1.addActionListener(this);
 		p4_jb1.setFont(MyTools.f4);
@@ -85,19 +95,26 @@ public class EmpInfo extends JPanel implements ActionListener, KeyListener {
 		p4_jb4 = new JButton("删除");
 		p4_jb4.addActionListener(this);
 		p4_jb4.setFont(MyTools.f4);
+	}
+	
+	private void initPanel(){
+		p1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		p2 = new JPanel(new BorderLayout());				
+		p3 = new JPanel(new FlowLayout(FlowLayout.LEFT,5,7));
+	    p4 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		p5 = new JPanel(new BorderLayout());
+		p1.add(p1_l1);
+		p1.add(p1_jtf);
+		p1.add(p1_jb);
+		p2.add(jsp);
+		p3.add(p3_l1);
 		p4.add(p4_jb1);
 		p4.add(p4_jb2);
 		p4.add(p4_jb3);
 		p4.add(p4_jb4);
 		p5.add(p3, "West");
 		p5.add(p4, "East");
-		this.setLayout(new BorderLayout());
-		this.add(p1, "North");
-		this.add(p2, "Center");
-		this.add(p5, "South");
-		this.setVisible(true);
 	}
-
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getSource().equals(p1_jb)) {
@@ -158,7 +175,6 @@ public class EmpInfo extends JPanel implements ActionListener, KeyListener {
 			}
 			
 			else {
-				int i=rowNum;
 				UpdateEmpDialog up=null;
 				em = new EmpModel();
 				String id = (String)jtable.getValueAt(rowNum, 0);

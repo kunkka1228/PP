@@ -40,7 +40,7 @@ public class CommonModel extends AbstractTableModel {
 		return obj;
 	}
 
-	public String query(String sql, String[] params) {
+	public void query(String sql, String[] params) {
 		// 初始化
 
 		colums = new Vector<String>();
@@ -65,13 +65,10 @@ public class CommonModel extends AbstractTableModel {
 		} finally {
 			hp.close();
 		}
-		String maxId=(rows.get(rows.size()-1)).get(0);
-		return maxId;
 	}
 	
 	
 	public int query(String sql, String[] params, String place, int index, String number,boolean flag) {
-		int[] arr=new int[2];
 		// 初始化
 		Vector<Vector<String>> t = new Vector<Vector<String>>();
 		colums = new Vector<String>();

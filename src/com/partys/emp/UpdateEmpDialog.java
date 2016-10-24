@@ -36,14 +36,22 @@ public class UpdateEmpDialog extends CommonDialog implements ActionListener {
 	private JPanel[] jp=new JPanel[12];
 	private JLabel year_lable,month_lable,day_lable;
 
+	
 	public UpdateEmpDialog(Frame owner, String title, boolean modal,int rowNum, EmpModel em) {
 		super(owner, title, modal);
 		this.rowNum=rowNum;
-		this.em=em;
+		this.em=em;		
+		initLabel();
+		initJtextFiled();	
+		initBg();
+		initBtn();
+		initCombobox();
+		iniData();
+		initPanel();
 		iniUpdateEmpDialog();
-	}
 		
-	private void iniUpdateEmpDialog(){		
+	}
+	private void initLabel(){
 		jl[0]=new JLabel("编号:");		
 		jl[1]=new JLabel("姓名:");				
 		jl[2]=new JLabel("性别:");
@@ -62,13 +70,25 @@ public class UpdateEmpDialog extends CommonDialog implements ActionListener {
 			}
 			jl[x].setBounds(30,10,80,30);
 		}
-		
+		year_lable=new JLabel("年");
+		month_lable=new JLabel("月");
+		day_lable=new JLabel("日");
+		year_lable.setBounds(160, 10, 30, 30);		
+		month_lable.setBounds(230, 10, 30, 30);		
+		day_lable.setBounds(300, 10, 30, 30);
+	}
+	
+	private void initJtextFiled(){
 		for(int x=0;x<7;x++){
 			jtf[x]=new JTextField(20);	
 			jtf[x].setBounds(95,10,215, 30);
 		}
-		jtf[0].setEditable(false);	
-				
+		
+		jtf[0].setEditable(false);
+		jtf[0].setText(BasicUtil.getAutoNumber(4,"renshi"));		
+	}
+	
+	private void initBg(){
 		male=new JRadioButton("男");
 		male.setBounds(95, 10, 40, 30);
 		female=new JRadioButton("女");
@@ -76,8 +96,12 @@ public class UpdateEmpDialog extends CommonDialog implements ActionListener {
 		bg=new ButtonGroup();
 		bg.add(male);
 		bg.add(female);
-
-		
+		Color color=new Color(198,222,246);
+		male.setBackground(color);
+		female.setBackground(color);
+	}
+	
+	private void initCombobox(){
 		String[] years=new String[50];
 		String[] months=new String[12];
 		String[] days=new String[31];
@@ -109,13 +133,6 @@ public class UpdateEmpDialog extends CommonDialog implements ActionListener {
 		month.setBounds(180, 10, 45, 30);
 		day=new JComboBox(days);
 		day.setBounds(250, 10, 45, 30);
-		
-		year_lable=new JLabel("年");
-		year_lable.setBounds(160, 10, 30, 30);
-		month_lable=new JLabel("月");
-		month_lable.setBounds(230, 10, 30, 30);
-		day_lable=new JLabel("日");
-		day_lable.setBounds(300, 10, 30, 30);
 						
 		String[] jobs={"经理","员工"};		
 		joblevel=new JComboBox(jobs);
@@ -123,7 +140,9 @@ public class UpdateEmpDialog extends CommonDialog implements ActionListener {
 		String[] marr={"已婚","未婚","离异","丧偶"};
 		marriage=new JComboBox(marr);
 		marriage.setBounds(250, 10, 60, 30);
-		
+	}
+	
+	private void initBtn(){
 		jb1=new JButton("確定");
 		jb1.setBounds(95, 10, 70, 30);
 		jb1.setFont(MyTools.f4);
@@ -133,45 +152,20 @@ public class UpdateEmpDialog extends CommonDialog implements ActionListener {
 		jb2.setBounds(200, 10, 70, 30);
 		jb2.setFont(MyTools.f4);
 		jb2.addActionListener(this);
+	}
+	
+	private void initPanel(){
 		Color color=new Color(198,222,246);
-		male.setBackground(color);
-		female.setBackground(color);
+			
 		for(int x=0;x<12;x++){
-
-				jp[x]=new JPanel();
-				jp[x].setLayout(null);
-
+			jp[x]=new JPanel();
+			jp[x].setLayout(null);
 			jp[x].setForeground(Color.cyan);
 			jp[x].setBounds(0, x*45, 350, 50);
-			
-			
 			jp[x].setBackground(color);
 			jp[x].setBorder(new EtchedBorder());
 		}
 		
-		
-		//赋值
-		jtf[0].setText((String)em.getValueAt(rowNum, 0));
-		jtf[1].setText((String)em.getValueAt(rowNum, 1));
-		if(((String)em.getValueAt(rowNum, 2)).equals("男")){
-			male.setSelected(true);
-		}
-		else{
-			female.setSelected(true);
-		}
-		jtf[2].setText((String)em.getValueAt(rowNum, 3));
-		String birthday=(String)em.getValueAt(rowNum, 4);
-		String[] birthArr=birthday.split("-");
-		
-		year.setSelectedItem(birthArr[0]);
-		month.setSelectedItem(birthArr[1]);
-		day.setSelectedItem(birthArr[2]);
-		jtf[3].setText((String)em.getValueAt(rowNum, 5));
-		jtf[4].setText((String)em.getValueAt(rowNum, 6));
-		joblevel.setSelectedItem((String)em.getValueAt(rowNum, 7));
-		marriage.setSelectedItem((String)em.getValueAt(rowNum, 8));
-		jtf[5].setText((String)em.getValueAt(rowNum, 9));
-		jtf[6].setText((String)em.getValueAt(rowNum, 10));
 		jp[0].add(jl[0]);
 		jp[0].add(jtf[0]);
 		
@@ -213,8 +207,33 @@ public class UpdateEmpDialog extends CommonDialog implements ActionListener {
 		jp[9].add(jtf[6]);
 		jp[10].add(jb1);
 		jp[10].add(jb2);
+	}
+	
+	private void iniData(){
+		jtf[0].setText((String)em.getValueAt(rowNum, 0));
+		jtf[1].setText((String)em.getValueAt(rowNum, 1));
+		if(((String)em.getValueAt(rowNum, 2)).equals("男")){
+			male.setSelected(true);
+		}
+		else{
+			female.setSelected(true);
+		}
+		jtf[2].setText((String)em.getValueAt(rowNum, 3));
+		String birthday=(String)em.getValueAt(rowNum, 4);
+		String[] birthArr=birthday.split("-");
 		
-		
+		year.setSelectedItem(birthArr[0]);
+		month.setSelectedItem(birthArr[1]);
+		day.setSelectedItem(birthArr[2]);
+		jtf[3].setText((String)em.getValueAt(rowNum, 5));
+		jtf[4].setText((String)em.getValueAt(rowNum, 6));
+		joblevel.setSelectedItem((String)em.getValueAt(rowNum, 7));
+		marriage.setSelectedItem((String)em.getValueAt(rowNum, 8));
+		jtf[5].setText((String)em.getValueAt(rowNum, 9));
+		jtf[6].setText((String)em.getValueAt(rowNum, 10));
+	}
+	
+	private void iniUpdateEmpDialog(){		
 		this.setLayout(null);
 		for(int x=0;x<12;x++){
 			this.add(jp[x]);

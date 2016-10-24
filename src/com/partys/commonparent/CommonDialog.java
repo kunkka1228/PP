@@ -62,4 +62,14 @@ public class CommonDialog extends JDialog {
 		btn.setBorder(null);
 		btn.setEnabled(flag);				
 	}
+	
+	public void deleteFile(String filename){
+		try {			
+			File file=new File(filename);
+			file.delete();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
 }

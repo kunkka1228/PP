@@ -28,6 +28,10 @@ import com.partys.view.Window2;
 public class UserLogin extends JDialog implements ActionListener, KeyListener{
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6729466496122147407L;
+	/**
 	 * @param args
 	 */
 	JLabel jl1,jl2,jl3,prop1,prop2;
@@ -106,6 +110,10 @@ public class UserLogin extends JDialog implements ActionListener, KeyListener{
 	}
 //	内部类 放图片
 	public class BackImage extends JPanel{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -4460924725919428759L;
 		Image img;
 		public BackImage()
 		{

@@ -14,7 +14,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.Calendar;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -27,7 +26,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
-import javax.swing.Timer;
 
 import com.partys.config.Configure;
 import com.partys.customer.CustomerInfor;
@@ -65,7 +63,10 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 	private EmpInfo ei;
 	private CustomerInfor customerInfor;
 	private String name;
-
+	
+	public static void main(String[] args) {
+		new Window1("","123");
+	}
 	// 菜单
 	private void initMenu() {
 		// 一级菜单
@@ -150,10 +151,10 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 			jmb.add(jm[x]);
 		}
 
-//		p5=new JPanel(new FlowLayout(FlowLayout.RIGHT,25,3));
-//		System.out.println(p5.getBackground()+"..."+jmb.getBackground());
-//		p5.add(new JLabel(name));
-		jmb.add(new JLabel(name),-1);
+		p5=new JPanel(new FlowLayout(FlowLayout.RIGHT,25,3));
+		p5.add(new JLabel(name));
+//		jmb.add(new JLabel(name),-1);
+//		jmb.add(p5);
 		this.setJMenuBar(jmb);
 	}
 

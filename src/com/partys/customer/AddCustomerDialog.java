@@ -3,6 +3,8 @@ import java.awt.Color;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 
 import javax.swing.ButtonGroup;
@@ -23,7 +25,7 @@ import com.partys.tools.BasicUtil;
 import com.partys.tools.MyTools;
 import com.partys.tools.NoTileDrag;
 //添加界面
-public class AddCustomerDialog extends CommonDialog implements ActionListener{
+public class AddCustomerDialog extends CommonDialog implements ActionListener,MouseListener{
 
 	/**
 	 * 
@@ -39,15 +41,22 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 	private JLabel year_lable,month_lable,day_lable,tuangou_lable;
 	private JButton add,delete;
 	private MyJButtonMouseMoveListener mmml;
+	private Color color=new Color(198,222,246);
 	public AddCustomerDialog(Frame owner, String title, boolean modal) {
 		
 		super(owner, title, modal);
 		// TODO 自动生成的构造函数存根
+		initLabel();		
+		getMyJButtonMouseMoveListener();
+		initTextField();
+		initBg();
+		initCombox();
+		initBtn();
+		initPanel();
 		init();
 	}
 	
-	private void init(){		
-		mmml=new MyJButtonMouseMoveListener();
+	private void initLabel(){
 		jl[0]=new JLabel("编号:");		
 		jl[1]=new JLabel("姓名:");				
 		jl[2]=new JLabel("性别:");
@@ -67,6 +76,22 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 			jl[x].setBounds(30,10,80,30);
 		}
 		
+		year_lable=new JLabel("年");
+		year_lable.setBounds(160, 10, 30, 30);
+		month_lable=new JLabel("月");
+		month_lable.setBounds(230, 10, 30, 30);
+		day_lable=new JLabel("日");
+		day_lable.setBounds(300, 10, 30, 30);
+		tuangou_lable=new JLabel("暂无");
+		tuangou_lable.setBounds(95,10,150,30);
+	}
+	
+	private MyJButtonMouseMoveListener getMyJButtonMouseMoveListener(){
+		mmml=new MyJButtonMouseMoveListener();
+		return mmml;
+	}
+	
+	private void initTextField(){
 		for(int x=0;x<3;x++){
 			jtf[x]=new JTextField(20);	
 			jtf[x].setBounds(95,10,215, 30);
@@ -74,6 +99,9 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 		
 		jtf[0].setEditable(false);
 		jtf[0].setText(BasicUtil.getAutoNumber(8, "customer"));
+	}
+	
+	private void initBg(){
 		male=new JRadioButton("男");
 		male.setBounds(95, 10, 40, 30);
 		female=new JRadioButton("女");
@@ -81,8 +109,11 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 		bg=new ButtonGroup();
 		bg.add(male);
 		bg.add(female);
-
-		
+		male.setBackground(color);
+		female.setBackground(color);
+	}
+	
+	private void initCombox(){
 		String[] years=new String[50];
 		String[] months=new String[12];
 		String[] days=new String[31];
@@ -153,13 +184,6 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 		m=new  JComboBox(mins);
 		m.setBounds(150, 10, 45, 30);
 		
-		
-		year_lable=new JLabel("年");
-		year_lable.setBounds(160, 10, 30, 30);
-		month_lable=new JLabel("月");
-		month_lable.setBounds(230, 10, 30, 30);
-		day_lable=new JLabel("日");
-		day_lable.setBounds(300, 10, 30, 30);
 		String[] marr={"朝悦1号","朝悦2号","高碑店","双井"};				
 		String[] jobs={"无","点评","糯米","美团","拉手","其他"};		
 		place=new JComboBox(marr);
@@ -168,17 +192,42 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 		categroy=new JComboBox(jobs);
 		categroy.setBounds(250, 10, 60, 30);
 		categroy.addActionListener(this);
-		jb1=new JButton("確定");
-		jb1.setBounds(95, 10, 70, 30);
-		jb1.setFont(MyTools.f4);
-		jb1.addActionListener(this);
+	}
+	
+	private void initBtn(){
+		jb1=new JButton("確定");	
 		jb2=new JButton("取消");
+		add=new JButton(new ImageIcon("image/customer/add.png"));	
+		delete=new JButton(new ImageIcon("image/customer/trash.png"));		
+		settingBtn();
+	}
+	
+	private void settingBtn(){		
+		addBtnListener();
+		setBtnFont();
+		setBtnBound();
+	}
+	
+	private void setBtnBound(){
+		jb1.setBounds(95, 10, 70, 30);
 		jb2.setBounds(200, 10, 70, 30);
+		add.setBounds(250, 14, 24, 24);
+		delete.setBounds(290, 14, 24, 24);
+	}
+	
+	private void addBtnListener(){
+		jb1.addActionListener(this);			
+		jb2.addActionListener(this);			
+		btnSetting(delete,false);
+		btnSetting(add,false);
+	}
+	
+	private void setBtnFont(){
+		jb1.setFont(MyTools.f4);
 		jb2.setFont(MyTools.f4);
-		jb2.addActionListener(this);
-		Color color=new Color(198,222,246);
-		male.setBackground(color);
-		female.setBackground(color);
+	}
+	
+	private void initPanel(){
 		for(int x=0;x<11;x++){
 			jp[x]=new JPanel();
 			jp[x].setLayout(null);
@@ -232,25 +281,17 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 		jp[8].add(jl[8]);
 		jp[8].add(categroy);
 		
-		tuangou_lable=new JLabel("暂无");
-		tuangou_lable.setBounds(95,10,150,30);
-		add=new JButton(new ImageIcon("image/customer/add.png"));
-		add.setBounds(250, 14, 24, 24);
-		delete=new JButton(new ImageIcon("image/customer/trash.png"));
-		
-		delete.setBounds(290, 14, 24, 24);
-		btnSetting(delete,false);
-		btnSetting(add,false);
-		
 		jp[9].add(jl[10]);
 		jp[9].add(tuangou_lable);		
 		jp[9].add(add);			
-		jp[9].add(delete);
-		
+		jp[9].add(delete);		
 		jp[10].add(jb1);		
 		jp[10].add(jb2);
-		this.setLayout(null);
-		
+	}
+	
+	private void init(){		
+
+		this.setLayout(null);		
 		for(int x=0;x<11;x++){
 		
 			this.add(jp[x]);
@@ -293,14 +334,14 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 				JOptionPane.showMessageDialog(null, "恭喜！添加成功！");
 				this.dispose();
 			}
-			if(categroy.getSelectedItem().equals("无")){
+			if(params[8].equals("无")|tuangou_lable.getText().equals("暂无")){
 				deleteFile();
 			}
 		}
 		
 		else if(arg0.getSource()==jb2)
 		{
-			if(JOptionPane.showConfirmDialog(this, "确定退出吗?","删除信息",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE)==JOptionPane.YES_OPTION){
+			if(JOptionPane.showConfirmDialog(this, "确定退出吗?","退出信息",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE)==JOptionPane.YES_OPTION){
 				super.setFlag(true);							
 				deleteFile();
 				this.dispose();
@@ -312,16 +353,23 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 			TuangouDialog td=new TuangouDialog(null,title,true);
 			if(td.isSave()){
 				tuangou_lable.setText(td.getTitle());
-				add.setIcon(new ImageIcon("image/customer/update.png"));
+				add.setIcon(new ImageIcon("image/customer/update.png"));				
 			}
-			
+		
+			if(delete.getMouseListeners().length==1){
+				btnSetting(delete, true);
+				delete.addMouseListener(mmml);
+				delete.addMouseListener(this);
+				delete.addActionListener(this);				
+			}				
 		}
 		
 		else if(arg0.getSource()==delete){
-			deleteFile();
+			btnSetting(delete, false);
 			tuangou_lable.setText("暂无");	
 			add.setIcon(new ImageIcon("image/customer/add.png"));
 		}
+		
 		else if(arg0.getSource()==categroy){
 			
 			if(categroy.getSelectedItem().toString().equals("无")){
@@ -329,10 +377,11 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 				btnSetting(add, false);
 				btnSetting(delete, false);
 				try {
-					add.removeActionListener(this);
-					delete.removeActionListener(this);
+					add.removeActionListener(this);					
 					add.removeMouseListener(mmml);
+					delete.removeActionListener(this);
 					delete.removeMouseListener(mmml);
+					delete.removeMouseListener(this);
 				} catch (Exception e) {
 					// TODO 自动生成的 catch 块
 					e.printStackTrace();
@@ -343,29 +392,52 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener{
 			}
 			else{
 				btnSetting(add, true);
-				btnSetting(delete, true);
-							
 				if(add.getMouseListeners().length==1){
 					add.addMouseListener(mmml);
 					add.addActionListener(this);
-				}
-				
-				if(delete.getMouseListeners().length==1){
-					delete.addMouseListener(mmml);
-					delete.addActionListener(this);
-				}												
+				}														
 			}	
 		}		
 	}	
 	
 	private void deleteFile(){
-		try {
-			String title=jtf[0].getText()+"_"+jtf[1].getText()+"_"+jtf[2].getText()+".dg";
-			File file=new File(title);
-			file.delete();
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
+		String title=jtf[0].getText()+"_"+jtf[1].getText()+"_"+jtf[2].getText()+".dg";
+		deleteFile(title);
 	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO 自动生成的方法存根
+		if(e.getSource()==delete){
+			delete.removeMouseListener(mmml);
+			delete.removeMouseListener(this);
+			delete.setBorder(null);
+		}
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO 自动生成的方法存根
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO 自动生成的方法存根
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO 自动生成的方法存根
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO 自动生成的方法存根
+		
+	}
+		
 }

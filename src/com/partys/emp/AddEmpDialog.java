@@ -34,15 +34,24 @@ public class AddEmpDialog extends CommonDialog implements ActionListener{
 	private JComboBox<String> year,month,day,joblevel,marriage;
 	private JPanel[] jp=new JPanel[12];
 	private JLabel year_lable,month_lable,day_lable;
-
+	
+	public static void main(String[] args) {
+		new AddEmpDialog(null,"",true);
+	}
 	
 	public AddEmpDialog(Frame owner, String title, boolean modal) {
 		super(owner, title, modal);
 		// TODO 自动生成的构造函数存根
-		iniAddEmpDialog();
+		initLabel();
+		initJtextFiled();
+		initBg();
+		initBtn();
+		initCombobox();
+		initPanel();
+		iniAddEmpDialog();		
 	}
-
-	private void iniAddEmpDialog(){
+	
+	private void initLabel(){
 		jl[0]=new JLabel("编号:");		
 		jl[1]=new JLabel("姓名:");				
 		jl[2]=new JLabel("性别:");
@@ -61,7 +70,15 @@ public class AddEmpDialog extends CommonDialog implements ActionListener{
 			}
 			jl[x].setBounds(30,10,80,30);
 		}
-		
+		year_lable=new JLabel("年");
+		month_lable=new JLabel("月");
+		day_lable=new JLabel("日");
+		year_lable.setBounds(160, 10, 30, 30);		
+		month_lable.setBounds(230, 10, 30, 30);		
+		day_lable.setBounds(300, 10, 30, 30);
+	}
+	
+	private void initJtextFiled(){
 		for(int x=0;x<7;x++){
 			jtf[x]=new JTextField(20);	
 			jtf[x].setBounds(95,10,215, 30);
@@ -69,6 +86,9 @@ public class AddEmpDialog extends CommonDialog implements ActionListener{
 		
 		jtf[0].setEditable(false);
 		jtf[0].setText(BasicUtil.getAutoNumber(4,"renshi"));		
+	}
+	
+	private void initBg(){
 		male=new JRadioButton("男");
 		male.setBounds(95, 10, 40, 30);
 		female=new JRadioButton("女");
@@ -76,8 +96,12 @@ public class AddEmpDialog extends CommonDialog implements ActionListener{
 		bg=new ButtonGroup();
 		bg.add(male);
 		bg.add(female);
-
-		
+		Color color=new Color(198,222,246);
+		male.setBackground(color);
+		female.setBackground(color);
+	}
+	
+	private void initCombobox(){
 		String[] years=new String[50];
 		String[] months=new String[12];
 		String[] days=new String[31];
@@ -109,13 +133,6 @@ public class AddEmpDialog extends CommonDialog implements ActionListener{
 		month.setBounds(180, 10, 45, 30);
 		day=new JComboBox(days);
 		day.setBounds(250, 10, 45, 30);
-		
-		year_lable=new JLabel("年");
-		year_lable.setBounds(160, 10, 30, 30);
-		month_lable=new JLabel("月");
-		month_lable.setBounds(230, 10, 30, 30);
-		day_lable=new JLabel("日");
-		day_lable.setBounds(300, 10, 30, 30);
 						
 		String[] jobs={"经理","员工"};		
 		joblevel=new JComboBox(jobs);
@@ -123,7 +140,9 @@ public class AddEmpDialog extends CommonDialog implements ActionListener{
 		String[] marr={"已婚","未婚","离异","丧偶"};
 		marriage=new JComboBox(marr);
 		marriage.setBounds(250, 10, 60, 30);
-		
+	}
+	
+	private void initBtn(){
 		jb1=new JButton("確定");
 		jb1.setBounds(95, 10, 70, 30);
 		jb1.setFont(MyTools.f4);
@@ -133,18 +152,16 @@ public class AddEmpDialog extends CommonDialog implements ActionListener{
 		jb2.setBounds(200, 10, 70, 30);
 		jb2.setFont(MyTools.f4);
 		jb2.addActionListener(this);
+	}
+	
+	private void initPanel(){
 		Color color=new Color(198,222,246);
-		male.setBackground(color);
-		female.setBackground(color);
+			
 		for(int x=0;x<12;x++){
-
-				jp[x]=new JPanel();
-				jp[x].setLayout(null);
-
+			jp[x]=new JPanel();
+			jp[x].setLayout(null);
 			jp[x].setForeground(Color.cyan);
 			jp[x].setBounds(0, x*45, 350, 50);
-			
-			
 			jp[x].setBackground(color);
 			jp[x].setBorder(new EtchedBorder());
 		}
@@ -190,7 +207,9 @@ public class AddEmpDialog extends CommonDialog implements ActionListener{
 		jp[9].add(jtf[6]);
 		jp[10].add(jb1);
 		jp[10].add(jb2);
-				
+	}
+	
+	private void iniAddEmpDialog(){		
 		this.setLayout(null);
 		for(int x=0;x<12;x++){
 			this.add(jp[x]);
@@ -198,7 +217,7 @@ public class AddEmpDialog extends CommonDialog implements ActionListener{
 		this.setUndecorated(true);
 		NoTileDrag.setCanDraged(this);
 		super.initBasic(350,500);
-		;	
+	
 	}
 	
 	@Override
