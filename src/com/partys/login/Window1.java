@@ -27,6 +27,7 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
 
+import com.partys.book.CalendarFrame;
 import com.partys.config.Configure;
 import com.partys.customer.CustomerInfor;
 import com.partys.emp.EmpInfo;
@@ -254,7 +255,8 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 
 		// 菜单价格
 //		mi = new MenuInfo();
-//		jp3.add(mi, "3");
+		 CalendarFrame frame=new CalendarFrame(); 
+		jp3.add(frame, "3");
 
 		// 报表统计
 		try {

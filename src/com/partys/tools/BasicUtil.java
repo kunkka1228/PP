@@ -87,6 +87,7 @@ public class BasicUtil {
 			}
 		}
 		
+		System.out.println("-"+sb.toString().toUpperCase()+"-");
 		return sb.toString().toUpperCase();
 		
 	}

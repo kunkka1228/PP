@@ -75,7 +75,6 @@ public class Configure extends JFrame implements ActionListener{
 		this.add(mb,BorderLayout.SOUTH);
 		this.setSize(447, 580);
 		this.setTitle("≈‰÷√");
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setVisible(true);	
@@ -88,4 +87,6 @@ public class Configure extends JFrame implements ActionListener{
 			this.dispose();
 		}		
 	}
+
+	
 }

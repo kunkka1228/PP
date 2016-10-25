@@ -43,7 +43,7 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 	private boolean detail=false;
 	private JComboBox<String> dianmian,keyWords,recordNum_combobox;
 	private int cursorIndexOld=0;
-	private int cursorIndex=30;
+	private int cursorIndex;
 	private MyJButtonMouseMoveListener mmml;
 	private String number="";
 	private String place="";
@@ -54,6 +54,7 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 	public CustomerInfor(String allRow)
 	{		
 		this.allRow=allRow;
+		cursorIndex=Integer.parseInt(allRow);
 		cm=new CustomerModel();
 		cm.querySimpleInfor(allRow);	
 		iniListener();
