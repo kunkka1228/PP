@@ -75,9 +75,10 @@ public class CustomerModel extends CommonModel{
 			
 		}
 		else {
-			sql="select id, name,tel,dianmian,bookdate,starttime,endtime from customer where "+keywords+" like ? and dianmian="+ place;
+			sql="select id, name,tel,dianmian,bookdate,starttime,endtime from customer where "+keywords+" like ? and dianmian= '"+ place +"'";
 			query(sql, params);
 		}
+		System.out.println(sql);
 		query(sql,params,place,index,number,flag);
 	}
 	
