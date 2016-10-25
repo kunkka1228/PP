@@ -49,83 +49,77 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 	private String place="";
 	private String allRow;
 	
+	
+	
 	public CustomerInfor(String allRow)
-	{
-		
+	{		
 		this.allRow=allRow;
-		//创建组件
-		
-		//北
-		p7=new JPanel(new FlowLayout(FlowLayout.LEFT));
-		p6=new JPanel(new FlowLayout(FlowLayout.LEFT));
-		p8=new JPanel(new FlowLayout(FlowLayout.RIGHT,13,9));
-		p1=new JPanel(new GridLayout(1,3));
-		p1_l1=new JLabel("关键字:");		
-		p1_l1.setFont(MyTools.f1);
 		cm=new CustomerModel();
 		cm.querySimpleInfor(allRow);	
+		iniListener();
+		iniLabel();
+		iniTextFeild();
+		iniTable();		
+		iniScollPane();
+		iniComobox();
+		iniBtn();
+		iniPanel();
+		ini();		
+	}
+	
+	private void ini(){
+		this.setLayout(new BorderLayout());
+		this.add(p1,"North");
+		this.add(p2,"Center");
+		this.add(p5,"South");
+		this.setVisible(true);		
+	}
+	
+	private void iniTextFeild(){
+		p1_jtf=new JTextField(11);
+		p1_jtf.addKeyListener(this);
+	}
+	private void iniListener(){
+		mmml=new MyJButtonMouseMoveListener();
+	}
+	
+	private void iniScollPane(){
+		jsp=new JScrollPane(jtable);
+	}
+	
+	private void iniTable(){
+		jtable= new JTable(cm);
+		jtable.setRowHeight(20);
+		BasicUtil.horizontal(jtable);
+	}
+	
+	private void iniComobox(){
 		String[] dianmianArr=cm.getAllPartys();
 		dianmian=new JComboBox<String>(dianmianArr);
 		dianmian.addActionListener(this);
+		dianmian.setBounds(30, 30, 50, 50);
 		String[] keys={"编    号","姓    名","联系方式"};
 		keyWords=new JComboBox<String>(keys);
-		p1_jtf=new JTextField(11);
-		p1_jtf.addKeyListener(this);
-		p1_jb=new JButton("查询");
-		p1_jb.addActionListener(this);
-		p1_jb.setFont(MyTools.f4);
-		dianmian.setBounds(30, 30, 50, 50);
-		p1.setBounds(0, 0, 600, 100);
-		p6.add(dianmian);		
-		p7.add(p1_l1);
-		p7.add(keyWords);
-		p7.add(p1_jtf);
-		p7.add(p1_jb);	
-		left=new JButton(new ImageIcon("image/left.png"));
-		left.setEnabled(false);
-		right=new JButton(new ImageIcon("image/right.png"));
-		btnSetting(left);
-		btnSetting(right);
-		mmml=new MyJButtonMouseMoveListener();
-
-		right.addMouseListener(mmml);
-		right.addMouseListener(this);
-		
-		recordNum_label=new JLabel("每页显示记录数目:");
 		String[] recordNumArr={"10","30","40","50","60","70"};
 		recordNumArr=BasicUtil.caculatorNum(recordNumArr,allRow);
 		recordNum_combobox=new JComboBox(recordNumArr);
 		recordNum_combobox.setSelectedItem(allRow);
 		recordNum_combobox.addActionListener(this);
-		empt=new JLabel(" ");
-		p8.add(recordNum_label);
-		p8.add(recordNum_combobox);
-		p8.add(left);
-		p8.add(right);
-		p8.add(empt);
-		
-		
-		p1.add(p6);
-		p1.add(p7);
-		p1.add(p8);
-
-		//中间		
-		p2=new JPanel(new BorderLayout());
-		
-		jtable= new JTable(cm);
-		jtable.setRowHeight(20);
-		BasicUtil.horizontal(jtable);
-		jsp=new JScrollPane(jtable);
-		p2.add(jsp);
-		
-		//南
-		p5=new JPanel(new BorderLayout());
-		p3=new JPanel(new FlowLayout(FlowLayout.LEFT,5,7));		
-
-		int sum=cm.getNum();
-		p3_l1=new JLabel("总记录是"+sum+"条");		
-		p3.add(p3_l1);
-		p4=new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		place=dianmian.getSelectedItem().toString();
+		number=(String) recordNum_combobox.getSelectedItem();
+	}
+	
+	private void iniBtn(){
+		p1_jb=new JButton("查询");
+		p1_jb.addActionListener(this);
+		p1_jb.setFont(MyTools.f4);
+		left=new JButton(new ImageIcon("image/left.png"));
+		left.setEnabled(false);
+		right=new JButton(new ImageIcon("image/right.png"));
+		btnSetting(left);
+		btnSetting(right);
+		right.addMouseListener(mmml);
+		right.addMouseListener(this);
 		p4_jb1=new JButton("详细信息");
 		p4_jb1.addActionListener(this);
 		p4_jb1.setFont(MyTools.f4);
@@ -138,20 +132,50 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 		p4_jb4=new JButton("删除");
 		p4_jb4.addActionListener(this);
 		p4_jb4.setFont(MyTools.f4);
+	}
+	
+	private void iniLabel(){
+		p1_l1=new JLabel("关键字:");		
+		p1_l1.setFont(MyTools.f1);
+		int sum=cm.getNum();
+		p3_l1=new JLabel("总记录是"+sum+"条");	
+		recordNum_label=new JLabel("每页显示记录数目:");		
+		empt=new JLabel(" ");
+	}
+	private void iniPanel(){
+		
+		p2=new JPanel(new BorderLayout());
+		p2.add(jsp);
+		
+		p3=new JPanel(new FlowLayout(FlowLayout.LEFT,5,7));		
+		p3.add(p3_l1);
+		p4=new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		p4.add(p4_jb1);
 		p4.add(p4_jb2);
 		p4.add(p4_jb3);
 		p4.add(p4_jb4);
+		p5=new JPanel(new BorderLayout());
 		p5.add(p3,"West");
 		p5.add(p4,"East");
-		place=dianmian.getSelectedItem().toString();
-		number=(String) recordNum_combobox.getSelectedItem();
-		this.setLayout(new BorderLayout());
-		this.add(p1,"North");
-		this.add(p2,"Center");
-		this.add(p5,"South");
-		this.setVisible(true);		
-		
+		//中间		
+		p6=new JPanel(new FlowLayout(FlowLayout.LEFT));
+		p6.add(dianmian);
+		p7=new JPanel(new FlowLayout(FlowLayout.LEFT));			
+		p7.add(p1_l1);
+		p7.add(keyWords);
+		p7.add(p1_jtf);
+		p7.add(p1_jb);	
+		p8=new JPanel(new FlowLayout(FlowLayout.RIGHT,13,9));
+		p8.add(recordNum_label);
+		p8.add(recordNum_combobox);
+		p8.add(left);
+		p8.add(right);
+		p8.add(empt);
+		p1=new JPanel(new GridLayout(1,3));
+		p1.setBounds(0, 0, 600, 100);
+		p1.add(p6);
+		p1.add(p7);
+		p1.add(p8);
 	}
 	
 	@Override
