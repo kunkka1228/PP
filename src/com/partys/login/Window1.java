@@ -63,7 +63,7 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 	private EmpInfo ei;
 	private CustomerInfor customerInfor;
 	private String name;
-	
+	private String tableHight;
 	public static void main(String[] args) {
 		new Window1("","123");
 	}
@@ -246,9 +246,10 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 		// 人事管理
 		ei = new EmpInfo();
 		jp3.add(ei, "1");
-
+		
 		// 登录界面
-		customerInfor = new CustomerInfor();
+		tableHight=BasicUtil.getTableHeight("customerTableHeight");
+		customerInfor = new CustomerInfor(tableHight);
 		jp3.add(customerInfor, "2");
 
 		// 菜单价格
@@ -308,6 +309,7 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 		this.setIconImage(titleIcon);
 		this.setTitle("Partys 管理系统");
 		this.setVisible(true);
+		
 	}
 
 	@Override
@@ -364,10 +366,21 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 			ei = new EmpInfo();
 			jp3.add(ei, "1");
 			this.myCard.show(jp3, "1");
+			
+			
 		} else if (arg0.getSource() == p1_jl[2]) {
-			customerInfor=new CustomerInfor();
+			if(tableHight.equals("10")){
+				tableHight=BasicUtil.getTableHeight("customerTableHeight");
+			}
+			
+			customerInfor=new CustomerInfor(tableHight);
 			jp3.add(customerInfor, "2");
 			this.myCard.show(jp3, "2");
+			if(tableHight.equals("10")){
+				String row=BasicUtil.caculateRow(customerInfor.getPanelHight());
+				BasicUtil.setTableHeight("customerTableHeight", row);
+			}
+			
 			
 		} else if (arg0.getSource() == p1_jl[3]) {
 			this.myCard.show(jp3, "3");
@@ -392,7 +405,9 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 					.getScreenSize().width);
 		}
 	}
+	
 
+	
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
 		// TODO 自动生成的方法存根

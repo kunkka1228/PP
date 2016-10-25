@@ -1,10 +1,17 @@
 package com.partys.tools;
 
 import java.awt.Toolkit;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Iterator;
+import java.util.Properties;
+import java.util.TreeSet;
 
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
@@ -12,7 +19,9 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import com.partys.db.SqlHelper;
 
+
 public class BasicUtil {
+	private static final File FILE=new File("setting.ini");
 	public static void horizontal(JTable table){
 		DefaultTableCellRenderer render = new DefaultTableCellRenderer();
 		render.setHorizontalAlignment(SwingConstants.CENTER);
@@ -82,4 +91,66 @@ public class BasicUtil {
 		
 	}
 	
+	
+	public static void setTableHeight(String key,String value){
+		FileWriter fw=null;
+		Properties prop=null;
+		try {
+			fw=new FileWriter(FILE);
+			prop=new Properties();
+			prop.setProperty(key, value);
+			prop.store(fw, "save");
+		} catch (Exception e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		} 
+		finally{
+			if(fw!=null){
+				try {
+					fw.close();
+					prop=null;
+				} catch (IOException e) {
+					// TODO 自动生成的 catch 块
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public static String getTableHeight(String key){
+		FileReader fr=null;
+		String value="";
+		try {
+			fr=new FileReader(FILE);
+			Properties prop=new Properties();
+			prop.load(fr);
+			value=prop.getProperty(key);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return value;
+	}
+	
+	public static String caculateRow(int allHight){
+		int row=20;
+		return ((int)Math.floor(allHight/row)-1)+"";
+	}
+	
+	public static String[] caculatorNum(String[] numItem,String num){
+		
+		
+		TreeSet<String> ts=new TreeSet<String>();
+		for(int x=0;x<numItem.length;x++){
+			ts.add(numItem[x]);
+		}
+		ts.add(num);
+		int size=ts.size();
+		String[] arr=new String[size];
+		Iterator<String> it=ts.iterator();
+		for(int x=0;x<size;x++){
+			arr[x]=it.next();
+		}
+		return arr;
+		
+	}
 }

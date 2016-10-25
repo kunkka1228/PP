@@ -2,7 +2,6 @@ package com.partys.customer;
 //这是人事管理界面
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -12,9 +11,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
+import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -49,9 +47,12 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 	private MyJButtonMouseMoveListener mmml;
 	private String number="";
 	private String place="";
-
-	public CustomerInfor()
+	private String allRow;
+	
+	public CustomerInfor(String allRow)
 	{
+		
+		this.allRow=allRow;
 		//创建组件
 		
 		//北
@@ -62,8 +63,8 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 		p1_l1=new JLabel("关键字:");		
 		p1_l1.setFont(MyTools.f1);
 		cm=new CustomerModel();
+		cm.querySimpleInfor(allRow);	
 		String[] dianmianArr=cm.getAllPartys();
-		
 		dianmian=new JComboBox<String>(dianmianArr);
 		dianmian.addActionListener(this);
 		String[] keys={"编    号","姓    名","联系方式"};
@@ -91,9 +92,10 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 		right.addMouseListener(this);
 		
 		recordNum_label=new JLabel("每页显示记录数目:");
-		String[] recordNumArr={"1","10","30","40","50","60","70"};
+		String[] recordNumArr={"10","30","40","50","60","70"};
+		recordNumArr=BasicUtil.caculatorNum(recordNumArr,allRow);
 		recordNum_combobox=new JComboBox(recordNumArr);
-		recordNum_combobox.setSelectedItem("30");
+		recordNum_combobox.setSelectedItem(allRow);
 		recordNum_combobox.addActionListener(this);
 		empt=new JLabel(" ");
 		p8.add(recordNum_label);
@@ -109,9 +111,9 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 
 		//中间		
 		p2=new JPanel(new BorderLayout());
-		cm=new CustomerModel();
-		cm.querySimpleInfor();	
+		
 		jtable= new JTable(cm);
+		jtable.setRowHeight(20);
 		BasicUtil.horizontal(jtable);
 		jsp=new JScrollPane(jtable);
 		p2.add(jsp);
@@ -156,29 +158,7 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 	public void actionPerformed(ActionEvent arg0) {
 	
 		if (arg0.getSource().equals(p1_jb)) {
-			String content=p1_jtf.getText().trim();
-			if (content.equals("")) {
-				cm = new CustomerModel();
-				cm.querySimpleInfor(0+"",number);
-				querry();
-				cursorIndexOld=0;
-				
-				if(right.getMouseListeners().length==1){		
-					enableBtn(right);											
-				}	
-				if(cursorIndexOld==0&&left.getMouseListeners().length==3){		
-					disableBtn(left);	
-					right.setFocusable(false);
-					dianmian.setEnabled(true);
-				}
-				
-			} else {
-				String keywords=keyWords.getSelectedItem().toString();
-				String params[] = {content,place};
-				cm = new CustomerModel();
-				cm.queryByKeywords(keywords,params);
-				querry();
-			}
+			queryContent();
 		}
 
 		else if (arg0.getSource().equals(p4_jb1)) {
@@ -306,6 +286,31 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 		}
 				
 	}
+
+	private void queryContent() {
+		String content=p1_jtf.getText().trim();
+		cm = new CustomerModel();
+		if (content.equals("")) {
+			cm.querySimpleInfor(place,0,number,true);	
+			cursorIndexOld=0;
+			
+			if(right.getMouseListeners().length==1){		
+				enableBtn(right);											
+			}	
+			if(cursorIndexOld==0&&left.getMouseListeners().length==3){		
+				disableBtn(left);	
+				right.setFocusable(false);
+				dianmian.setEnabled(true);
+			}
+			
+		} else {
+			String keywords=keyWords.getSelectedItem().toString();
+			content+="%";
+			String params[] = {content};				
+			cm.queryByKeywords(keywords, params, place, 0, number, true);				
+		}
+		querry();
+	}
 	
 	private void changeCombo(){
 		cm = new CustomerModel();
@@ -370,20 +375,14 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-//		if (e.getSource() == p1_jtf) {
-//			cm = new CustomerModel();
-//			String params[] = { p1_jtf.getText().trim(),
-//					p1_jtf.getText().trim() };
-////			cm.queryByKeywords(params);
-//			if (p1_jtf.getText().trim().equals("")) {
-//				cm.querySimpleInfor();
-//			}
-//			querry();
-//		}
+		if (e.getSource() == p1_jtf) {			
+			queryContent();
+		}		
 	}
 	
 	private void btnSetting(JButton btn){
@@ -410,6 +409,10 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 		// TODO 自动生成的方法存根
 		
 		
+	}
+	
+	public int getPanelHight(){
+		return p2.getHeight();
 	}
 
 	@Override

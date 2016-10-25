@@ -39,6 +39,7 @@ public class EmpInfo extends JPanel implements ActionListener, KeyListener {
 
 	public EmpInfo() {
 		// 创建组件
+		
 		em = new EmpModel();
 		em.querySimpleInfor();
 		initLabel();
@@ -57,6 +58,7 @@ public class EmpInfo extends JPanel implements ActionListener, KeyListener {
 	
 	private void initTable(){
 		jtable = new JTable(em);
+		jtable.setRowHeight(20);
 		BasicUtil.horizontal(jtable);
 	}
 	
@@ -107,6 +109,8 @@ public class EmpInfo extends JPanel implements ActionListener, KeyListener {
 		p1.add(p1_jtf);
 		p1.add(p1_jb);
 		p2.add(jsp);
+		
+		
 		p3.add(p3_l1);
 		p4.add(p4_jb1);
 		p4.add(p4_jb2);
@@ -114,10 +118,12 @@ public class EmpInfo extends JPanel implements ActionListener, KeyListener {
 		p4.add(p4_jb4);
 		p5.add(p3, "West");
 		p5.add(p4, "East");
+		
 	}
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getSource().equals(p1_jb)) {
+			
 			if (p1_jtf.getText().trim().equals("")) {
 				em = new EmpModel();
 				em.querySimpleInfor();
@@ -235,6 +241,8 @@ public class EmpInfo extends JPanel implements ActionListener, KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 	}
+	
+
 
 	@Override
 	public void keyReleased(KeyEvent e) {

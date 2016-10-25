@@ -5,7 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import com.partys.tools.BasicUtil;
-public class Index extends JWindow implements Runnable{
+public class loading extends JWindow implements Runnable{
 	/**
 	 * 
 	 */
@@ -13,16 +13,15 @@ public class Index extends JWindow implements Runnable{
 
 	private JProgressBar jpb;
 	private JLabel jl1;
-	private int width,height;
 	public static void main(String []args){
-		Index index=new Index();
+		loading index=new loading();
 
 		Thread t=new Thread(index);
 
 		t.start();
 	}
 
-	public Index()
+	public loading()
 	{	
 
 		jl1=new JLabel(new ImageIcon("image/index/index.png"));

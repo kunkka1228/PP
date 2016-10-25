@@ -55,7 +55,7 @@ public class CustomerModel extends CommonModel{
 		query(sql, params);
 	}
 	
-	public void queryByKeywords(String keywords,String[] params){
+	public void queryByKeywords(String keywords,String[] params,String place,int index,String number,boolean flag){
 		if(keywords.equals("编    号")){
 			keywords="id";
 		}
@@ -68,17 +68,17 @@ public class CustomerModel extends CommonModel{
 			keywords="tel";
 		}
 		String sql="";
-		if(params[1].equals("所有")){
-			sql="select id, name,tel,dianmian,bookdate,starttime,endtime from customer where "+keywords+" =?";
+		if(place.equals("所有")){
+			sql="select id, name,tel,dianmian,bookdate,starttime,endtime from customer where "+keywords+" like ?";
 			String[] paramsArr={params[0]};
 			query(sql, paramsArr);	
 			
 		}
 		else {
-			sql="select id, name,tel,dianmian,bookdate,starttime,endtime from customer where "+keywords+" =? and dianmian=?";
+			sql="select id, name,tel,dianmian,bookdate,starttime,endtime from customer where "+keywords+" like ? and dianmian="+ place;
 			query(sql, params);
 		}
-		
+		query(sql,params,place,index,number,flag);
 	}
 	
 	
@@ -114,13 +114,8 @@ public class CustomerModel extends CommonModel{
 		UpdateModel(sql,params);
 	}
 	
-	public void querryAll(){
-		String sql="select * from customer where 1=1";
-		query(sql,null);
-	}
-	
-	public void querySimpleInfor(){
-		String sql="select id, name,tel,dianmian,bookdate,starttime,endtime from customer where 1=1 limit 0,30";
+	public void querySimpleInfor(String num){
+		String sql="select id, name,tel,dianmian,bookdate,starttime,endtime from customer where 1=1 limit 0,"+num;
 		query(sql,null);
 	}
 	
