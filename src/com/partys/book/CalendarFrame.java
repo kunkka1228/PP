@@ -119,7 +119,7 @@ public class CalendarFrame extends JPanel implements ActionListener
            add(pCenter,BorderLayout.CENTER);// 窗口添加scrollPane在中心区域   
            add(pNorth,BorderLayout.NORTH);// 窗口添加pNorth 在北面区域   
            add(pSouth,BorderLayout.SOUTH);// 窗口添加pSouth 在南区域。  
-           this.setBackground(Color.white);
+//           this.setBackground(Color.white);
 
  
         }   

@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Container;
 import java.awt.Cursor;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -180,7 +179,7 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 		// jp1
 		jp1 = new JPanel(new BorderLayout());
 		try {
-			p1_bg = ImageIO.read(new File("image/center_image/jp1_bg.jpg"));
+			p1_bg = ImageIO.read(new File("image/center_image/background2.jpg"));
 		} catch (IOException e1) {
 			// TODO 自动生成的 catch 块
 			e1.printStackTrace();
@@ -232,7 +231,7 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 		jp3 = new JPanel(myCard);
 		// 先给jp3加入主界面卡片
 		try {
-			p3Icon = ImageIO.read(new File("image/center_image/jp1_bg.jpg"));
+			p3Icon = ImageIO.read(new File("image/center_image/background1.jpg"));
 		} catch (IOException e1) {
 			// TODO 自动生成的 catch 块
 			e1.printStackTrace();
