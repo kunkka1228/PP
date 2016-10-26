@@ -55,18 +55,17 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 			jmi10_icon10, jmi11_icon11, jmi12_icon12;
 	private JToolBar jtb;
 	private JButton[] jb = new JButton[10];
-	private JPanel jp1, jp2, jp3, jp4,p5;
+	private JPanel jp1, jp2, jp3, jp4;
 
-	private JLabel p2_jl1, p2_jl2,empt;
+	private JLabel p2_jl1, p2_jl2;
 	private JLabel p1_jl[] = new JLabel[8];
 	private CardLayout myCard;
 	private String uid;
 	private EmpInfo ei;
 	private CustomerInfor customerInfor;
-	private String name;
 	private String tableHight;
 	public static void main(String[] args) {
-		new Window1("","123");
+		new Window1("");
 	}
 	// ²Ëµ¥
 	private void initMenu() {
@@ -152,10 +151,7 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 			jmb.add(jm[x]);
 		}
 
-		p5=new JPanel(new FlowLayout(FlowLayout.RIGHT,25,3));
-		p5.add(new JLabel(name));
-//		jmb.add(new JLabel(name),-1);
-//		jmb.add(p5);
+
 		this.setJMenuBar(jmb);
 	}
 
@@ -284,9 +280,8 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 		jsp.setDividerSize(0);
 	}
 
-	public Window1(String uid,String name) {
+	public Window1(String uid) {
 		this.uid=uid;
-		this.name=name;
 		try {
 			titleIcon = ImageIO.read(new File("image/title.gif"));
 		} catch (IOException e) {

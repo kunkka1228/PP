@@ -169,7 +169,7 @@ public class UserLogin extends JDialog implements ActionListener, KeyListener{
 		if("¾­Àí".equals(zhiwei))
 		{
 			this.dispose();
-			new Window1(uid,name);				
+			new Window1(uid);				
 			String welcome="»¶Ó­Äú--"+name;
 			JOptionPane.showMessageDialog(this, welcome);
 			
