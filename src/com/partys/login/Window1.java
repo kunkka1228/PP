@@ -2,11 +2,11 @@ package com.partys.login;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -42,8 +43,8 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 	 */
 	private static final long serialVersionUID = 6829991336116522887L;
 	// 定义需要的组件
-	private Image titleIcon, p1_bg, p3Icon, chart;
-	private ImagePanel p1_bgImage, jp3Image, ct;
+	private Image titleIcon, p3Icon, chart;
+	private ImagePanel  ct, jp2;
 	private JMenuBar jmb;
 	private JSplitPane jsp;
 	private JMenu jm[] = new JMenu[7];
@@ -54,9 +55,8 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 			jmi10_icon10, jmi11_icon11, jmi12_icon12;
 	private JToolBar jtb;
 	private JButton[] jb = new JButton[10];
-	private JPanel jp1, jp2, jp3, jp4;
+	private JPanel jp1, jp3, jp4,p1_bgImage;
 
-	private JLabel p2_jl1, p2_jl2;
 	private JLabel p1_jl[] = new JLabel[8];
 	private CardLayout myCard;
 	private String uid;
@@ -178,15 +178,12 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 
 		// jp1
 		jp1 = new JPanel(new BorderLayout());
-		try {
-			p1_bg = ImageIO.read(new File("image/center_image/background2.jpg"));
-		} catch (IOException e1) {
-			// TODO 自动生成的 catch 块
-			e1.printStackTrace();
-		}
+
 		Cursor myCursor = new Cursor(Cursor.HAND_CURSOR);
-		p1_bgImage = new ImagePanel(p1_bg);
+		p1_bgImage = new JPanel();
 		p1_bgImage.setLayout(new GridLayout(8, 1));
+		p1_bgImage.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.gray));
+		p1_bgImage.setOpaque(false);
 		p1_jl[0] = new JLabel(new ImageIcon("image/center_image/label_1.gif"));
 		p1_jl[1] = new JLabel("人  事  管  理", new ImageIcon(
 				"image/center_image/label_2.jpg"), 0);
@@ -219,26 +216,17 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 		// jp4,jp2,jp3
 		myCard = new CardLayout();
 		jp4 = new JPanel(new BorderLayout());
-		jp2 = new JPanel(new CardLayout());
-		p2_jl1 = new JLabel(new ImageIcon("image/center_image/jp2_left.jpg"));
-		// 图标切换
-		p2_jl1.addMouseListener(this);
-		p2_jl2 = new JLabel(new ImageIcon("image/center_image/jp2_right.jpg"));
-		p2_jl2.addMouseListener(this);
-		jp2.add(p2_jl1, "0");
-		jp2.add(p2_jl2, "1");
 
 		jp3 = new JPanel(myCard);
 		// 先给jp3加入主界面卡片
 		try {
-			p3Icon = ImageIO.read(new File("image/center_image/background1.jpg"));
+			p3Icon = ImageIO.read(new File("image/center_image/background.jpg"));
 		} catch (IOException e1) {
 			// TODO 自动生成的 catch 块
 			e1.printStackTrace();
 		}
-		jp3Image = new ImagePanel(p3Icon);
-
-		jp3.add(jp3Image, "0");
+		jp2 = new ImagePanel(p3Icon);
+		jp2.setLayout(new BorderLayout());
 		// 人事管理
 		ei = new EmpInfo();
 		jp3.add(ei, "1");
@@ -249,8 +237,7 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 		jp3.add(customerInfor, "2");
 
 		// 菜单价格
-//		mi = new MenuInfo();
-		 CalendarFrame frame=new CalendarFrame(); 
+		CalendarFrame frame=new CalendarFrame(); 
 		jp3.add(frame, "3");
 
 		// 报表统计
@@ -261,7 +248,7 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 			e.printStackTrace();
 		}
 		ct = new ImagePanel(chart);
-		// ct.setBounds(0, 0, this.getWidth()-50, this.getHeight()-10);
+
 		jp3.add(ct, "4");
 		// 成本及库房
 //		CostNum cn = new CostNum();
@@ -272,7 +259,7 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 //		jp3.add(oc, "6");
 
 		// 动画音乐
-		jp4.add(jp2, "West");
+//		jp4.add(jp2, "West");
 		jp4.add(jp3, "Center");
 		jsp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, jp1, jp4);
 		jsp.setDividerLocation(150);
@@ -294,14 +281,18 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 		// 中间
 		this.initCenter();
 		// 状态栏
-		Container ct = this.getContentPane();
-		ct.add(jtb, "North");
-
-		ct.add(jsp, "Center");
+		Container container = this.getContentPane();
+		jsp.setOpaque(false);
+		jp1.setOpaque(false);
+		jp3.setOpaque(false);
+		jp4.setOpaque(false);
+		jp2.add(jtb, "North");
+		jp2.add(jsp, "Center");
+		container.add(jp2);
 		int width = BasicUtil.getSreenWidthAndHeight()[0];
 		int height = BasicUtil.getSreenWidthAndHeight()[1];
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setSize(width, height - 40);
+		this.setSize(width, height-40);
 		this.setIconImage(titleIcon);
 		this.setTitle("Partys 管理系统");
 		this.setVisible(true);
@@ -392,13 +383,6 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 			
 		} else if (arg0.getSource() == p1_jl[7]) {
 			new MediaHelp();
-			
-		} else if (arg0.getSource() == p2_jl1) {
-			this.jsp.setDividerLocation(0);
-			
-		} else if (arg0.getSource() == p2_jl2) {
-			this.jsp.setDividerLocation(Toolkit.getDefaultToolkit()
-					.getScreenSize().width);
 		}
 	}
 	
@@ -409,4 +393,5 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 		// TODO 自动生成的方法存根
 
 	}
+	
 }

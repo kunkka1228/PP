@@ -35,7 +35,7 @@ public class EmpInfo extends JPanel implements ActionListener, KeyListener {
 	private JScrollPane jsp;
 	private EmpModel em = null;
 	private boolean detail = false;
-	
+
 
 	public EmpInfo() {
 		// 创建组件
@@ -51,6 +51,8 @@ public class EmpInfo extends JPanel implements ActionListener, KeyListener {
 		ini();
 	}
 	
+
+	
 	private void initTexFeild(){
 		p1_jtf = new JTextField(20);
 		p1_jtf.addKeyListener(this);
@@ -59,11 +61,15 @@ public class EmpInfo extends JPanel implements ActionListener, KeyListener {
 	private void initTable(){
 		jtable = new JTable(em);
 		jtable.setRowHeight(20);
+		jtable.setOpaque(false);
 		BasicUtil.horizontal(jtable);
 	}
 	
 	private void initScrollPane(){
 		jsp = new JScrollPane(jtable);
+		jsp.getViewport().setOpaque(false);;
+		jsp.setOpaque(false);
+		
 	}
 	
 	private void ini(){
@@ -71,6 +77,7 @@ public class EmpInfo extends JPanel implements ActionListener, KeyListener {
 		this.add(p1, "North");
 		this.add(p2, "Center");
 		this.add(p5, "South");
+		this.setOpaque(false);
 		this.setVisible(true);
 	}
 	
@@ -105,6 +112,12 @@ public class EmpInfo extends JPanel implements ActionListener, KeyListener {
 		p3 = new JPanel(new FlowLayout(FlowLayout.LEFT,5,7));
 	    p4 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		p5 = new JPanel(new BorderLayout());
+		
+		p1.setOpaque(false);
+		p2.setOpaque(false);
+		p3.setOpaque(false);
+		p4.setOpaque(false);
+		p5.setOpaque(false);
 		p1.add(p1_l1);
 		p1.add(p1_jtf);
 		p1.add(p1_jb);
