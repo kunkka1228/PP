@@ -69,6 +69,7 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 	}
 	
 	private void ini(){
+		this.setOpaque(false);
 		this.setLayout(new BorderLayout());
 		this.add(p1,"North");
 		this.add(p2,"Center");
@@ -147,7 +148,7 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 		
 		p2=new JPanel(new BorderLayout());
 		p2.add(jsp);
-		
+		jsp.setOpaque(false);
 		p3=new JPanel(new FlowLayout(FlowLayout.LEFT,5,7));		
 		p3.add(p3_l1);
 		p4=new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -177,6 +178,14 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 		p1.add(p6);
 		p1.add(p7);
 		p1.add(p8);
+		 p1.setOpaque(false);
+		 p2.setOpaque(false);
+		 p3.setOpaque(false);
+		 p4.setOpaque(false);
+		 p5.setOpaque(false);
+		 p6.setOpaque(false);
+		 p7.setOpaque(false);
+		 p8.setOpaque(false);
 	}
 	
 	@Override

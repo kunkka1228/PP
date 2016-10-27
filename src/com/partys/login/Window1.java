@@ -186,13 +186,13 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 		p1_bgImage.setOpaque(false);
 		p1_jl[0] = new JLabel(new ImageIcon("image/center_image/label_1.gif"));
 		p1_jl[1] = new JLabel("人  事  管  理", new ImageIcon(
-				"image/center_image/label_2.jpg"), 0);
+				"image/center_image/people.png"), 0);
 		p1_jl[2] = new JLabel("客  人  信  息", new ImageIcon(
-				"image/center_image/label_3.jpg"), 0);
+				"image/center_image/customerInfor.png"), 0);
 		p1_jl[3] = new JLabel("预  定  管  理", new ImageIcon(
-				"image/center_image/label_4.jpg"), 0);
+				"image/center_image/phone.png"), 0);
 		p1_jl[4] = new JLabel("报  表  统  计", new ImageIcon(
-				"image/center_image/label_5.jpg"), 0);
+				"image/center_image/chart.png"), 0);
 		p1_jl[5] = new JLabel("客  人  信  息", new ImageIcon(
 				"image/center_image/label_6.jpg"), 0);
 		p1_jl[6] = new JLabel("流  水  盘  存", new ImageIcon(
