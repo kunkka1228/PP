@@ -11,7 +11,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -160,9 +159,9 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 		p5.add(p3,"West");
 		p5.add(p4,"East");
 		//ÖÐ¼ä		
-		p6=new JPanel(new FlowLayout(FlowLayout.LEFT));
+		p6=new JPanel(new FlowLayout(FlowLayout.LEFT,5,9));
 		p6.add(dianmian);
-		p7=new JPanel(new FlowLayout(FlowLayout.LEFT));			
+		p7=new JPanel(new FlowLayout(FlowLayout.LEFT,5,7));			
 		p7.add(p1_l1);
 		p7.add(keyWords);
 		p7.add(p1_jtf);
