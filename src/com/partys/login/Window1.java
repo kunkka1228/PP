@@ -2,10 +2,8 @@ package com.partys.login;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.Cursor;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,16 +13,13 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
 
 import com.partys.book.CalendarFrame;
@@ -33,7 +28,6 @@ import com.partys.customer.CustomerInfor;
 import com.partys.emp.EmpInfo;
 import com.partys.tools.BasicUtil;
 import com.partys.tools.ImagePanel;
-import com.partys.tools.MediaHelp;
 import com.partys.tools.MyTools;
 import com.partysx.tool.Calculator;
 
@@ -46,7 +40,6 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 	private Image titleIcon, p3Icon, chart;
 	private ImagePanel  ct, jp2;
 	private JMenuBar jmb;
-	private JSplitPane jsp;
 	private JMenu jm[] = new JMenu[7];
 	private JMenuItem[] jmi = new JMenuItem[12];
 	private JMenuItem[] tools = new JMenuItem[4];
@@ -55,9 +48,8 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 			jmi10_icon10, jmi11_icon11, jmi12_icon12;
 	private JToolBar jtb;
 	private JButton[] jb = new JButton[10];
-	private JPanel jp1, jp3, jp4,p1_bgImage;
+	private JPanel jp3;
 
-	private JLabel p1_jl[] = new JLabel[8];
 	private CardLayout myCard;
 	private String uid;
 	private EmpInfo ei;
@@ -87,7 +79,7 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 		
 		
 
-		jmi6_icon6 = new ImageIcon("image/toolBar_image/jb4.jpg");
+		jmi6_icon6 = new ImageIcon("image/toolBar_image/kaoqin.png");
 
 		jm[1] = new JMenu("人事管理");
 
@@ -158,64 +150,32 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 	private void initToolBar() {
 		jtb = new JToolBar();
 		jtb.setFloatable(false);
-		jb[0] = new JButton(new ImageIcon("image/jm1_icon1.jpg"));
-		jb[1] = new JButton(new ImageIcon("image/jm1_icon2.jpg"));
-		jb[2] = new JButton(new ImageIcon("image/jm1_icon3.jpg"));
-		jb[3] = new JButton(new ImageIcon("image/jm1_icon4.jpg"));
-		jb[4] = new JButton(new ImageIcon("image/toolBar_image/jb5.jpg"));
+		jb[0] = new JButton(new ImageIcon("image/toolBar_image/people.png"));		
+		jb[1] = new JButton(new ImageIcon("image/toolBar_image/customerInfor.png"));
+		jb[2] = new JButton(new ImageIcon("image/toolBar_image/phone.png"));
+		jb[3] = new JButton(new ImageIcon("image/toolBar_image/chart.png"));
+		jb[4] = new JButton(new ImageIcon("image/toolBar_image/stats.png"));
 		jb[5] = new JButton(new ImageIcon("image/toolBar_image/jb6.jpg"));
 		jb[6] = new JButton(new ImageIcon("image/toolBar_image/jb7.jpg"));
 		jb[7] = new JButton(new ImageIcon("image/toolBar_image/jb8.jpg"));
 		jb[8] = new JButton(new ImageIcon("image/toolBar_image/jb9.jpg"));
+		
 		jb[9] = new JButton(new ImageIcon("image/toolBar_image/jb10.jpg"));
+		Cursor myCursor = new Cursor(Cursor.HAND_CURSOR);
 		for (int x = 0; x < 10; x++) {
+			jb[x].setBorderPainted(false);
+			jb[x].setCursor(myCursor);
+			jb[x].setOpaque(false);
+			jb[x].setFocusable(false);
+			jb[x].addMouseListener(this);
 			jtb.add(jb[x]);
 		}
 
 	}
 
 	private void initCenter() {
-
-		// jp1
-		jp1 = new JPanel(new BorderLayout());
-
-		Cursor myCursor = new Cursor(Cursor.HAND_CURSOR);
-		p1_bgImage = new JPanel();
-		p1_bgImage.setLayout(new GridLayout(8, 1));
-		p1_bgImage.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.gray));
-		p1_bgImage.setOpaque(false);
-		p1_jl[0] = new JLabel(new ImageIcon("image/center_image/label_1.gif"));
-		p1_jl[1] = new JLabel("人  事  管  理", new ImageIcon(
-				"image/center_image/people.png"), 0);
-		p1_jl[2] = new JLabel("客  人  信  息", new ImageIcon(
-				"image/center_image/customerInfor.png"), 0);
-		p1_jl[3] = new JLabel("预  定  管  理", new ImageIcon(
-				"image/center_image/phone.png"), 0);
-		p1_jl[4] = new JLabel("报  表  统  计", new ImageIcon(
-				"image/center_image/chart.png"), 0);
-		p1_jl[5] = new JLabel("客  人  信  息", new ImageIcon(
-				"image/center_image/label_6.jpg"), 0);
-		p1_jl[6] = new JLabel("流  水  盘  存", new ImageIcon(
-				"image/center_image/label_7.jpg"), 0);
-		p1_jl[7] = new JLabel("媒  体  播  放", new ImageIcon(
-				"image/center_image/label_8.jpg"), 0);
-
-		for (int x = 0; x < 8; x++) {
-			p1_bgImage.add(p1_jl[x]);
-			if (x == 0) {
-				continue;
-			}
-			p1_jl[x].setFont(MyTools.f4);
-			p1_jl[x].setCursor(myCursor);
-			p1_jl[x].setEnabled(false);
-			p1_jl[x].addMouseListener(this);
-		}
-
-		jp1.add(p1_bgImage);
-
-		// jp4,jp2,jp3
+	
 		myCard = new CardLayout();
-		jp4 = new JPanel(new BorderLayout());
 
 		jp3 = new JPanel(myCard);
 		// 先给jp3加入主界面卡片
@@ -251,19 +211,7 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 
 		jp3.add(ct, "4");
 		// 成本及库房
-//		CostNum cn = new CostNum();
-//		jp3.add(cn, "5");
 
-		// 系统设置
-//		OperatChoose oc = new OperatChoose();
-//		jp3.add(oc, "6");
-
-		// 动画音乐
-//		jp4.add(jp2, "West");
-		jp4.add(jp3, "Center");
-		jsp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, jp1, jp4);
-		jsp.setDividerLocation(150);
-		jsp.setDividerSize(0);
 	}
 
 	public Window1(String uid) {
@@ -282,12 +230,9 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 		this.initCenter();
 		// 状态栏
 		Container container = this.getContentPane();
-		jsp.setOpaque(false);
-		jp1.setOpaque(false);
 		jp3.setOpaque(false);
-		jp4.setOpaque(false);
 		jp2.add(jtb, "North");
-		jp2.add(jsp, "Center");
+		jp2.add(jp3, "Center");
 		container.add(jp2);
 		int width = BasicUtil.getSreenWidthAndHeight()[0];
 		int height = BasicUtil.getSreenWidthAndHeight()[1];
@@ -328,34 +273,24 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
-		for (int x = 1; x < 8; x++) {
-			if (arg0.getSource() == p1_jl[x]) {
-				this.p1_jl[x].setEnabled(true);
-			}
-		}
-		;
+
 	}
 
 	@Override
 	public void mouseExited(MouseEvent arg0) {
-		for (int x = 1; x < 8; x++) {
-			if (arg0.getSource() == p1_jl[x]) {
-				this.p1_jl[x].setEnabled(false);
-			}
-		}
-		;
+		
 	}
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
 		// TODO 自动生成的方法存根
-		if (arg0.getSource() == p1_jl[1]) {
+		if (arg0.getSource() == jb[0]) {
 			ei = new EmpInfo();
 			jp3.add(ei, "1");
 			this.myCard.show(jp3, "1");
 			
 			
-		} else if (arg0.getSource() == p1_jl[2]) {
+		} else if (arg0.getSource() == jb[1]) {
 			if(tableHight.equals("10")){
 				tableHight=BasicUtil.getTableHeight("customerTableHeight");
 			}
@@ -366,28 +301,10 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 			if(tableHight.equals("10")){
 				String row=BasicUtil.caculateRow(customerInfor.getPanelHight());
 				BasicUtil.setTableHeight("customerTableHeight", row);
-			}
-			
-			
-		} else if (arg0.getSource() == p1_jl[3]) {
-			this.myCard.show(jp3, "3");
-			
-		} else if (arg0.getSource() == p1_jl[4]) {
-			this.myCard.show(jp3, "4");
-			
-		} else if (arg0.getSource() == p1_jl[5]) {
-			this.myCard.show(jp3, "5");
-			
-		} else if (arg0.getSource() == p1_jl[6]) {
-			this.myCard.show(jp3, "6");
-			
-		} else if (arg0.getSource() == p1_jl[7]) {
-			new MediaHelp();
-		}
+			}	
+		} 
 	}
-	
-
-	
+		
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
 		// TODO 自动生成的方法存根
