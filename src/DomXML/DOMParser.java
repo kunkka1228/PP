@@ -118,4 +118,22 @@ public class DOMParser {
 		}
 		return true;
 	}
+	
+	public int[] getColorByID(String tagName, String id){
+		int[] arr=new int[3];
+		NodeList nodeList = document.getElementsByTagName(tagName);
+		if (nodeList != null) {
+			for (int i = 0; i < nodeList.getLength(); i++) {
+				Element element = (Element) nodeList.item(i);
+				String attribute = element.getAttribute("id");
+				if(id.equals(attribute)){
+					arr[0]=Integer.parseInt(element.getAttribute("color-r"));
+					arr[1]=Integer.parseInt(element.getAttribute("color-g"));
+					arr[2]=Integer.parseInt(element.getAttribute("color-b"));
+				}
+			}
+		}
+		
+		return arr;
+	}
 }

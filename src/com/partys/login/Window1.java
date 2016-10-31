@@ -17,6 +17,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -45,19 +46,19 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 	private JMenuItem[] jmi = new JMenuItem[14];
 	private JMenuItem[] tools = new JMenuItem[4];
 	private ImageIcon jmi1_icon1, jmi2_icon2, jmi3_icon3, jmi4_icon4,
-			jmi5_icon5, jmi6_icon6, jmi7_icon7, jmi8_icon8, jmi9_icon9,
+			jmi5_icon5, jmi6_icon6, jmi8_icon8, jmi9_icon9,
 			jmi10_icon10, jmi11_icon11, jmi12_icon12,jmi13_icon13,jmi14_icon14,jmi15_icon15;
 	private JToolBar jtb;
 	private JButton[] jb = new JButton[10];
 	private JPanel jp3;
-
+	private String userName;
 	private CardLayout myCard;
 	private String uid;
 	private EmpInfo ei;
 	private CustomerInfor customerInfor;
 	private String tableHight;
 	public static void main(String[] args) {
-		new Window1("");
+		new Window1("","½úÔÆ·É");
 	}
 	// ²Ëµ¥
 	private void initMenu() {
@@ -69,7 +70,6 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 		jmi4_icon4 = new ImageIcon("image/toolBar_image/exit.png");
 		jmi5_icon5 = new ImageIcon("image/toolBar_image/kaoqin.png");
 		jmi6_icon6 = new ImageIcon("image/toolBar_image/payment.png");
-		jmi7_icon7 = new ImageIcon("image/toolBar_image/jb6.jpg");
 		jmi8_icon8 = new ImageIcon("image/toolBar_image/jb5.jpg");
 		jmi10_icon10 = new ImageIcon("image/toolBar_image/bug.png");
 		jmi11_icon11 = new ImageIcon("image/toolBar_image/updatebuild.png");
@@ -143,7 +143,12 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 			jm[x].setFont(MyTools.f3);
 			jmb.add(jm[x]);
 		}
-
+		JPanel showName=new JPanel(new FlowLayout(FlowLayout.RIGHT,20,5));
+		showName.setOpaque(false);
+		JLabel name=new JLabel(userName);
+		name.setOpaque(false);
+		showName.add(name);
+		jmb.add(showName);
 
 		this.setJMenuBar(jmb);
 	}
@@ -218,7 +223,8 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 
 	}
 
-	public Window1(String uid) {
+	public Window1(String uid,String userName) {
+		this.userName=userName;
 		this.uid=uid;
 		try {
 			titleIcon = ImageIO.read(new File("image/title.gif"));
