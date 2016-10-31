@@ -5,6 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -12,27 +13,100 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import DomXML.DOMParser;
+
 public class CalendarFrame extends JPanel implements ActionListener {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -15700584659172661L;
 	private JPanel labelPanel[] = new JPanel[42];
-	private JTextField text = new JTextField(10);
+	private JTextField text ;
 	private JButton titleName[] = new JButton[7];
 	private JButton button = new JButton();
 	private String name[] = { "日", "一", "二", "三", "四", "五", "六" };
 	private JButton nextMonth, previousMonth;
-	private int year = 2016, month = 10; // 启动程序显示的日期信息
+	private int year , month; // 启动程序显示的日期信息
 	private CalendarBean calendar;
 	private JLabel showMessage = new JLabel("", JLabel.CENTER);
 	private JLabel lbl1 = new JLabel("请输入年份：");
 	private JLabel lbl2 = new JLabel("      ");
+	private JPanel pCenter, pNorth,pSouth;
 
 	public CalendarFrame() {
-		JPanel pCenter = new JPanel(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints();
+		initDate();
+		initPcenter();
+		initTextField();
+		initBtn();
+		initPnorth();
+		initpSanel();
+		this.setLayout(new BorderLayout());
+		this.add(pCenter, BorderLayout.CENTER);// 窗口添加scrollPane在中心区域
+		this.add(pNorth, BorderLayout.NORTH);// 窗口添加pNorth 在北面区域
+		this.add(pSouth, BorderLayout.SOUTH);// 窗口添加pSouth 在南区域。
+		this.setOpaque(false);
 
+	}
+	
+	private void initDate(){
+		year=Calendar.getInstance().get(Calendar.YEAR);
+		month=Calendar.getInstance().get(Calendar.MONTH)+1;
+	}
+	private void initTextField(){
+		text= new JTextField(10);
+		text.addActionListener(this);
+	}
+	private void initBtn(){
+		nextMonth = new JButton("下月");
+		previousMonth = new JButton("上月");
+		button = new JButton("确定");
+
+		// 注册监听器
+		nextMonth.addActionListener(this);
+		previousMonth.addActionListener(this);
+		button.addActionListener(this);
+	}
+	
+	
+	private void initPnorth(){
+		pNorth = new JPanel();		
+//		JPanel p1=new JPanel();
+//		p1.setOpaque(false);
+//		p1.setBounds(0, 0, 100, 100);
+//		p1.add(new JLabel("asdasd"));
+//		JPanel p2=new JPanel();
+//		p2.setBounds(0, 0, 200, 100);
+		pNorth.setOpaque(false);
+		pNorth.add(showMessage);
+		pNorth.add(lbl2);
+		pNorth.add(previousMonth);
+		pNorth.add(nextMonth);
+		DOMParser parser=new DOMParser("dianmian.xml");
+		String[] partys=parser.getAttributeByTagName("party", "name");
+//		for(int x=0;x<partys.length;x++){
+//			JLabel label=new JLabel();
+//		}
+		
+		
+//		pNorth.add(p1);
+//		pNorth.add(p2);
+		pNorth.setOpaque(false);
+	}
+	private void initpSanel(){		
+		pSouth = new JPanel();
+		pSouth.add(lbl1);
+		pSouth.add(text);
+		pSouth.add(button);
+		showMessage.setText("日历：" + calendar.getYear() + "年"
+				+ calendar.getMonth() + "月");
+		pCenter.setOpaque(false);
+		
+		pSouth.setOpaque(false);
+	}
+	
+	private void initPcenter(){
+		pCenter = new JPanel(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
 		for (int i = 0; i < 7; i++) {
 			titleName[i] = new JButton(name[i]);
 			titleName[i].setContentAreaFilled(false);
@@ -70,40 +144,9 @@ public class CalendarFrame extends JPanel implements ActionListener {
 						+ "日"));
 			}
 			pCenter.add(labelPanel[i], c);
-
 		}
-
-		text.addActionListener(this);
-
-		nextMonth = new JButton("下月");
-		previousMonth = new JButton("上月");
-		button = new JButton("确定");
-
-		// 注册监听器
-		nextMonth.addActionListener(this);
-		previousMonth.addActionListener(this);
-		button.addActionListener(this);
-		JPanel pNorth = new JPanel(), pSouth = new JPanel();
-		pNorth.add(showMessage);
-		pNorth.add(lbl2);
-		pNorth.add(previousMonth);
-		pNorth.add(nextMonth);
-		pSouth.add(lbl1);
-		pSouth.add(text);
-		pSouth.add(button);
-		showMessage.setText("日历：" + calendar.getYear() + "年"
-				+ calendar.getMonth() + "月");
-		pCenter.setOpaque(false);
-		pNorth.setOpaque(false);
-		pSouth.setOpaque(false);
-		this.setLayout(new BorderLayout());
-		add(pCenter, BorderLayout.CENTER);// 窗口添加scrollPane在中心区域
-		add(pNorth, BorderLayout.NORTH);// 窗口添加pNorth 在北面区域
-		add(pSouth, BorderLayout.SOUTH);// 窗口添加pSouth 在南区域。
-		this.setOpaque(false);
-
 	}
-
+	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == nextMonth) {
 			month++;

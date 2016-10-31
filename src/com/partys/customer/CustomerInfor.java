@@ -22,6 +22,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import DomXML.DOMParser;
+
 import com.partys.listener.MyJButtonMouseMoveListener;
 import com.partys.model.CustomerModel;
 import com.partys.tools.BasicUtil;
@@ -94,8 +96,23 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 		BasicUtil.horizontal(jtable);
 	}
 	
+	private String[] initDianmianData(){
+		DOMParser parser=new DOMParser("dianmian.xml");
+		String[] arr=parser.getAttributeByTagName("party", "name");
+		String[] newArr=new String[arr.length+1];
+		for(int i=0;i<newArr.length;i++){
+			if(i==0){
+				newArr[0]="Ыљга";
+				continue;
+			}
+			newArr[i]=arr[i-1];
+		}
+		return newArr;
+	}
+	
 	private void iniComobox(){
-		String[] dianmianArr=cm.getAllPartys();
+		
+		String[] dianmianArr=initDianmianData();
 		dianmian=new JComboBox<String>(dianmianArr);
 		dianmian.addActionListener(this);
 		dianmian.setBounds(30, 30, 50, 50);
