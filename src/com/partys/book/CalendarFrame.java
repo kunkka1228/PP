@@ -38,7 +38,7 @@ public class CalendarFrame extends JPanel implements ActionListener {
 		initPcenter();
 		initTextField();
 		initBtn();
-		initPnorth();
+		initPnorth1();
 		initpSanel();
 		this.setLayout(new BorderLayout());
 		this.add(pCenter, BorderLayout.CENTER);// 窗口添加scrollPane在中心区域
@@ -70,12 +70,16 @@ public class CalendarFrame extends JPanel implements ActionListener {
 	
 	private void initPnorth(){
 		pNorth = new JPanel();		
-//		JPanel p1=new JPanel();
-//		p1.setOpaque(false);
-//		p1.setBounds(0, 0, 100, 100);
-//		p1.add(new JLabel("asdasd"));
-//		JPanel p2=new JPanel();
-//		p2.setBounds(0, 0, 200, 100);
+		pNorth.setOpaque(false);
+		pNorth.add(showMessage);
+		pNorth.add(lbl2);
+		pNorth.add(previousMonth);
+		pNorth.add(nextMonth);
+		pNorth.setOpaque(false);
+	}
+	
+	private void initPnorth1(){
+		pNorth = new JPanel();		
 		pNorth.setOpaque(false);
 		pNorth.add(showMessage);
 		pNorth.add(lbl2);
@@ -83,15 +87,12 @@ public class CalendarFrame extends JPanel implements ActionListener {
 		pNorth.add(nextMonth);
 		DOMParser parser=new DOMParser("dianmian.xml");
 		String[] partys=parser.getAttributeByTagName("party", "name");
-//		for(int x=0;x<partys.length;x++){
-//			JLabel label=new JLabel();
-//		}
-		
-		
-//		pNorth.add(p1);
-//		pNorth.add(p2);
+		for(int x=0;x<partys.length;x++){
+			JLabel label=new JLabel();
+		}
 		pNorth.setOpaque(false);
 	}
+	
 	private void initpSanel(){		
 		pSouth = new JPanel();
 		pSouth.add(lbl1);
