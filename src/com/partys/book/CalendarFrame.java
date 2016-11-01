@@ -2,13 +2,13 @@ package com.partys.book;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.swing.BorderFactory;
@@ -18,6 +18,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import DomXML.DOMParser;
+
+import com.partys.model.BookModel;
 
 public class CalendarFrame extends JPanel implements ActionListener {
 	/**
@@ -36,13 +38,19 @@ public class CalendarFrame extends JPanel implements ActionListener {
 	private JLabel lbl1 = new JLabel("请输入年份：");
 	private JLabel lbl2 = new JLabel("      ");
 	private JPanel pCenter, pNorth,pSouth;
-
+	private BookModel bm;
+	private String[] day;
+	private String[] partys;
+	private Color[] colorArr;
 	public CalendarFrame() {
 		initDate();
+		initData();
 		initPcenter();
+		
 		initTextField();
 		initBtn();
 		initPnorth();
+		initPcenterData();
 		initpSanel();
 		this.setLayout(new BorderLayout());
 		this.add(pNorth, BorderLayout.NORTH);// 窗口添加pNorth 在北面区域
@@ -56,6 +64,7 @@ public class CalendarFrame extends JPanel implements ActionListener {
 	private void initDate(){
 		year=Calendar.getInstance().get(Calendar.YEAR);
 		month=Calendar.getInstance().get(Calendar.MONTH)+1;
+
 	}
 	private void initTextField(){
 		text= new JTextField(10);
@@ -72,48 +81,16 @@ public class CalendarFrame extends JPanel implements ActionListener {
 		button.addActionListener(this);
 	}
 	
-	
-	private void initPnorth1(){
-		
-		JPanel p1=new JPanel(new FlowLayout(FlowLayout.LEFT,15,7));
-		p1.setOpaque(false);
-		JPanel p2=new JPanel(new FlowLayout(FlowLayout.RIGHT,3,3));
-		p2.setOpaque(false);
-		pNorth = new JPanel(new GridLayout(1, 2));		
-		
-		DOMParser parser=new DOMParser("dianmian.xml");
-		String[] partys=parser.getAttributeByTagName("party", "name");
-		for(int i=0;i<partys.length;i++){
-			JLabel icon=new JLabel(partys[i]);
-			JLabel color=new JLabel();
-			color.setOpaque(true);
-			color.setPreferredSize(new Dimension(20, 20));
-			color.setBackground(Color.black);
-			p1.add(color);
-			p1.add(icon);
-			
-		}
-		
-		p2.add(showMessage);
-		p2.add(lbl2);
-		p2.add(previousMonth);
-		p2.add(nextMonth);
-		pNorth.add(p1);
-		pNorth.add(p2);
-		pNorth.setOpaque(false);
-	}
-	
-	private void initPnorth(){
-		
+
+	private void initPnorth(){		
 		JPanel p1=new JPanel(null);
 		p1.setOpaque(false);
 		JPanel p2=new JPanel(new FlowLayout(FlowLayout.RIGHT,3,3));
 		p2.setOpaque(false);
-		pNorth = new JPanel(new GridLayout(1, 2));		
-		
+		pNorth = new JPanel(new GridLayout(1, 2));				
 		DOMParser parser=new DOMParser("dianmian.xml");
-		String[] partys=parser.getAttributeByTagName("party", "name");
-		
+		partys=parser.getAttributeByTagName("party", "name");
+		colorArr=new Color[partys.length];
 		for(int i=0;i<partys.length;i++){
 			JLabel icon=new JLabel(partys[i]);
 			icon.setBounds(32+120*i, 8, 50, 20);
@@ -122,12 +99,11 @@ public class CalendarFrame extends JPanel implements ActionListener {
 			color.setBounds(10+120*i, 11, 15, 15);
 			int[] arr=parser.getColorByID("party", (i+1)+"");
 			Color newColor=new Color(arr[0],arr[1],arr[2]);
+			colorArr[i]=newColor;
 			color.setBackground(newColor);
 			p1.add(color);
-			p1.add(icon);
-			
-		}
-		
+			p1.add(icon);		
+		}		
 		p2.add(showMessage);
 		p2.add(lbl2);
 		p2.add(previousMonth);
@@ -136,15 +112,14 @@ public class CalendarFrame extends JPanel implements ActionListener {
 		pNorth.add(p2);
 		pNorth.setOpaque(false);
 	}
-
 	
 	private void initpSanel(){		
 		pSouth = new JPanel();
 		pSouth.add(lbl1);
 		pSouth.add(text);
 		pSouth.add(button);
-		showMessage.setText("日历：" + calendar.getYear() + "年"
-				+ calendar.getMonth() + "月");
+		showMessage.setText("日历：" + year + "年"
+				+ month + "月");
 		pCenter.setOpaque(false);
 		
 		pSouth.setOpaque(false);
@@ -169,7 +144,7 @@ public class CalendarFrame extends JPanel implements ActionListener {
 		calendar = new CalendarBean();
 		calendar.setYear(year);
 		calendar.setMonth(month);
-		String day[] = calendar.getCalendar();
+		day = calendar.getCalendar();
 
 		for (int i = 0; i < 42; i++) {
 			if (i != 0 & i % 7 == 0) {
@@ -196,8 +171,11 @@ public class CalendarFrame extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == nextMonth) {
 			month++;
-			if (month > 12)
+			if (month > 12){
 				month = 1;
+				year++;
+				calendar.setYear(year);
+			}				
 			calendar.setMonth(month);
 			settingDate();
 		}
@@ -205,7 +183,11 @@ public class CalendarFrame extends JPanel implements ActionListener {
 		else if (e.getSource() == previousMonth) {
 			month--;
 			if (month < 1)
+			{
 				month = 12;
+				year--;
+				calendar.setYear(year);		
+			}
 			calendar.setMonth(month);			
 			settingDate();
 		} else if (e.getSource() == button) {
@@ -216,8 +198,8 @@ public class CalendarFrame extends JPanel implements ActionListener {
 			
 			settingDate();
 		}
-		showMessage.setText("日历：" + calendar.getYear() + "年"
-				+ calendar.getMonth() + "月");
+		showMessage.setText("日历：" + year + "年"
+				+ month + "月");
 	}
 	
 	
@@ -228,6 +210,32 @@ public class CalendarFrame extends JPanel implements ActionListener {
 			if (day[i] != null) {
 				labelPanel[i].setBorder(BorderFactory
 						.createTitledBorder(day[i] + "日"));
+			}
+		}
+	}
+	
+	private void initData(){
+		bm=new BookModel();	
+		bm.queryAllCurrentDateInfor(year,month);
+	}
+	
+	
+	private void initPcenterData(){
+		int date=1;
+		for(int x=0;x<labelPanel.length;x++){
+			if(day[x]!=null){				
+				ArrayList<String[]> arr=bm.queryCurrentDateInfor(bm,year, month, date);
+				for(int y=0;y<arr.size();y++){
+					String[] infor=arr.get(y);
+					JLabel label=new JLabel(infor[1]+"~"+infor[2],JLabel.CENTER);
+					int index=bm.findIndex(infor[3], partys);
+					label.setOpaque(true);
+					label.setBackground(colorArr[index]);
+					
+					labelPanel[x].add(label);
+				}
+						
+				date++;
 			}
 		}
 	}

@@ -19,6 +19,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 
+import DomXML.DOMParser;
+
 import com.partys.commonparent.CommonDialog;
 import com.partys.listener.MyJButtonMouseMoveListener;
 import com.partys.model.CustomerModel;
@@ -198,9 +200,11 @@ public class UpdateCustomerDialog extends CommonDialog implements
 		m=new  JComboBox(mins);
 		m.setBounds(150, 10, 45, 30);
 		
-		String[] marr={"朝悦1号","朝悦2号","高碑店","双井"};				
+		DOMParser parser =new DOMParser("dianmian.xml");
+		
+		String[] party=parser.getAttributeByTagName("party", "name");				
 		String[] jobs={"无","点评","糯米","美团","拉手","其他"};		
-		place=new JComboBox(marr);
+		place=new JComboBox(party);
 		place.setBounds(95, 10, 80, 30);
 		
 		categroy=new JComboBox(jobs);
