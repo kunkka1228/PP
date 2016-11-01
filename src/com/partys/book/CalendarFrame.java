@@ -2,6 +2,8 @@ package com.partys.book;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -151,7 +153,7 @@ public class CalendarFrame extends JPanel implements ActionListener {
 				j++;
 			}
 			k = i % 7;
-			labelPanel[i] = new JPanel();
+			labelPanel[i] = new JPanel(null);
 			labelPanel[i].setOpaque(false);
 			c.fill = GridBagConstraints.BOTH;
 			c.gridx = k;
@@ -230,8 +232,10 @@ public class CalendarFrame extends JPanel implements ActionListener {
 					JLabel label=new JLabel(infor[1]+"~"+infor[2],JLabel.CENTER);
 					int index=bm.findIndex(infor[3], partys);
 					label.setOpaque(true);
-					label.setBackground(colorArr[index]);
-					
+					label.setBackground(colorArr[index]);	
+					label.setBounds(5, 15, 100, 20);
+					label.setCursor(new Cursor(Cursor.HAND_CURSOR));
+//					labelPanel[x].setPreferredSize(new Dimension(86,101));
 					labelPanel[x].add(label);
 				}
 						
