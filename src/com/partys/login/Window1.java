@@ -24,6 +24,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
+import DomXML.DOMParser;
+
 import com.partys.book.CalendarFrame;
 import com.partys.config.Configure;
 import com.partys.customer.CustomerInfor;
@@ -57,6 +59,10 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 	private EmpInfo ei;
 	private CustomerInfor customerInfor;
 	private String tableHight;
+	private boolean activeCustomerInfor;
+	private boolean firstIniCustomerTab=false;
+	private DOMParser parser;
+	private CalendarFrame frame;
 	public static void main(String[] args) {
 		new Window1("","晋云飞");
 	}
@@ -201,13 +207,9 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 		jp3.add(ei, "1");
 		
 		// 登录界面
-		tableHight=BasicUtil.getTableHeight("customerTableHeight");
-		customerInfor = new CustomerInfor(tableHight);
-		jp3.add(customerInfor, "2");
+		
 
-		// 菜单价格
-		CalendarFrame frame=new CalendarFrame(); 
-		jp3.add(frame, "3");
+		
 
 		// 报表统计
 		try {
@@ -226,6 +228,7 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 	public Window1(String uid,String userName) {
 		this.userName=userName;
 		this.uid=uid;
+		
 		try {
 			titleIcon = ImageIO.read(new File("image/title.gif"));
 		} catch (IOException e) {
@@ -295,28 +298,62 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 	public void mousePressed(MouseEvent arg0) {
 		// TODO 自动生成的方法存根
 		if (arg0.getSource() == jb[0]) {
-			ei = new EmpInfo();
-			jp3.add(ei, "1");
+			if(ei==null){
+				ei = new EmpInfo();
+				jp3.add(ei, "1");
+			}
+			
 			this.myCard.show(jp3, "1");
 			
 			
 		} else if (arg0.getSource() == jb[1]) {
-			if(tableHight.equals("10")){
-				tableHight=BasicUtil.getTableHeight("customerTableHeight");
+			
+			if(parser==null){
+				parser=new DOMParser("settings.xml");
 			}
 			
-			customerInfor=new CustomerInfor(tableHight);
-			jp3.add(customerInfor, "2");
+			if(customerInfor==null){				
+				firstIniCustomerTab=Boolean.parseBoolean(parser.getAttributeByTagName("table", "first-ini")[0]);
+				activeCustomerInfor=Boolean.parseBoolean(parser.getAttributeByTagName("table", "activeCustomerInfor")[0]);
+				if(firstIniCustomerTab){
+					tableHight=10+"";
+				}
+				else{
+					tableHight=parser.getAttributeByTagName("table", "height")[0];
+				}
+				customerInfor=new CustomerInfor(tableHight);
+				jp3.add(customerInfor, "2");
+			}
+			else{
+				if(!activeCustomerInfor){
+					tableHight=parser.getAttributeByTagName("table", "height")[0];
+					customerInfor=new CustomerInfor(tableHight);
+					jp3.add(customerInfor, "2");
+					parser.updateNodeAttributeByTagName("table", "activeCustomerInfor", "false", "true");
+					activeCustomerInfor=true;
+				}
+			}
+			
+
 			this.myCard.show(jp3, "2");
-			if(tableHight.equals("10")){
+			if(firstIniCustomerTab){
 				String row=BasicUtil.caculateRow(customerInfor.getPanelHight());
-				BasicUtil.setTableHeight("customerTableHeight", row);
-			}	
+				parser.updateNodeAttributeByTagName("table", "first-ini", "true", "false");
+				parser.updateNodeAttributeByTagName("table", "height", "", row);
+				firstIniCustomerTab=false;
+			}				
 		} 
 		
 		
 		else if (arg0.getSource() == jb[2]){
+			if(frame==null){
+				frame=new CalendarFrame(); 
+				jp3.add(frame, "3");
+			}
+			
 			myCard.show(jp3, "3");
+			
+			System.out.println(frame.getScollHeight()+"..."+frame.getScollWidth());
 		}
 	}
 		

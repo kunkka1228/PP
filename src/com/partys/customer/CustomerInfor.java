@@ -88,6 +88,8 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 	
 	private void iniScollPane(){
 		jsp=new JScrollPane(jtable);
+		jsp.getViewport().setOpaque(false);;
+		jsp.setOpaque(false);
 	}
 	
 	private void iniTable(){
@@ -97,7 +99,7 @@ public class CustomerInfor extends JPanel implements ActionListener,KeyListener,
 	}
 	
 	private String[] initDianmianData(){
-		DOMParser parser=new DOMParser("dianmian.xml");
+		DOMParser parser=new DOMParser("settings.xml");
 		String[] arr=parser.getAttributeByTagName("party", "name");
 		String[] newArr=new String[arr.length+1];
 		for(int i=0;i<newArr.length;i++){

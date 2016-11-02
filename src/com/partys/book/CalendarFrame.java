@@ -17,6 +17,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import DomXML.DOMParser;
@@ -28,7 +29,8 @@ public class CalendarFrame extends JPanel implements ActionListener {
 	 * 
 	 */
 	private static final long serialVersionUID = -15700584659172661L;
-	private JPanel labelPanel[] = new JPanel[42];
+	private JScrollPane labelPanel[] = new JScrollPane[42];
+	private JPanel contentPanel[]=new JPanel[42];
 	private JTextField text ;
 	private JButton titleName[] = new JButton[7];
 	private JButton button = new JButton();
@@ -90,7 +92,7 @@ public class CalendarFrame extends JPanel implements ActionListener {
 		JPanel p2=new JPanel(new FlowLayout(FlowLayout.RIGHT,3,3));
 		p2.setOpaque(false);
 		pNorth = new JPanel(new GridLayout(1, 2));				
-		DOMParser parser=new DOMParser("dianmian.xml");
+		DOMParser parser=new DOMParser("settings.xml");
 		partys=parser.getAttributeByTagName("party", "name");
 		colorArr=new Color[partys.length];
 		for(int i=0;i<partys.length;i++){
@@ -153,7 +155,14 @@ public class CalendarFrame extends JPanel implements ActionListener {
 				j++;
 			}
 			k = i % 7;
-			labelPanel[i] = new JPanel(null);
+			contentPanel[i]=new JPanel(null);
+			contentPanel[i].setPreferredSize(new Dimension(0,0));
+			contentPanel[i].setOpaque(false);
+			labelPanel[i] = new JScrollPane();
+			
+			labelPanel[i].setBorder(null);
+			
+			labelPanel[i].getViewport().setOpaque(false);
 			labelPanel[i].setOpaque(false);
 			c.fill = GridBagConstraints.BOTH;
 			c.gridx = k;
@@ -163,9 +172,10 @@ public class CalendarFrame extends JPanel implements ActionListener {
 
 			c.weighty = 1;
 			if (day[i] != null) {
-				labelPanel[i].setBorder(BorderFactory.createTitledBorder(day[i]
-						+ "日"));
-			}
+				labelPanel[i].setBorder(BorderFactory
+						.createTitledBorder(BorderFactory.createEtchedBorder(),day[i] + "日"));
+				labelPanel[i].setViewportView(contentPanel[i]);
+			}	
 			pCenter.add(labelPanel[i], c);
 		}
 	}
@@ -211,7 +221,7 @@ public class CalendarFrame extends JPanel implements ActionListener {
 			labelPanel[i].setBorder(null);
 			if (day[i] != null) {
 				labelPanel[i].setBorder(BorderFactory
-						.createTitledBorder(day[i] + "日"));
+						.createTitledBorder(BorderFactory.createEtchedBorder(),day[i] + "日"));
 			}
 		}
 	}
@@ -224,23 +234,37 @@ public class CalendarFrame extends JPanel implements ActionListener {
 	
 	private void initPcenterData(){
 		int date=1;
+
 		for(int x=0;x<labelPanel.length;x++){
-			if(day[x]!=null){				
+			if(day[x]!=null){					
 				ArrayList<String[]> arr=bm.queryCurrentDateInfor(bm,year, month, date);
-				for(int y=0;y<arr.size();y++){
+				int len=arr.size();
+				contentPanel[x].setPreferredSize(new Dimension(100, 20*len));
+				labelPanel[x].setPreferredSize(new Dimension(100, 192));
+				for(int y=0;y<len;y++){
 					String[] infor=arr.get(y);
 					JLabel label=new JLabel(infor[1]+"~"+infor[2],JLabel.CENTER);
 					int index=bm.findIndex(infor[3], partys);
 					label.setOpaque(true);
 					label.setBackground(colorArr[index]);	
-					label.setBounds(5, 15, 100, 20);
+					
+					label.setBounds(5, 3+20*y, 150, 20);
 					label.setCursor(new Cursor(Cursor.HAND_CURSOR));
-//					labelPanel[x].setPreferredSize(new Dimension(86,101));
-					labelPanel[x].add(label);
+					contentPanel[x].add(label);
 				}
-						
+					
 				date++;
 			}
+			else{
+				contentPanel[x].setPreferredSize(new Dimension(0,0));
+			}
 		}
+	}
+	public int getScollHeight(){
+		return labelPanel[1].getHeight();
+	}
+	
+	public int getScollWidth(){
+		return labelPanel[1].getWidth();
 	}
 }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><settings> 
+	<dianmian>
+	   <party color-b="0" color-g="185" color-r="122" id="1" name="朝悦1号"/>
+	   <party color-b="0" color-g="85" color-r="255" id="2" name="朝悦2号"/> 
+	   <party color-b="100" color-g="72" color-r="184" id="3" name="双井店"/> 
+	   <party color-b="239" color-g="205" color-r="70" id="4" name="高碑店"/> 
+   </dianmian>
+   
+   <CustomerInfor>
+		<table activeCustomerInfor="true" first-ini="false" height="25"/> 
+	</CustomerInfor>
+	
+	<Book>
+		<scrollpane activeScrollpane="false" first-ini="true" height="" width=""/>
+	</Book>
+</settings>

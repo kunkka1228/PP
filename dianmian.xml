@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<dianmian> 
-   <party id="1" name="朝悦1号" color-r="122" color-g="185" color-b="0" />
-   <party id="2" name="朝悦2号" color-r="255" color-g="85" color-b="0"/> 
-   <party id="3" name="双井店" color-r="184" color-g="72" color-b="100"/> 
-   <party id="4" name="高碑店" color-r="70" color-g="205" color-b="239" /> 
-
-</dianmian>

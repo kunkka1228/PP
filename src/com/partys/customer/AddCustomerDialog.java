@@ -186,7 +186,7 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener,Mo
 		m=new  JComboBox(mins);
 		m.setBounds(150, 10, 45, 30);
 		
-		DOMParser parser =new DOMParser("dianmian.xml");
+		DOMParser parser =new DOMParser("settings.xml");
 		
 		String[] party=parser.getAttributeByTagName("party", "name");			
 		String[] jobs={"无","点评","糯米","美团","拉手","其他"};		
