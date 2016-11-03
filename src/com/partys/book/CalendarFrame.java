@@ -23,6 +23,7 @@ import javax.swing.JTextField;
 
 import DomXML.DOMParser;
 
+import com.partys.listener.MyJButtonMouseMoveListener;
 import com.partys.model.BookModel;
 
 public class CalendarFrame extends JPanel implements ActionListener {
@@ -44,7 +45,9 @@ public class CalendarFrame extends JPanel implements ActionListener {
 	private BookModel bm;
 	private String[] day,partys;
 	private Color[] colorArr;
+	private MyJButtonMouseMoveListener mmml;
 	public CalendarFrame() {
+		iniListener();
 		initLabel();
 		initDate();
 		initData();
@@ -62,6 +65,10 @@ public class CalendarFrame extends JPanel implements ActionListener {
 		this.add(pSouth, BorderLayout.SOUTH);// 窗口添加pSouth 在南区域。
 		this.setOpaque(false);
 
+	}
+	
+	private void iniListener(){
+		mmml=new MyJButtonMouseMoveListener();
 	}
 	
 	private void initLabel(){
@@ -95,6 +102,7 @@ public class CalendarFrame extends JPanel implements ActionListener {
 		nextMonth.addActionListener(this);
 		previousMonth.addActionListener(this);
 		button.addActionListener(this);
+		button.addMouseListener(mmml);
 	}
 	
 
@@ -171,7 +179,6 @@ public class CalendarFrame extends JPanel implements ActionListener {
 			}
 			k = i % 7;
 			contentPanel[i]=new JPanel(null);
-			contentPanel[i].setPreferredSize(new Dimension(0,0));
 			contentPanel[i].setOpaque(false);
 			labelPanel[i] = new JScrollPane();
 			
@@ -235,7 +242,7 @@ public class CalendarFrame extends JPanel implements ActionListener {
 			initPcenterData();
 			settingDate();
 		} else if (e.getSource() == button) {
-			System.out.println(button.getSize().getHeight()+"..."+button.getSize().getWidth());
+			button.setFocusable(false);
 			String y=year_text.getText();
 			if(!(y.trim().equals(""))){				
 				year=Integer.parseInt(y);
@@ -291,7 +298,7 @@ public class CalendarFrame extends JPanel implements ActionListener {
 				ArrayList<String[]> arr=bm.queryCurrentDateInfor(bm,year, month, date);
 			
 				int len=arr.size();
-				contentPanel[x].setPreferredSize(new Dimension(100, 20*len));
+				contentPanel[x].setPreferredSize(new Dimension(100, 23*len));
 				labelPanel[x].setPreferredSize(new Dimension(100, 192));
 				for(int y=0;y<len;y++){
 					String[] infor=arr.get(y);
@@ -303,6 +310,7 @@ public class CalendarFrame extends JPanel implements ActionListener {
 					label.setBounds(5, 3+20*y+3*y, 150, 20);
 					label.setCursor(new Cursor(Cursor.HAND_CURSOR));
 					contentPanel[x].add(label);
+					
 			
 				}
 					
