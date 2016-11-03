@@ -2,6 +2,7 @@ package com.partys.book;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -10,6 +11,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -26,7 +29,7 @@ import DomXML.DOMParser;
 import com.partys.listener.MyJButtonMouseMoveListener;
 import com.partys.model.BookModel;
 
-public class CalendarFrame extends JPanel implements ActionListener {
+public class CalendarFrame extends JPanel implements ActionListener, MouseListener {
 	/**
 	 * 
 	 */
@@ -40,12 +43,13 @@ public class CalendarFrame extends JPanel implements ActionListener {
 	private JButton nextMonth, previousMonth;
 	private int year , month; // 启动程序显示的日期信息
 	private CalendarBean calendar;
-	private JLabel showMessage,lbl1,lbl2,year_label,month_label;
+	private JLabel showMessage,lbl1,year_label,month_label;
 	private JPanel pCenter, pNorth,pSouth;
 	private BookModel bm;
 	private String[] day,partys;
 	private Color[] colorArr;
 	private MyJButtonMouseMoveListener mmml;
+	private ArrayList<String[]> information;
 	public CalendarFrame() {
 		iniListener();
 		initLabel();
@@ -75,7 +79,6 @@ public class CalendarFrame extends JPanel implements ActionListener {
 		year_label=new JLabel("年");
 		month_label=new JLabel("月");
 		lbl1 = new JLabel("请输入年份：");
-		lbl2 = new JLabel("      ");
 		showMessage = new JLabel("", JLabel.CENTER);
 	}
 	
@@ -91,25 +94,30 @@ public class CalendarFrame extends JPanel implements ActionListener {
 		month_text.addActionListener(this);
 	}
 	private void initBtn(){
-		nextMonth = new JButton("下月");
-		previousMonth = new JButton("上月");
+		nextMonth = new JButton(new ImageIcon("image/book/right.png"));
+		setBtn(nextMonth);
+		previousMonth = new JButton(new ImageIcon("image/book/left.png"));
+		setBtn(previousMonth);
 		button = new JButton(new ImageIcon("image/book/ConfirmBtn.png"));
 		button.setPreferredSize(new Dimension(69, 28));
-		button.setContentAreaFilled(false);
-		button.setBorder(null);
-		button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		setBtn(button);
 		// 注册监听器
 		nextMonth.addActionListener(this);
 		previousMonth.addActionListener(this);
 		button.addActionListener(this);
-		button.addMouseListener(mmml);
+		button.addMouseListener(mmml);		
 	}
 	
+	private void setBtn(JButton btn){
+		btn.setContentAreaFilled(false);
+		btn.setBorder(null);
+		btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+	}
 
 	private void initPnorth(){		
 		JPanel p1=new JPanel(null);
 		p1.setOpaque(false);
-		JPanel p2=new JPanel(new FlowLayout(FlowLayout.RIGHT,3,3));
+		JPanel p2=new JPanel(new FlowLayout(FlowLayout.RIGHT,10,3));
 		p2.setOpaque(false);
 		pNorth = new JPanel(new GridLayout(1, 2));				
 		DOMParser parser=new DOMParser("settings.xml");
@@ -117,10 +125,10 @@ public class CalendarFrame extends JPanel implements ActionListener {
 		colorArr=new Color[partys.length];
 		for(int i=0;i<partys.length;i++){
 			JLabel icon=new JLabel(partys[i]);
-			icon.setBounds(32+120*i, 8, 50, 20);
+			icon.setBounds(32+120*i, 5, 50, 20);
 			JLabel color=new JLabel();
 			color.setOpaque(true);
-			color.setBounds(10+120*i, 11, 15, 15);
+			color.setBounds(10+120*i, 8, 15, 15);
 			int[] arr=parser.getColorByID("party", (i+1)+"");
 			Color newColor=new Color(arr[0],arr[1],arr[2]);
 			colorArr[i]=newColor;
@@ -128,9 +136,8 @@ public class CalendarFrame extends JPanel implements ActionListener {
 			p1.add(color);
 			p1.add(icon);		
 		}		
-		p2.add(showMessage);
-		p2.add(lbl2);
 		p2.add(previousMonth);
+		p2.add(showMessage);
 		p2.add(nextMonth);
 		pNorth.add(p1);
 		pNorth.add(p2);
@@ -291,7 +298,7 @@ public class CalendarFrame extends JPanel implements ActionListener {
 	
 	private void initPcenterData(){
 		int date=1;
-		
+		information=new ArrayList<String[]>();
 		for(int x=0;x<labelPanel.length;x++){
 			if(day[x]!=null){	
 				
@@ -309,9 +316,10 @@ public class CalendarFrame extends JPanel implements ActionListener {
 					label.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, Color.pink));
 					label.setBounds(5, 3+20*y+3*y, 150, 20);
 					label.setCursor(new Cursor(Cursor.HAND_CURSOR));
+					label.addMouseListener(this);
 					contentPanel[x].add(label);
-					
-			
+					String[] info={x+"",y+"",infor[20]};
+					information.add(info);
 				}
 					
 				date++;
@@ -327,5 +335,54 @@ public class CalendarFrame extends JPanel implements ActionListener {
 	
 	public int getScollWidth(){
 		return labelPanel[1].getWidth();
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource().getClass().getSimpleName().equals("JLabel")){
+			for(int x=0;x<contentPanel.length;x++){
+				Component[] lables=contentPanel[x].getComponents();
+				if(lables.length>0){
+					for(int y=0;y<lables.length;y++){
+						if(e.getSource().hashCode()==lables[y].hashCode()){
+							showInformation(x,y);
+						}						
+					}					
+				}
+			}
+		}				
+	}
+
+	private void showInformation(int x, int y) {
+		// TODO Auto-generated method stub
+		for(int z=0;z<information.size();z++){
+			
+		}
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
