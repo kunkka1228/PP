@@ -352,8 +352,7 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 			}
 			
 			myCard.show(jp3, "3");
-			
-			System.out.println(frame.getScollHeight()+"..."+frame.getScollWidth());
+
 		}
 	}
 		

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -31,22 +32,20 @@ public class CalendarFrame extends JPanel implements ActionListener {
 	private static final long serialVersionUID = -15700584659172661L;
 	private JScrollPane labelPanel[] = new JScrollPane[42];
 	private JPanel contentPanel[]=new JPanel[42];
-	private JTextField text ;
+	private JTextField year_text,month_text ;
 	private JButton titleName[] = new JButton[7];
-	private JButton button = new JButton();
+	private JButton button;
 	private String name[] = { "日", "一", "二", "三", "四", "五", "六" };
 	private JButton nextMonth, previousMonth;
 	private int year , month; // 启动程序显示的日期信息
 	private CalendarBean calendar;
-	private JLabel showMessage = new JLabel("", JLabel.CENTER);
-	private JLabel lbl1 = new JLabel("请输入年份：");
-	private JLabel lbl2 = new JLabel("      ");
+	private JLabel showMessage,lbl1,lbl2,year_label,month_label;
 	private JPanel pCenter, pNorth,pSouth;
 	private BookModel bm;
-	private String[] day;
-	private String[] partys;
+	private String[] day,partys;
 	private Color[] colorArr;
 	public CalendarFrame() {
+		initLabel();
 		initDate();
 		initData();
 		initPcenter();
@@ -65,20 +64,33 @@ public class CalendarFrame extends JPanel implements ActionListener {
 
 	}
 	
+	private void initLabel(){
+		year_label=new JLabel("年");
+		month_label=new JLabel("月");
+		lbl1 = new JLabel("请输入年份：");
+		lbl2 = new JLabel("      ");
+		showMessage = new JLabel("", JLabel.CENTER);
+	}
+	
 	private void initDate(){
 		year=Calendar.getInstance().get(Calendar.YEAR);
 		month=Calendar.getInstance().get(Calendar.MONTH)+1;
 
 	}
 	private void initTextField(){
-		text= new JTextField(10);
-		text.addActionListener(this);
+		year_text= new JTextField(4);
+		year_text.addActionListener(this);
+		month_text= new JTextField(2);
+		month_text.addActionListener(this);
 	}
 	private void initBtn(){
 		nextMonth = new JButton("下月");
 		previousMonth = new JButton("上月");
-		button = new JButton("确定");
-
+		button = new JButton(new ImageIcon("image/book/ConfirmBtn.png"));
+		button.setPreferredSize(new Dimension(69, 28));
+		button.setContentAreaFilled(false);
+		button.setBorder(null);
+		button.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		// 注册监听器
 		nextMonth.addActionListener(this);
 		previousMonth.addActionListener(this);
@@ -120,7 +132,10 @@ public class CalendarFrame extends JPanel implements ActionListener {
 	private void initpSanel(){		
 		pSouth = new JPanel();
 		pSouth.add(lbl1);
-		pSouth.add(text);
+		pSouth.add(year_text);
+		pSouth.add(year_label);
+		pSouth.add(month_text);
+		pSouth.add(month_label);
 		pSouth.add(button);
 		showMessage.setText("日历：" + year + "年"
 				+ month + "月");
@@ -182,13 +197,22 @@ public class CalendarFrame extends JPanel implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == nextMonth) {
+			
 			month++;
 			if (month > 12){
 				month = 1;
 				year++;
 				calendar.setYear(year);
-			}				
+			}
 			calendar.setMonth(month);
+			day = calendar.getCalendar();
+			bm=new BookModel();	
+			bm.queryAllCurrentDateInfor(year,month);
+			for(int x=0;x<contentPanel.length;x++){
+				contentPanel[x].removeAll();
+			}
+			
+			initPcenterData();
 			settingDate();
 		}
 
@@ -200,15 +224,41 @@ public class CalendarFrame extends JPanel implements ActionListener {
 				year--;
 				calendar.setYear(year);		
 			}
-			calendar.setMonth(month);			
+			calendar.setMonth(month);
+			day = calendar.getCalendar();
+			bm=new BookModel();	
+			bm.queryAllCurrentDateInfor(year,month);
+			for(int x=0;x<contentPanel.length;x++){
+				contentPanel[x].removeAll();
+			}
+					
+			initPcenterData();
 			settingDate();
 		} else if (e.getSource() == button) {
-			month++;
-			if (month > 12)
-				month = 1;
-			calendar.setYear(Integer.parseInt(text.getText()));
+			System.out.println(button.getSize().getHeight()+"..."+button.getSize().getWidth());
+			String y=year_text.getText();
+			if(!(y.trim().equals(""))){				
+				year=Integer.parseInt(y);
+				String m=month_text.getText();
+				if(m.trim().equals("")){
+					month=1;
+				}
+				else{
+					month=Integer.parseInt(m);
+				}
+
+				calendar.setYear(year);
+				calendar.setMonth(month);
+				day = calendar.getCalendar();
+				bm=new BookModel();	
+				bm.queryAllCurrentDateInfor(year,month);
+				for(int x=0;x<contentPanel.length;x++){
+					contentPanel[x].removeAll();
+				}				
+				initPcenterData();
+				settingDate();
+			}
 			
-			settingDate();
 		}
 		showMessage.setText("日历：" + year + "年"
 				+ month + "月");
@@ -234,10 +284,12 @@ public class CalendarFrame extends JPanel implements ActionListener {
 	
 	private void initPcenterData(){
 		int date=1;
-
+		
 		for(int x=0;x<labelPanel.length;x++){
-			if(day[x]!=null){					
+			if(day[x]!=null){	
+				
 				ArrayList<String[]> arr=bm.queryCurrentDateInfor(bm,year, month, date);
+			
 				int len=arr.size();
 				contentPanel[x].setPreferredSize(new Dimension(100, 20*len));
 				labelPanel[x].setPreferredSize(new Dimension(100, 192));
@@ -247,10 +299,11 @@ public class CalendarFrame extends JPanel implements ActionListener {
 					int index=bm.findIndex(infor[3], partys);
 					label.setOpaque(true);
 					label.setBackground(colorArr[index]);	
-					
-					label.setBounds(5, 3+20*y, 150, 20);
+					label.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, Color.pink));
+					label.setBounds(5, 3+20*y+3*y, 150, 20);
 					label.setCursor(new Cursor(Cursor.HAND_CURSOR));
 					contentPanel[x].add(label);
+			
 				}
 					
 				date++;
