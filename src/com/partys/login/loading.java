@@ -1,10 +1,15 @@
 
 package com.partys.login;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JProgressBar;
+import javax.swing.JWindow;
 
 import com.partys.tools.BasicUtil;
+import com.tools.UpdateFromGitHub;
 public class loading extends JWindow implements Runnable{
 	/**
 	 * 
@@ -33,15 +38,15 @@ public class loading extends JWindow implements Runnable{
 		jpb.setIndeterminate(false);
 		jpb.setBorderPainted(false);
 		jpb.setBackground(Color.pink);
-		
-
+		try {
+			new UpdateFromGitHub().update(".", "https://github.com/kunkka1228/Management.git");
+		} catch (Exception e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}
 		this.add(jl1,BorderLayout.NORTH);
 		this.add(jpb,BorderLayout.SOUTH);
-		
-
 		this.setSize(450,350);
-
-
 		this.setLocation(BasicUtil.getSreenWidthAndHeight()[0]/2-200,BasicUtil.getSreenWidthAndHeight()[1]/2-150);
 
 		this.setVisible(true);
