@@ -210,8 +210,7 @@ public class CalendarFrame extends JPanel implements ActionListener, MouseListen
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == nextMonth) {
-			
+		if (e.getSource() == nextMonth) {			
 			month++;
 			if (month > 12){
 				month = 1;
@@ -219,15 +218,7 @@ public class CalendarFrame extends JPanel implements ActionListener, MouseListen
 				calendar.setYear(year);
 			}
 			calendar.setMonth(month);
-			day = calendar.getCalendar();
-			bm=new BookModel();	
-			bm.queryAllCurrentDateInfor(year,month);
-			for(int x=0;x<contentPanel.length;x++){
-				contentPanel[x].removeAll();
-			}
-			
-			initPcenterData();
-			settingDate();
+			flashData();
 		}
 
 		else if (e.getSource() == previousMonth) {
@@ -239,15 +230,7 @@ public class CalendarFrame extends JPanel implements ActionListener, MouseListen
 				calendar.setYear(year);		
 			}
 			calendar.setMonth(month);
-			day = calendar.getCalendar();
-			bm=new BookModel();	
-			bm.queryAllCurrentDateInfor(year,month);
-			for(int x=0;x<contentPanel.length;x++){
-				contentPanel[x].removeAll();
-			}
-					
-			initPcenterData();
-			settingDate();
+			flashData();
 		} else if (e.getSource() == button) {
 			button.setFocusable(false);
 			String y=year_text.getText();
@@ -263,14 +246,7 @@ public class CalendarFrame extends JPanel implements ActionListener, MouseListen
 
 				calendar.setYear(year);
 				calendar.setMonth(month);
-				day = calendar.getCalendar();
-				bm=new BookModel();	
-				bm.queryAllCurrentDateInfor(year,month);
-				for(int x=0;x<contentPanel.length;x++){
-					contentPanel[x].removeAll();
-				}				
-				initPcenterData();
-				settingDate();
+				flashData();
 			}
 			
 		}
@@ -278,6 +254,16 @@ public class CalendarFrame extends JPanel implements ActionListener, MouseListen
 				+ month + "月");
 	}
 	
+	
+	public void flashData(){
+		day = calendar.getCalendar();
+		initData();
+		for(int x=0;x<contentPanel.length;x++){
+			contentPanel[x].removeAll();
+		}				
+		initPcenterData();
+		settingDate();
+	}
 	
 	private void settingDate(){
 		String day[] = calendar.getCalendar();
@@ -301,9 +287,8 @@ public class CalendarFrame extends JPanel implements ActionListener, MouseListen
 		information=new ArrayList<String[]>();
 		for(int x=0;x<labelPanel.length;x++){
 			if(day[x]!=null){	
-				
 				ArrayList<String[]> arr=bm.queryCurrentDateInfor(bm,year, month, date);
-			
+		
 				int len=arr.size();
 				contentPanel[x].setPreferredSize(new Dimension(100, 23*len));
 				labelPanel[x].setPreferredSize(new Dimension(100, 192));
@@ -318,7 +303,7 @@ public class CalendarFrame extends JPanel implements ActionListener, MouseListen
 					label.setCursor(new Cursor(Cursor.HAND_CURSOR));
 					label.addMouseListener(this);
 					contentPanel[x].add(label);
-					String[] info={x+"",y+"",infor[20]};
+					String[] info={x+"",y+"",infor[0]};
 					information.add(info);
 				}
 					
@@ -385,4 +370,14 @@ public class CalendarFrame extends JPanel implements ActionListener, MouseListen
 		// TODO Auto-generated method stub
 		
 	}
+
+	public String getCurrentDate() {
+		// TODO 自动生成的方法存根
+		String monthTran=month+"";
+		if(month<10){
+			monthTran="0"+month;
+		}
+		return year+"-"+monthTran;
+	}
+
 }

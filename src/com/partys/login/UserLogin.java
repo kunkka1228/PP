@@ -23,7 +23,6 @@ import javax.swing.JTextField;
 
 import com.partys.model.UserModel;
 import com.partys.tools.MyTools;
-import com.partys.view.Window2;
 
 public class UserLogin extends JDialog implements ActionListener, KeyListener{
 
@@ -174,17 +173,7 @@ public class UserLogin extends JDialog implements ActionListener, KeyListener{
 			JOptionPane.showMessageDialog(this, welcome);
 			
 		}
-		else if("职员".equals(zhiwei))
-		{
-			Window2 w2=new Window2(empname,zhiwei);
-			Thread a=new Thread(w2);
-			a.start();
-			String welcome="欢迎您--"+name;
-			JOptionPane.showMessageDialog(this, welcome);
-			this.dispose();
-			
-		}
-		else 
+			else 
 		{
 			JOptionPane.showMessageDialog(this, "对不起！您的权限不足无法登陆！");
 		}

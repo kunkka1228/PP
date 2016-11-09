@@ -61,6 +61,29 @@ public class DOMParser {
 		return arr;
 	}
 	
+	public String getContent(String tagName){
+		NodeList nodeList=document.getElementsByTagName(tagName);
+		Element element = (Element) nodeList.item(0);
+		return element.getTextContent();
+	}
+	
+	public boolean setContent(String tagName,String content){
+		NodeList nodeList=document.getElementsByTagName(tagName);
+		Element element = (Element) nodeList.item(0);
+		element.setTextContent(content);
+		return writeToFile();
+	}
+	
+	public boolean setContent(String parma[][]){
+		for(int x=0;x<parma.length;x++){
+			NodeList nodeList=document.getElementsByTagName(parma[x][0]);
+			Element element = (Element) nodeList.item(0);
+			element.setTextContent(parma[x][1]);
+			
+		}
+		return writeToFile();
+	}
+	
 	public boolean deleteNodeByTagName(String tagName,String attributeName,String attributeValue){
 		NodeList nodeList=document.getElementsByTagName(tagName);
 		if (nodeList != null) {

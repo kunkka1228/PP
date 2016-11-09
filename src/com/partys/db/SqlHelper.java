@@ -61,15 +61,13 @@
  *java.lang.ClassNotFoundException: com.microsoft.jdbc.sqlserver.SQLServerDviver
  * */
 package com.partys.db;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Properties;
+
+import DomXML.DOMParser;
 public class SqlHelper {
 	//定义需要的对象
 	private Connection con=null;
@@ -80,7 +78,6 @@ public class SqlHelper {
 	private static String username = "";
 	private static String password = "";
 	private static String driveName = "com.mysql.jdbc.Driver";
-	private final static String fileName = "db/db.properties";
 	
 	int sum=0;
 	//构造函数，初始化ct
@@ -117,17 +114,12 @@ public class SqlHelper {
 
 	// 加载配置文件
 	private static void getProperties() {
-		Properties prop = new Properties();
-		try {
-			prop.load(new FileReader(new File(fileName)));
-		} catch (IOException e) {
-			// TODO 自动生成的 catch 块
-			e.printStackTrace();
-		}
 
-		url = "jdbc:mysql://"+prop.getProperty("url")+":"+prop.getProperty("port")+"/"+prop.getProperty("DatabaseName")+"?characterEncoding=gbk&useSSL=true";
-		username = prop.getProperty("username");
-		password = prop.getProperty("password");
+		DOMParser parser=new DOMParser("settings.xml");
+		
+		url = "jdbc:mysql://"+parser.getContent("url")+":"+parser.getContent("port")+"/"+parser.getContent("databaseName")+"?characterEncoding=gbk&useSSL=true";
+		username = parser.getContent("username");
+		password = parser.getContent("password");
 
 	}
 	

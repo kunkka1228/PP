@@ -6,12 +6,11 @@ import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.FlowLayout;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -35,14 +34,14 @@ import com.partys.tools.ImagePanel;
 import com.partys.tools.MyTools;
 import com.partysx.tool.Calculator;
 
-public class Window1 extends JFrame implements ActionListener, MouseListener {
+public class Window1 extends JFrame implements  MouseListener {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 6829991336116522887L;
 	// 定义需要的组件
-	private Image titleIcon, p3Icon, chart;
-	private ImagePanel  ct, jp2;
+	private Image backgroundPic;
+	private ImagePanel  backgroundPanel;
 	private JMenuBar jmb;
 	private JMenu jm[] = new JMenu[7];
 	private JMenuItem[] jmi = new JMenuItem[14];
@@ -53,20 +52,24 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 	private JToolBar jtb;
 	private JButton[] jb = new JButton[10];
 	private JPanel jp3;
-	private String userName;
+	private String userName,uid,tableHight,currentDate;
 	private CardLayout myCard;
-	private String uid;
 	private EmpInfo ei;
 	private CustomerInfor customerInfor;
-	private String tableHight;
 	private boolean activeCustomerInfor;
 	private boolean firstIniCustomerTab=false;
 	private DOMParser parser;
 	private CalendarFrame frame;
+	private URI uri;
+	
 	public static void main(String[] args) {
 		new Window1("","晋云飞");
 	}
 	// 菜单
+	
+	private void iniDOMParser(){
+		parser=new DOMParser("settings.xml");
+	}
 	private void initMenu() {
 		// 一级菜单
 
@@ -125,7 +128,7 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 		for(int x=0;x<4;x++){
 			jm[5].add(tools[x]);
 			tools[x].setFont(MyTools.f2);
-			tools[x].addActionListener(this);
+			tools[x].addMouseListener(this);
 		}
 		
 		jm[6] = new JMenu("帮助服务");
@@ -141,7 +144,7 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 
 		for (int x = 0; x < 14; x++) {
 			jmi[x].setFont(MyTools.f2);
-			jmi[x].addActionListener(this);
+			jmi[x].addMouseListener(this);
 		}
 		jmb = new JMenuBar();
 		
@@ -195,46 +198,24 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 		jp3 = new JPanel(myCard);
 		// 先给jp3加入主界面卡片
 		try {
-			p3Icon = ImageIO.read(new File("image/center_image/background.jpg"));
+			backgroundPic = ImageIO.read(new File("image/center_image/background.jpg"));
 		} catch (IOException e1) {
 			// TODO 自动生成的 catch 块
 			e1.printStackTrace();
 		}
-		jp2 = new ImagePanel(p3Icon);
-		jp2.setLayout(new BorderLayout());
+		backgroundPanel = new ImagePanel(backgroundPic);
+		backgroundPanel.setLayout(new BorderLayout());
 		// 人事管理
 		ei = new EmpInfo();
 		jp3.add(ei, "1");
-		
-		// 登录界面
-		
 
-		
-
-		// 报表统计
-		try {
-			chart = ImageIO.read(new File("image/chart.jpg"));
-		} catch (IOException e) {
-			// TODO 自动生成的 catch 块
-			e.printStackTrace();
-		}
-		ct = new ImagePanel(chart);
-
-		jp3.add(ct, "4");
-		// 成本及库房
 
 	}
 
 	public Window1(String uid,String userName) {
 		this.userName=userName;
 		this.uid=uid;
-		
-		try {
-			titleIcon = ImageIO.read(new File("image/title.gif"));
-		} catch (IOException e) {
-			// TODO 自动生成的 catch 块
-			e.printStackTrace();
-		}
+		iniDOMParser();
 		// 菜单
 		this.initMenu();
 		// 工具栏
@@ -244,39 +225,20 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 		// 状态栏
 		Container container = this.getContentPane();
 		jp3.setOpaque(false);
-		jp2.add(jtb, "North");
-		jp2.add(jp3, "Center");
-		container.add(jp2);
+		backgroundPanel.add(jtb, "North");
+		backgroundPanel.add(jp3, "Center");
+		container.add(backgroundPanel);
 		int width = BasicUtil.getSreenWidthAndHeight()[0];
 		int height = BasicUtil.getSreenWidthAndHeight()[1];
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(width, height-40);
-		this.setIconImage(titleIcon);
+		this.setIconImage(new ImageIcon("image/title.gif").getImage());
 		this.setTitle("Partys 管理系统");
 		this.setVisible(true);
 		
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO 自动生成的方法存根
-		if(e.getSource()==jmi[0]){
-			new UserLogin();
-			this.dispose();
-		}
-		
-		else if(e.getSource()==jmi[1]){
-			new ModifyPassword(this, "修改密碼", true,uid);
-		}
-		
-		else if(e.getSource()==jmi[2]){
-			new Configure();
-		}
-		
-		else if(e.getSource()==tools[0]){
-			new Calculator();
-		}
-	}
+
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
@@ -307,10 +269,6 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 			
 			
 		} else if (arg0.getSource() == jb[1]) {
-			
-			if(parser==null){
-				parser=new DOMParser("settings.xml");
-			}
 			
 			if(customerInfor==null){				
 				firstIniCustomerTab=Boolean.parseBoolean(parser.getAttributeByTagName("table", "first-ini")[0]);
@@ -348,14 +306,70 @@ public class Window1 extends JFrame implements ActionListener, MouseListener {
 		else if (arg0.getSource() == jb[2]){
 			if(frame==null){
 				frame=new CalendarFrame(); 
+				
 				jp3.add(frame, "3");
 			}
-			
+			else {
+				frame.flashData();				
+			}
+			currentDate=frame.getCurrentDate();
 			myCard.show(jp3, "3");
 
 		}
+		else if(arg0.getSource() == jb[7]|arg0.getSource() == jmi[6]){
+			String url=parser.getContent("dianping");
+			browser(url);        
+		}
+		
+		else if(arg0.getSource() == jb[8]){
+			String url=parser.getContent("wechatweb");
+			browser(url);          
+		}
+		
+		else if(arg0.getSource() == jb[9]){
+			String url=parser.getContent("wechat");
+			browser(url);
+		}
+		
+		else if(arg0.getSource()==jmi[0]){
+			new UserLogin();
+			this.dispose();
+		}
+		
+		else if(arg0.getSource()==jmi[1]){
+			new ModifyPassword(this, "修改密碼", true,uid);
+		}
+		
+		else if(arg0.getSource()==jmi[2]){
+			new Configure();
+		}
+		
+		else if(arg0.getSource()==tools[0]){
+			new Calculator();
+		}
+		
+		else if(arg0.getSource()==jmi[12]){
+			String url=parser.getContent("nuomi");
+			browser(url);
+		}
+		
+		else if(arg0.getSource()==jmi[13]){
+			String url=parser.getContent("meituan");
+			browser(url);
+		}
+		
+		
 	}
 		
+	private void browser(String url){
+		try {
+			uri = new java.net.URI(url);
+			java.awt.Desktop.getDesktop().browse(uri);
+		} catch (Exception e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}    
+	}
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
 		// TODO 自动生成的方法存根

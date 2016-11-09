@@ -3,7 +3,6 @@ package com.partys.emp;
 //这是人事管理界面
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,7 +20,6 @@ import javax.swing.JTextField;
 import com.partys.model.EmpModel;
 import com.partys.tools.BasicUtil;
 import com.partys.tools.MyTools;
-import com.partys.tools.myTableCellRenderer;
 
 public class EmpInfo extends JPanel implements ActionListener, KeyListener {
 	/**
@@ -63,11 +61,10 @@ public class EmpInfo extends JPanel implements ActionListener, KeyListener {
 	private void initTable(){
 		jtable = new JTable(em);
 		jtable.setRowHeight(20);
-		myTableCellRenderer mc=new myTableCellRenderer(1,1,Color.red);
 	
 		jtable.setOpaque(false);
 		BasicUtil.horizontal(jtable);
-		jtable.setDefaultRenderer(Object.class, new myTableCellRenderer(2,3,Color.red));
+
 	}
 	
 	private void initScrollPane(){

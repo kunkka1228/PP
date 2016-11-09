@@ -6,11 +6,27 @@
 	   <party color-b="239" color-g="205" color-r="70" id="4" name="高碑店"/> 
    </dianmian>
    
-   <CustomerInfor>
+   <customerInfor>
 		<table activeCustomerInfor="true" first-ini="false" height="25"/> 
-	</CustomerInfor>
+	</customerInfor>
 	
-	<Book>
+	<book>
 		<scrollpane activeScrollpane="false" first-ini="true" height="" width=""/>
-	</Book>
+	</book>
+	
+	<configure>
+		<port>3306</port>
+		<url>localhost</url>
+		<username>root</username>
+		<password>123456</password>
+		<databaseName>partys</databaseName>	
+	</configure>
+	
+	<webaddress>
+		<dianping>https://e.dianping.com/</dianping>
+		<wechatweb>https://wx.qq.com/</wechatweb>
+		<wechat>https://mp.weixin.qq.com/</wechat>
+		<nuomi>http://cas.baidu.com/?tpl=nuomi</nuomi>
+		<meituan>http://e.meituan.com/account/login</meituan>
+	</webaddress>
 </settings>

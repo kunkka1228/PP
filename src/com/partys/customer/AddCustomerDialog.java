@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -44,6 +43,7 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener,Mo
 	private JButton add,delete;
 	private MyJButtonMouseMoveListener mmml;
 	private Color color=new Color(198,222,246);
+
 	public AddCustomerDialog(Frame owner, String title, boolean modal) {
 		
 		super(owner, title, modal);
@@ -325,8 +325,10 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener,Mo
 			params[4]=(String)place.getSelectedItem();	
 			params[5]=(String)year.getSelectedItem()+"-"+(String)month.getSelectedItem()+"-"+(String)day.getSelectedItem();
 			params[6]=(String)y.getSelectedItem()+"-"+(String)mo.getSelectedItem()+"-"+(String)da.getSelectedItem();
-			params[7]=params[5]+" "+hour.getSelectedItem().toString()+":"+min.getSelectedItem().toString();			
-			params[8]=params[5]+" "+h.getSelectedItem().toString()+":"+m.getSelectedItem().toString();					
+			String startTime=hour.getSelectedItem().toString()+":"+min.getSelectedItem().toString();
+			String endTime=h.getSelectedItem().toString()+":"+m.getSelectedItem().toString();
+			params[7]=params[5]+" "+startTime;			
+			params[8]=params[5]+" "+endTime;					
 			params[9]=(String)categroy.getSelectedItem();
 			params[10]=tuangou_lable.getText();
 			CustomerModel cm=new CustomerModel();
@@ -336,6 +338,7 @@ public class AddCustomerDialog extends CommonDialog implements ActionListener,Mo
 			}
 			else{
 				JOptionPane.showMessageDialog(null, "恭喜！添加成功！");
+				
 				this.dispose();
 			}
 			if(params[8].equals("无")|tuangou_lable.getText().equals("暂无")){

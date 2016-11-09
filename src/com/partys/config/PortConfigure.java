@@ -12,6 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import DomXML.DOMParser;
+
 import com.partys.commonparent.CommonJPanel;
 import com.partys.model.ConfigureModel;
 
@@ -29,9 +31,14 @@ public class PortConfigure extends CommonJPanel implements ActionListener {
 	private JPanel jp[] = new JPanel[2];
 	private JButton test, apply;
 	private ConfigureModel conModel;
-
+	private DOMParser parser;
 	public PortConfigure() {
+		iniDOMParser();
 		init();
+	}
+	
+	private void iniDOMParser(){
+		parser=new DOMParser("settings.xml");
 	}
 
 	private void init() {
@@ -44,7 +51,7 @@ public class PortConfigure extends CommonJPanel implements ActionListener {
 			jp[x].setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0,
 					Color.DARK_GRAY));
 		}
-		conModel = new ConfigureModel();
+		
 		title = new JLabel("端口设置");
 		title.setBounds(30, 10, 100, 30);
 		content = new JLabel("配置Mysql数据库参数");
@@ -56,14 +63,14 @@ public class PortConfigure extends CommonJPanel implements ActionListener {
 		jp[0].add(icon);
 
 		url_textfiled = new JTextField();
-		url_textfiled.setText(conModel.getProperties("url"));
+		url_textfiled.setText(parser.getContent("url"));
 		port_textfield = new JTextField();
-		port_textfield.setText(conModel.getProperties("port"));
+		port_textfield.setText(parser.getContent("port"));
 		url_textfiled.setBounds(130, 17, 180, 24);
 		database_label = new JLabel("数据库名称:");
 		database_textfiled = new JTextField();
 		database_textfiled.setBounds(130, 77, 70, 24);
-		database_textfiled.setText(conModel.getProperties("DatabaseName"));
+		database_textfiled.setText(parser.getContent("databaseName"));
 		initComp(database_label, 20, 70, 80, 30);
 		port_textfield.setBounds(130, 47, 45, 24);
 		port_textfield.setText("3306");
@@ -71,13 +78,13 @@ public class PortConfigure extends CommonJPanel implements ActionListener {
 		initComp(username_label, 20, 100, 80, 30);
 		username_textfiled = new JTextField();
 		username_textfiled.setBounds(130, 107, 150, 24);
-		username_textfiled.setText(conModel.getProperties("username"));
+		username_textfiled.setText(parser.getContent("username"));
 		password = new JLabel("密码:");
 
 		initComp(password, 20, 130, 80, 30);
 		pwd = new JPasswordField();
 		pwd.setBounds(130, 137, 150, 24);
-		pwd.setText(conModel.getProperties("password"));
+		pwd.setText(parser.getContent("password"));
 		url = new JLabel("url:");
 		port_label = new JLabel("端口号:");
 		initComp(url, 20, 10, 50, 30);
@@ -125,6 +132,10 @@ public class PortConfigure extends CommonJPanel implements ActionListener {
 					+ "?characterEncoding=gbk&useSSL=true";
 			String username = username_textfiled.getText();
 			String pass = new String(pwd.getPassword());
+			if(conModel==null){
+				conModel = new ConfigureModel();
+			}
+			
 			if (conModel.testDataBase(url, username, pass)) {
 
 				new Thread(new Runnable() {
@@ -170,9 +181,8 @@ public class PortConfigure extends CommonJPanel implements ActionListener {
 			String databaseName = database_textfiled.getText();
 			String username = username_textfiled.getText();
 			String pass = new String(pwd.getPassword());
-			if (conModel.setDataBaseParameter(url, port, databaseName,
-					username, pass)) {
-
+			String[][] params={{"url",url},{"port",port},{"databaseName",databaseName},{"username",username},{"password",pass}};
+			if (parser.setContent(params)) {
 				new Thread(new Runnable() {
 
 					@Override

@@ -9,7 +9,6 @@ import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 
-import com.partys.listener.MyJButtonMouseMoveListener;
 import com.partys.tools.BasicUtil;
 
 public class CommonDialog extends JDialog {
@@ -19,7 +18,6 @@ public class CommonDialog extends JDialog {
 	 */
 	private static final long serialVersionUID = -2193474433653879621L;
 	private boolean flag = false;
-	private  MyJButtonMouseMoveListener mmml;
 	public void setFlag(boolean s) {
 		flag = s;
 	}
@@ -35,7 +33,6 @@ public class CommonDialog extends JDialog {
 
 
 	public void initBasic(int width, int height) {
-		mmml=new MyJButtonMouseMoveListener();
 		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		Image titleIcon = null;
 		try {

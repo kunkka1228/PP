@@ -23,10 +23,14 @@ public class BookModel extends CommonModel{
 	
 	public ArrayList<String[]> queryCurrentDateInfor(BookModel bm,int year,int month, int day){
 		String numTran=day+"";
+		String monthTran=month+"";
 		if(day<10){
 			numTran="0"+day;					
-		}		
-		String date=year+"-"+month+"-"+numTran;
+		}	
+		if(month<10){
+			monthTran="0"+month;
+		}
+		String date=year+"-"+monthTran+"-"+numTran;
 		ArrayList<String[]> al=new ArrayList<String[]>();
 		for(int x=0;x<bm.getRowCount();x++){			
 			if(bm.getValueAt(x, 6).toString().contains(date)){
