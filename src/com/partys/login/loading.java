@@ -1,7 +1,5 @@
 package com.partys.login;
 
-
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 
@@ -23,17 +21,18 @@ import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import com.partys.tools.BasicUtil;
 import com.partys.tools.UpdateFromGitHub;
 
-public class loading extends JWindow{
+public class loading extends JWindow implements Runnable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
 	private JProgressBar jpb;
 	private JLabel jl1;
-
+	private boolean flag=true;
 	public static void main(String[] args) {
-		new loading();
+		loading l = new loading();
+		Thread t1 = new Thread(l);
+		t1.start();
 	}
 
 	public loading() {
@@ -51,63 +50,97 @@ public class loading extends JWindow{
 		this.add(jl1, BorderLayout.NORTH);
 		this.add(jpb, BorderLayout.SOUTH);
 		this.setSize(450, 357);
-		this.setLocation(BasicUtil.getSreenWidthAndHeight()[0]/2-200,BasicUtil.getSreenWidthAndHeight()[1]/2-150);
+		this.setLocation(BasicUtil.getSreenWidthAndHeight()[0] / 2 - 200,
+				BasicUtil.getSreenWidthAndHeight()[1] / 2 - 150);
 		this.setVisible(true);
-		UpdateFromGitHub ufg = new UpdateFromGitHub();
+//		String str = "检查更新中";
+//		String doc = ".";
+//		int num = 0;
+//		while (flag) {
+//			num++;
+//			str += doc;
+//			try {
+//				Thread.sleep(1000);
+//			} catch (InterruptedException e) {
+//				// TODO 自动生成的 catch 块
+//				e.printStackTrace();
+//			}
+//			if (num == 4) {
+//				num = 0;
+//				str = str.substring(0, 5);
+//			}
+//
+//			jpb.setString(str);
+//		}
 
-		try {			
-			ufg.update(".", "https://github.com/kunkka1228/HongPaManagement.git");
-			try {
+	}
 
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
+	@Override
+	public void run() {
+		// TODO 自动生成的方法存根
+		
+		
+		UpdateFromGitHub ufg = null;
+		
+			if (ufg == null) {
+				ufg = new UpdateFromGitHub();
 
-				e.printStackTrace();
+				try {
+					ufg.update(".",
+							"https://github.com/kunkka1228/HongPaManagement.git");
+					try {
+
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+
+						e.printStackTrace();
+					}
+					jpb.setValue(100);
+					jpb.setBackground(Color.green);
+					jpb.setString("更新完成 ");
+					flag=false;
+					
+				} catch (WrongRepositoryStateException e) {
+					// TODO 自动生成的 catch 块
+					e.printStackTrace();
+				} catch (InvalidConfigurationException e) {
+					// TODO 自动生成的 catch 块
+					e.printStackTrace();
+				} catch (DetachedHeadException e) {
+					// TODO 自动生成的 catch 块
+					e.printStackTrace();
+				} catch (InvalidRemoteException e) {
+					// TODO 自动生成的 catch 块
+					e.printStackTrace();
+				} catch (CanceledException e) {
+					// TODO 自动生成的 catch 块
+					e.printStackTrace();
+				} catch (RefNotAdvertisedException e) {
+					// TODO 自动生成的 catch 块
+					e.printStackTrace();
+				} catch (NoHeadException e) {
+					// TODO 自动生成的 catch 块
+					e.printStackTrace();
+				} catch (TransportException e) {
+					// TODO 自动生成的 catch 块
+					flag=false;
+					jpb.setString("更新失败 ,无法连接服务器");
+					e.printStackTrace();
+					
+
+				} catch (GitAPIException e) {
+					// TODO 自动生成的 catch 块
+					e.printStackTrace();
+				}
+				finally{
+					new UserLogin();
+					this.dispose();
+				}
+
 			}
-			jpb.setValue(100);
-			jpb.setBackground(Color.green);
-			jpb.setString("更新完成 ");
-		} 
-		 catch (WrongRepositoryStateException e) {
-			// TODO 自动生成的 catch 块
-			e.printStackTrace();
-		} catch (InvalidConfigurationException e) {
-			// TODO 自动生成的 catch 块
-			e.printStackTrace();
-		} catch (DetachedHeadException e) {
-			// TODO 自动生成的 catch 块
-			e.printStackTrace();
-		} catch (InvalidRemoteException e) {
-			// TODO 自动生成的 catch 块
-			e.printStackTrace();
-		} catch (CanceledException e) {
-			// TODO 自动生成的 catch 块
-			e.printStackTrace();
-		} catch (RefNotAdvertisedException e) {
-			// TODO 自动生成的 catch 块
-			e.printStackTrace();
-		} catch (NoHeadException e) {
-			// TODO 自动生成的 catch 块
-			e.printStackTrace();
-		} catch (TransportException e) {
-			// TODO 自动生成的 catch 块
-			jpb.setString("更新失败 ,无法连接服务器");
-			e.printStackTrace();
-			return;
-			
-		} catch (GitAPIException e) {
-			// TODO 自动生成的 catch 块
-			e.printStackTrace();
-		}
-		finally{
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				// TODO 自动生成的 catch 块
-				e.printStackTrace();
-			}
-			new UserLogin();
-			this.dispose();
-		}	
+		
+		
+		
+
 	}
 }
