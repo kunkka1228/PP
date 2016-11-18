@@ -11,16 +11,20 @@ import org.eclipse.jgit.api.errors.CanceledException;
 import org.eclipse.jgit.api.errors.DetachedHeadException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidConfigurationException;
+import org.eclipse.jgit.api.errors.InvalidRefNameException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.NoHeadException;
+import org.eclipse.jgit.api.errors.RefAlreadyExistsException;
 import org.eclipse.jgit.api.errors.RefNotAdvertisedException;
+import org.eclipse.jgit.api.errors.RefNotFoundException;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
+import org.eclipse.jgit.errors.CheckoutConflictException;
 
 public class UpdateFromGitHub{
 	
 
-	public void update(String local,String remote) throws WrongRepositoryStateException, InvalidConfigurationException, DetachedHeadException, InvalidRemoteException, CanceledException, RefNotAdvertisedException, NoHeadException, TransportException, GitAPIException{
+	public void update(String local,String remote) throws CheckoutConflictException, RefAlreadyExistsException, RefNotFoundException, InvalidRefNameException, org.eclipse.jgit.api.errors.CheckoutConflictException, GitAPIException{
 		
 		File file = new File(local);
 		File gitFile = new File(local+"/.git");

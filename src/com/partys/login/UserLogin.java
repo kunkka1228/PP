@@ -3,7 +3,6 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -22,6 +21,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import com.partys.model.UserModel;
+import com.partys.tools.BasicUtil;
 import com.partys.tools.MyTools;
 
 public class UserLogin extends JDialog implements ActionListener, KeyListener{
@@ -100,11 +100,13 @@ public class UserLogin extends JDialog implements ActionListener, KeyListener{
 		bi.setBounds(0, 0, 360, 170);
 		ct.add(bi);
 		this.setUndecorated(true);
-		this.setSize(360, 360);
-		int width=Toolkit.getDefaultToolkit().getScreenSize().width;
-		int height=Toolkit.getDefaultToolkit().getScreenSize().height;
-		this.setLocation(width/2-200, height/2-200);
+		int width=360;
+		int height=360;
+		this.setSize(width, height);
+		this.setLocation((BasicUtil.getSreenWidthAndHeight()[0]-width) / 2 ,
+				(BasicUtil.getSreenWidthAndHeight()[1] -height)/ 2);
 		this.setVisible(true);
+		
 
 	}
 //	内部类 放图片
@@ -117,7 +119,7 @@ public class UserLogin extends JDialog implements ActionListener, KeyListener{
 		public BackImage()
 		{
 			try {
-				img=ImageIO.read(new File("image/index/indexUserLogin12.jpg"));
+				img=ImageIO.read(new File("image/index/indexUserLogin.jpg"));
 			} catch (IOException e) {
 				// TODO 自动生成的 catch 块
 				e.printStackTrace();
