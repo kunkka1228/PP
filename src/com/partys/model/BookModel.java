@@ -34,7 +34,7 @@ public class BookModel extends CommonModel{
 		ArrayList<String[]> al=new ArrayList<String[]>();
 		for(int x=0;x<bm.getRowCount();x++){			
 			if(bm.getValueAt(x, 6).toString().contains(date)){
-				String id=(String) bm.getValueAt(x, 1);
+				String id=(String) bm.getValueAt(x, 0);
 				String startTime=keepHourAndMin((String) bm.getValueAt(x, 7));
 				String endTime=keepHourAndMin((String) bm.getValueAt(x, 8));
 				String place=(String) bm.getValueAt(x, 4);

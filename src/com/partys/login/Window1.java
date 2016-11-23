@@ -26,6 +26,7 @@ import javax.swing.JToolBar;
 import DomXML.DOMParser;
 
 import com.partys.book.CalendarFrame;
+import com.partys.chart.Chart;
 import com.partys.config.Configure;
 import com.partys.customer.CustomerInfor;
 import com.partys.emp.EmpInfo;
@@ -52,7 +53,7 @@ public class Window1 extends JFrame implements  MouseListener {
 	private JToolBar jtb;
 	private JButton[] jb = new JButton[10];
 	private JPanel jp3;
-	private String userName,uid,tableHight,currentDate;
+	private String userName,uid,tableHight;
 	private CardLayout myCard;
 	private EmpInfo ei;
 	private CustomerInfor customerInfor;
@@ -60,6 +61,7 @@ public class Window1 extends JFrame implements  MouseListener {
 	private boolean firstIniCustomerTab=false;
 	private DOMParser parser;
 	private CalendarFrame frame;
+	private Chart chart;
 	private URI uri;
 	
 	public static void main(String[] args) {
@@ -310,10 +312,19 @@ public class Window1 extends JFrame implements  MouseListener {
 				jp3.add(frame, "3");
 			}
 			else {
-				frame.flashData();				
+//				frame.flashData();	
+//				frame.validate();
+//				frame.invalidate();
 			}
-			currentDate=frame.getCurrentDate();
 			myCard.show(jp3, "3");
+
+		}
+		else if (arg0.getSource() == jb[3]){
+			if(chart==null){
+				chart=new Chart(); 				
+				jp3.add(chart, "4");
+			}
+			myCard.show(jp3, "4");
 
 		}
 		else if(arg0.getSource() == jb[7]|arg0.getSource() == jmi[6]){

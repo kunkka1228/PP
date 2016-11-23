@@ -271,14 +271,12 @@ public class CustomerInfor extends JPanel implements ActionListener,
 			}
 
 			else {
-				CustomerModel cms = cm;
-				cm = new CustomerModel();
 				String customerId = (String) jtable.getValueAt(rowNum, 0);
-				String[] params = { customerId };
-				cm.querryOnDataById(params);
 				UpdateCustomerDialog ucd = new UpdateCustomerDialog(null, "修改",
-						true, 0, cm);
-				if (!ucd.getFlag()) {				
+						true, customerId,true);
+				
+				if (!ucd.getFlag()) {
+					cm=new CustomerModel();
 					cm.querySimpleInfor(place, cursorIndexOld, number, true);
 					querry();
 					dianmian.setSelectedItem("所有");
@@ -286,9 +284,7 @@ public class CustomerInfor extends JPanel implements ActionListener,
 					detail = false;
 					p4_jb1.setText("详细信息");
 
-				} else {
-					cm = cms;
-				}
+				} 
 			}
 		}
 

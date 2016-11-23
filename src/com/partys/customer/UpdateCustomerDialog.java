@@ -49,14 +49,14 @@ public class UpdateCustomerDialog extends CommonDialog implements
 	private Color color = new Color(198, 222, 246);
 	private int rowNum;
 	private CustomerModel cm;
-	private String tg, tgLod, filename;
-
+	private String tg, tgLod, filename,id;
+	private boolean isEditable;
 	public UpdateCustomerDialog(Frame owner, String title, boolean modal,
-			int rowNum, CustomerModel cm) {
+			String id,boolean isEditable){
 		super(owner, title, modal);
-		this.rowNum = rowNum;
-		this.cm = cm;
-		// TODO 自动生成的构造函数存根
+		this.isEditable=isEditable;
+		this.id=id;
+		initCustomerMode();
 		initLabel();
 		getMyJButtonMouseMoveListener();
 		initTextField();
@@ -68,6 +68,12 @@ public class UpdateCustomerDialog extends CommonDialog implements
 		init();
 	}
 
+	
+	private void initCustomerMode(){
+		cm=new CustomerModel();
+		String[] params={id};
+		cm.querryOnDataById(params);
+	}
 	private void initLabel() {
 		jl[0] = new JLabel("编号:");
 		jl[1] = new JLabel("姓名:");
@@ -108,9 +114,14 @@ public class UpdateCustomerDialog extends CommonDialog implements
 		for (int x = 0; x < 3; x++) {
 			jtf[x] = new JTextField(20);
 			jtf[x].setBounds(95, 10, 215, 30);
+			if(x==0){
+				jtf[0].setEditable(false);
+				continue;
+			}
+			jtf[x].setEditable(isEditable);
 		}
 
-		jtf[0].setEditable(false);
+		
 		jtf[0].setText(BasicUtil.getAutoNumber(8, "customer"));
 	}
 
